@@ -1,0 +1,52 @@
+{
+  "name": "deejay-stereo",
+  "version": "1.0.1",
+  "description": "Deejay Stereo bot to simplify and beauty discord music experience",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/L0SER8228/deejay-stereo#README",
+    "main": "src/index.js",
+  "private": true,
+  "author": {
+    "name": "L0SER8228",
+    "url": "https://l0ser.is-a.dev"
+  },
+  "scripts": {
+    "test": "echo \"error: no test specified\" && exit 1",
+    "start": "node src/index.js"
+  },
+  "engines": {
+    "npm": ">=7.0.0",
+    "node": ">=16.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/L0SER8228/deejay-stereo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/L0SER8228/deejay-stereo/issues",
+    "email": "loserlackey@gmail.com"
+  },
+  "keywords": [
+    "discord-bot",
+    "discord.js",
+    "discord-js",
+    "discord-music-bot",
+    "music-bot",
+    "djs-v13"
+  ],
+  "dependencies": {
+    "@discord-player/extractor": "^3.0.2",
+    "@discordjs/builders": "^0.5.0",
+    "@discordjs/opus": "^0.5.3",
+    "@discordjs/voice": "^0.6.0",
+    "chalk": "^4.1.2",
+    "discord-player": "^5.0.2-dev.1628899803.eef3364",
+    "discord.js": "^13.1.0",
+    "ffmpeg-static": "^4.4.0",
+    "glob": "^7.1.7",
+    "moment": "^2.29.1",
+    "moment-duration-format": "^2.3.2",
+    "os": "^0.1.2",
+    "ytdl-core": "^4.9.1"
+  }
+}
