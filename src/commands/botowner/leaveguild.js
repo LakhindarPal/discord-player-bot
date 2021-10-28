@@ -14,16 +14,16 @@ module.exports = {
     try {
       const id = interaction.options.getString("guild", true);
 
-      const guild = bot.guilds.cache.find((g) => g.id === id);
+      const guild = bot.guilds.cache.get(id);
 
       if (!guild)
-        return bot.say.warnMessage(interaction, `No guild was found with that id \`${id}\`.`);
+        return bot.say.warnMessage(interaction, `No guild was found with id \`${id}\`.`);
 
       await guild.leave();
-      return bot.say.infoMessage(interaction, `Left **${guild.name}** guild with id \`${id}\`.`);
-    } catch (err) {
-      bot.utils.sendErrorLog(bot, err, "error");
-      return bot.say.errorMessage(interaction, "An error occurred.");
+
+      return bot.say.successMessage(interaction, `Left **${guild.name}** guild with id \`${id}\`.`);
+    } catch (error) {
+      return bot.say.errorMessage(interaction, `${error.message}`);
     }
   }
 };

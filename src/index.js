@@ -1,4 +1,4 @@
-require("./modules/checkValid")();
+require("./modules/checkValid");
 
 const { Collection, Client, Intents } = require("discord.js");
 const { Player } = require("discord-player");
@@ -32,7 +32,6 @@ bot.player = new Player(bot, {
   initialVolume: 100
 });
 
-require("moment-duration-format");
 require("./handler/EventHandler")(bot);
 
 bot.login(botToken);

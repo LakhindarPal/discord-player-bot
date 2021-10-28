@@ -2,15 +2,14 @@ module.exports = {
   name: "queue",
   description: "Shows the queue.",
   category: "music",
-  subCommands: ["<pageNumber>**\nShow a specific page of the queue."],
   options: [{
     name: "page",
     description: "The page number of the queue",
     type: "NUMBER",
     required: false
   }],
-  execute(bot, interaction) {
-    let page = interaction.options.getNumber("page", false) ?? 1;
+  async execute(bot, interaction) {
+    let page = (await interaction.options.getNumber("page", false)) ?? 1;
 
     const queue = bot.player.getQueue(interaction.guild.id);
 
@@ -31,10 +30,17 @@ module.exports = {
 
     const tracks = queue.tracks.slice(start, end);
 
-    const embed = bot.say.rootEmbed(interaction)
-      .setDescription(`${tracks.map((song, i) => `${start + (++i)} - [${song.title}](${song.url}) ~ [${song.requestedBy.toString()}]`).join("\n")}`)
-      .setFooter(`Page ${page} of ${maxPages} | song ${start + 1} to ${end > queue.tracks.length ? `${queue.tracks.length}` : `${end}`} of ${queue.tracks.length}`, interaction.user.displayAvatarURL({ dynamic: true }));
+    const embed = bot.say.baseEmbed(interaction)
+      .setDescription(
+        `${tracks.map((song, i) => 
+        `${start + (++i)} - [${song.title}](${song.url}) ~ [${song.requestedBy.toString()}]`
+        ).join("\n")}`
+      )
+      .setFooter(
+        `Page ${page} of ${maxPages} | song ${start + 1} to ${end > queue.tracks.length ? `${queue.tracks.length}` : `${end}`} of ${queue.tracks.length}`,
+        interaction.user.displayAvatarURL({ dynamic: true })
+      );
 
-    return interaction.reply({ ephemeral: true, embeds: [embed], allowedMentions: { repliedUser: false } }).catch(console.error);
+    return interaction.reply({ ephemeral: true, embeds: [embed] }).catch(console.error);
   }
 };

@@ -1,52 +1,37 @@
-const { MessageEmbed, Message } = require("discord.js");
-
 module.exports = {
   name: "songinfo",
-  description: "Shows details of the now playing song.",
+  description: "Shows details of a specific song.",
   category: "music",
-  subCommands: ["<songIndex>\nShows details of that specific song."],
   options: [{
     name: "index",
     type: "NUMBER",
-    description: "That specific song index to show details.",
-    required: false
+    description: "That song index.",
+    required: true
   }],
   async execute(bot, interaction) {
-    const index = interaction.options.getNumber("index", false);
+    let index = await interaction.options.getNumber("index", true);
 
     const queue = bot.player.getQueue(interaction.guild.id);
 
     if (!queue || !queue.current)
       return bot.say.errorMessage(interaction, "I’m currently not playing in this guild.");
 
-    let song = queue.current;
+    index = index - 1;
 
-    if (index) {
-      songNum = (index - 1);
+    if (!queue.tracks[index] || index > queue.tracks.length || index < 0)
+      return bot.say.errorMessage(interaction, "Provided Song Index does not exist.");
 
-      if (!queue.tracks[songNum] || songNum > queue.tracks.length || songNum < 0)
-        return bot.say.errorMessage(interaction, "Provided Song Index does not exist.");
+    const song = queue.tracks[index]
 
-      song = queue.tracks[songNum]
-    }
-
-    const embed = new MessageEmbed()
-      .setColor(interaction.guild.me.displayColor || "#00FFFF")
+    const embed = bot.say.baseEmbed(interaction)
+      .setAuthor("Songinfo 🎵")
       .setTitle(`${song.title}`)
       .setURL(`${song.url}`)
-      .setThumbnail(`${song.thumbnail}`);
-
-    if (song === queue.current) {
-      embed.setAuthor(`Now playing 🎶`)
-        .setDescription(`~ Played by: ${song.requestedBy.toString()}
-${queue.createProgressBar()}`);
-    } else {
-      embed.setAuthor("Songinfo 🎵")
-        .setDescription(`~ Requested by: ${song.requestedBy.toString()}
+      .setThumbnail(`${song.thumbnail}`)
+      .setDescription(`~ Requested by: ${song.requestedBy.toString()}
 Duration: ${song.duration}
 Position in queue: ${index}`);
-    }
 
-    return interaction.reply({ ephemeral: true, embeds: [embed], allowedMentions: { repliedUser: false } }).catch(console.error);
+    return interaction.reply({ ephemeral: true, embeds: [embed] }).catch(console.error);
   }
 };

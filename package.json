@@ -4,7 +4,7 @@
   "description": "Deejay Stereo bot to simplify and beauty discord music experience",
   "license": "Apache-2.0",
   "homepage": "https://github.com/L0SER8228/deejay-stereo#README",
-    "main": "src/index.js",
+  "main": "src/index.js",
   "private": true,
   "author": {
     "name": "L0SER8228",
@@ -32,7 +32,11 @@
     "discord-js",
     "discord-music-bot",
     "music-bot",
-    "djs-v13"
+    "djs-v13",
+    "discord-player",
+    "discord",
+    "bot",
+    "music"
   ],
   "dependencies": {
     "@discord-player/extractor": "^3.0.2",
@@ -40,13 +44,10 @@
     "@discordjs/opus": "^0.6.0",
     "@discordjs/voice": "^0.6.0",
     "chalk": "^4.1.2",
-    "discord-player": "^5.0.2-dev.1628899803.eef3364",
-    "discord.js": "^13.1.0",
+    "discord-player": "^5.1.0",
+    "discord.js": "^13.2.0",
     "ffmpeg-static": "^4.4.0",
     "glob": "^7.1.7",
-    "moment": "^2.29.1",
-    "moment-duration-format": "^2.3.2",
-    "os": "^0.1.2",
     "ytdl-core": "^4.9.1"
   }
 }

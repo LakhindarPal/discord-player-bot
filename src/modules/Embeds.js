@@ -1,114 +1,103 @@
-const { MessageEmbed, Interaction } = require("discord.js");
-
-const { havePermissions } = require("./Util");
+const DJS = require("discord.js");
 
 /**
  * Returns a custom embed
- * @param {Interaction} interaction
+ * @param {(DJS.Interaction|DJS.Guild|import("discord.player").Queue|string)} [resolvable]
  */
-function baseEmbed(interaction) {
-  if (!interaction) {
-    throw Error("'interaction' must be passed down as param! (baseEmbed)");
-  }
+function baseEmbed(resolvable) {
+  let colour = "#00FFFF";
+  if (resolvable && typeof resolvable === "string") colour = resolvable;
+  if (resolvable && typeof resolvable === "object") colour = ("guild" in resolvable ? resolvable.guild : resolvable)?.me?.displayColor || "#00FFFF";
 
-  const avatar = interaction.user?.displayAvatarURL({ dynamic: true });
-  const tag = interaction.user?.tag;
-
-  return new MessageEmbed()
-    .setFooter(tag, avatar)
-    .setColor(interaction.guild.me.displayColor || "#00FFFF")
-    .setTimestamp();
-}
-
-/**
- * Returns a custom embed
- * @param {Interaction} interaction
- */
-function rootEmbed(interaction) {
-  if (!interaction) {
-    throw Error("'interaction' must be passed down as param! (baseEmbed)");
-  }
-
-  return new MessageEmbed()
-    .setColor(interaction.guild.me.displayColor || "#00FFFF");
+  return new DJS.MessageEmbed()
+    .setColor(colour);
 }
 
 
 /**
- * Returns a custom embed
- * @param {Interaction} interaction
+ * Reply a custom embed to interaction
+ * @param {DJS.Interaction} interaction
  * @param {string} text
+ * @param {boolean} [ephemeral=false]
  */
-function infoMessage(interaction, text) {
+function successMessage(interaction, text, ephemeral = false) {
   if (!interaction) {
-    throw Error("'interaction' must be passed down as param! (InfoMessage)");
+    throw Error("'interaction' must be passed down as param! (successMessage)");
   }
 
   if (!text) {
-    throw Error("'text' must be passed down as param! (InfoMessage)");
+    throw Error("'text' must be passed down as param! (successMessage)");
   }
 
-  const embedI = new MessageEmbed()
+  const embedS = new DJS.MessageEmbed()
     .setDescription(text)
     .setColor(interaction.guild.me.displayColor || "#00FFFF");
 
-  return interaction.reply({ embeds: [embedI], allowedMentions: { repliedUser: false } }).catch(console.error);
+  if (interaction.deferred || interaction.replied) {
+    return interaction.editReply({ embeds: [embedS] }).catch(console.error);
+  } else {
+    return interaction.reply({ ephemeral, embeds: [embedS] }).catch(console.error);
+  }
 }
 
 /**
- * Returns a custom embed
- * @param {Interaction} interaction
+ * Reply a custom embed to interaction
+ * @param {DJS.Interaction} interaction
  * @param {string} text
  */
 function warnMessage(interaction, text) {
   if (!interaction) {
-    throw Error("'interaction' must be passed down as param! (WarnMessage)");
+    throw Error("'interaction' must be passed down as param! (warnMessage)");
   }
 
   if (!text) {
-    throw Error("'text' must be passed down as param! (WarnMessage)");
+    throw Error("'text' must be passed down as param! (warnMessage)");
   }
 
-  const embedW = new MessageEmbed()
+  const embedW = new DJS.MessageEmbed()
     .setDescription(text)
     .setColor("ORANGE");
 
-  return interaction.reply({ ephemeral: true, embeds: [embedW], allowedMentions: { repliedUser: false } }).catch(console.error);
+  if (interaction.deferred || interaction.replied) {
+    return interaction.editReply({ embeds: [embedW] }).catch(console.error);
+  } else {
+    return interaction.reply({ ephemeral: true, embeds: [embedW] }).catch(console.error);
+  }
 }
 
 /**
- * Returns a custom embed
- * @param {Interaction} interaction
+ * Reply a custom embed to interaction
+ * @param {DJS.Interaction} interaction
  * @param {string} text
  */
 function errorMessage(interaction, text) {
   if (!interaction) {
-    throw Error("'interaction' must be passed down as param! (ErrorMessage)");
+    throw Error("'interaction' must be passed down as param! (errorMessage)");
   }
 
   if (!text) {
-    throw Error("'text' must be passed down as param! (ErrorMessage)");
+    throw Error("'text' must be passed down as param! (errorMessage)");
   }
 
-  const embedE = new MessageEmbed()
+  const embedE = new DJS.MessageEmbed()
     .setDescription(text)
     .setColor("RED");
 
-  return interaction.reply({ ephemeral: true, embeds: [embedE], allowedMentions: { repliedUser: false } }).catch(console.error);
+  if (interaction.deferred || interaction.replied) {
+    return interaction.editReply({ embeds: [embedE] }).catch(console.error);
+  } else {
+    return interaction.reply({ ephemeral: true, embeds: [embedE] }).catch(console.error);
+  }
 }
+
 
 /**
  * Send a custom embed to queue textChannel
- * @param {DJS.Client} bot
- * @param {object} queue
+ * @param {import("discord.player").Queue} queue
  * @param {string} text
- * @param {string | number} color
+ * @param {string | number} [color]
  */
-function queueMessage(bot, queue, text, color) {
-  if (!bot) {
-    throw Error("'bot' must be passed down as param! (queueMessage)");
-  }
-
+function queueMessage(queue, text, color) {
   if (!queue) {
     throw Error("'queue' must be passed down as param! (queueMessage)");
   }
@@ -117,13 +106,13 @@ function queueMessage(bot, queue, text, color) {
     throw Error("'text' must be passed down as param! (queueMessage)");
   }
 
-  if (!bot.utils.havePermissions(queue.metadata.channel))
-    return queue.metadata.channel.send({ content: `**$text}**` });
+  const { havePermissions } = require("./Util");
+  if (!havePermissions(queue.metadata.channel)) return;
 
   let colour = queue.guild.me.displayColor || "#00FFFF";
   if (color) colour = color;
 
-  const embedQ = new MessageEmbed()
+  const embedQ = new DJS.MessageEmbed()
     .setDescription(text)
     .setColor(colour);
 
@@ -132,8 +121,7 @@ function queueMessage(bot, queue, text, color) {
 
 module.exports = {
   baseEmbed,
-  rootEmbed,
-  infoMessage,
+  successMessage,
   warnMessage,
   errorMessage,
   queueMessage

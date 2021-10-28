@@ -1,15 +1,12 @@
-const { MessageEmbed } = require("discord.js");
-
 module.exports = {
   name: "trackAdd",
   execute(bot, queue, track) {
     if (!queue.playing || queue.tracks.length <= 0) return;
 
-    const embed = new MessageEmbed()
+    const embed = bot.say.baseEmbed(queue)
       .setTitle(`Track queued - Position ${queue.tracks.indexOf(track) +1}`)
-      .setDescription(`[${track.title}](${track.url}) ~ [${track.requestedBy.toString()}]`)
-      .setColor(queue.guild.me.displayColor || "#00FFFF");
+      .setDescription(`[${track.title}](${track.url}) ~ [${track.requestedBy.toString()}]`);
 
-    return queue.metadata.reply({ embeds: [embed], allowedMentions: { repliedUser: false } }).catch(console.error);
+    return queue.metadata.reply({ embeds: [embed] }).catch(console.error);
   }
 };

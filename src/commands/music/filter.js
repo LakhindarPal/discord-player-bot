@@ -1,37 +1,53 @@
 module.exports = {
   name: "filter",
-  description: "Show the current set filters.",
+  description: "Filters commands",
   category: "music",
-  subCommands: ["reset**\nResets all filters."],
-  options: [{
-    name: "reset",
-    type: "STRING",
-    description: "Reset all filters",
-    required: false,
-    choices: [{
-      name: "Reset",
-      value: "reset"
-    }]
-  }],
+  options: [
+    {
+      type: "SUB_COMMAND",
+      name: "reset",
+      description: "Reset all applied filters."
+    },
+    {
+      type: "SUB_COMMAND",
+      name: "show",
+      description: "Shows all filters."
+    }
+  ],
   async execute(bot, interaction) {
+    const subCmd = await interaction.options.getSubcommand(true);
+
     const queue = bot.player.getQueue(interaction.guild.id);
 
     if (!queue || !queue.playing)
       return bot.say.errorMessage(interaction, "I’m currently not playing in this guild.");
 
-    if (!bot.utils.canModifyQueue(interaction)) return;
+    if (!bot.utils.modifyQueue(interaction)) return;
 
     const filters = queue.getFiltersEnabled();
 
-    if (!filters.length) return bot.say.warnMessage(interaction, "No filter is applied now.");
 
-    const arg = interaction.options.getString("reset", false);
+    if (subCmd === "reset") {
+      if (!filters.length)
+        return bot.say.warnMessage(interaction, "No filter is applied now.");
 
-    if (arg === "reset") {
-      await queue.setFilters();
-      return bot.say.infoMessage(interaction, "Removed all filters.");
+      queue.setFilters({});
+
+      return bot.say.successMessage(interaction, "Removed all applied filters.");
+      
     } else {
-      return bot.say.infoMessage(interaction, `\`${filters.map(f=>f)}\` filter is applied now.`);
+      const enabledFilters = queue.getFiltersDisabled();
+      const disabledFilters = queue.getFiltersDisabled();
+
+      const enFDes = enabledFilters.map((f) => `**${bot.utils.toCapitalize(f)}** --> ✅`).join("\n");
+
+      const disFDes = disabledFilters.map((f) => `**${bot.utils.toCapitalize(f)}** --> ❌`).join("\n");
+
+      const embed = bot.say.baseEmbed(interaction)
+        .setTitle("All Audio Filters")
+        .setDescription(`${enFDes}\n\n${disFDes}`);
+
+      return interaction.reply({ ephemeral: true, embeds: [embed] });
     }
   }
 };

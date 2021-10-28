@@ -8,12 +8,12 @@ module.exports = {
     if (!queue || !queue.playing)
       return bot.say.errorMessage(interaction, "I’m currently not playing in this guild.");
 
-    if (!bot.utils.canModifyQueue(interaction)) return;
+    if (!bot.utils.modifyQueue(interaction)) return;
 
     await queue.setFilters({
       "8D": !queue.getFiltersEnabled().includes("8D")
     });
 
-    return bot.say.infoMessage(interaction, `${queue.getFiltersEnabled().includes("8D") ? "Applied" : "Removed"} the 8D filter.`);
+    return bot.say.successMessage(interaction, `${queue.getFiltersEnabled().includes("8D") ? "Applied" : "Removed"} the 8D filter.`);
   }
 };

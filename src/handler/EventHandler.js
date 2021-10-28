@@ -17,8 +17,7 @@ module.exports = function loadEvents(bot) {
 
     if (file.includes("player.")) {
       bot.player.on(event.name, event.execute.bind(null, bot));
-
-    } else if (event.once === true) {
+    } else if (event.once) {
       bot.once(event.name, event.execute.bind(null, bot));
     } else {
       bot.on(event.name, event.execute.bind(null, bot));
@@ -27,6 +26,6 @@ module.exports = function loadEvents(bot) {
     delete require.cache[require.resolve(`../../${file}`)];
 
     // debug
-    bot.logger.log("events", `Loaded ${bot.utils.toCapitalize(type)}: ${event.name}`);
+    bot.logger.info("events", `Loaded ${bot.utils.toCapitalize(type)}: ${event.name}`);
   });
 };

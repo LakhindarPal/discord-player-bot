@@ -2,13 +2,20 @@ const { supportServer } = require("../../../config.json");
 
 module.exports = {
   name: "support",
-  description: "Get the support server link",
+  description: "Join the discord support server",
   category: "utility",
   execute(bot, interaction) {
-    const embed = bot.say.rootEmbed(interaction)
-      .setTitle("__**Need help? Join our support server.**__")
-      .setURL(supportServer);
+    const embed = bot.say.baseEmbed(interaction)
+      .setDescription(`[Click to join the support server.](${supportServer})`);
 
-    return interaction.reply({ ephemeral: true, embeds: [embed], allowedMentions: { repliedUser: false } });
+    const row = new MessageActionRow().addComponents([
+      new MessageButton()
+      .setLabel("Server Link")
+      .setStyle("LINK")
+      .setURL(`${supportServer}`)
+    ]);
+
+
+    return interaction.reply({ ephemeral: true, embeds: [embed], components: [row] });
   }
 };

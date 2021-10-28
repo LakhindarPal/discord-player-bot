@@ -2,7 +2,7 @@ module.exports = {
   name: "bassboost",
   description: "Sets the bassboost filter",
   category: "filters",
-  usage: "<level(low|medium|high|earrape|off)>",
+  usage: "<level>",
   options: [{
     name: "level",
     description: "Choose the bassboost level",
@@ -32,43 +32,47 @@ module.exports = {
     ]
   }],
   async execute(bot, interaction) {
-    const level = interaction.options.getString("level", true);
+    const level = await interaction.options.getString("level", true);
 
     const queue = bot.player.getQueue(interaction.guild.id);
 
     if (!queue || !queue.playing)
       return bot.say.errorMessage(interaction, "I’m currently not playing in this guild.");
 
-    if (!bot.utils.canModifyQueue(interaction)) return;
+    if (!bot.utils.modifyQueue(interaction)) return;
 
-    let filter;
+    let filterName;
     switch (level) {
       case "low":
-        filter = "bassboost_low";
+        filterName = "bassboost_low";
         await queue.setFilters({
           bassboost_low: true
         });
         break;
+
       case "medium":
-        filter = "bassboost";
+        filterName = "bassboost";
         await queue.setFilters({
           bassboost: true
         });
         break;
+
       case "high":
-        filter = "bassboost_high";
+        filterName = "bassboost_high";
         await queue.setFilters({
           bassboost_high: true
         });
         break;
+
       case "earrape":
-        filter = "earrape";
+        filterName = "earrape";
         await queue.setFilters({
           earrape: true
         });
         break;
+
       case "off":
-        filter = "none";
+        filterName = "none";
         await queue.setFilters({
           bassboost_low: false,
           bassboost: false,
@@ -78,6 +82,6 @@ module.exports = {
         break;
     }
 
-    return bot.say.infoMessage(interaction, `${queue.getFiltersEnabled().includes(`${filter}`) ? `Bassboost filter level set to ${level}` : "Disabled the bassboost filter"}.`);
+    return bot.say.successMessage(interaction, `${queue.getFiltersEnabled().includes(`${filterName}`) ? `Bassboost filter level set to \`${level}\`` : "Disabled the bassboost filter"}.`);
   }
 };

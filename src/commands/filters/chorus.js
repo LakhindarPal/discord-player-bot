@@ -1,10 +1,8 @@
-
-
 module.exports = {
   name: "chorus",
   description: "Sets the chorus filter",
   category: "filters",
-  usage: "<level(1d|2d,|3d|off)>",
+  usage: "<level>",
   options: [{
     name: "level",
     description: "Choose the chorus level",
@@ -37,30 +35,30 @@ module.exports = {
     if (!queue || !queue.playing)
       return bot.say.errorMessage(interaction, "I’m currently not playing in this guild.");
 
-    if (!bot.utils.canModifyQueue(interaction)) return;
+    if (!bot.utils.modifyQueue(interaction)) return;
 
-    let filter;
+    let filterName;
     switch (level) {
       case "3d":
-        filter = "chorus3d";
+        filterName = "chorus3d";
         await queue.setFilters({
           chorus3d: true
         });
         break;
       case "2d":
-        filter = "chorus2d";
+        filterName = "chorus2d";
         await queue.setFilters({
           chorus2d: true
         });
         break;
       case "1d":
-        filter = "chorus";
+        filterName = "chorus";
         await queue.setFilters({
           chorus: true
         });
         break;
       case "off":
-        filter = "none";
+        filterName = "none";
         await queue.setFilters({
           chorus3d: false,
           chorus2d: false,
@@ -69,6 +67,6 @@ module.exports = {
         break;
     }
 
-    return bot.say.infoMessage(interaction, `${queue.getFiltersEnabled().includes(`${filter}`) ? `Chorus filter level set to ${level}` : "Disabled the chorus filter"}.`);
+    return bot.say.successMessage(interaction, `${queue.getFiltersEnabled().includes(`${filterName}`) ? `Chorus filter level set to ${level}` : "Disabled the chorus filter"}.`);
   }
 };

@@ -2,13 +2,20 @@ const { inviteLink } = require("../../../config.json");
 
 module.exports = {
   name: "invite",
-  description: "Get the bot’s invite link",
+  description: "Invite the bot to your server",
   category: "utility",
   execute(bot, interaction) {
-    const embed = bot.say.rootEmbed(interaction)
-      .setTitle("__**Click to invite Deejay Stereo to your server.**__")
-      .setURL(inviteLink);
+    const embed = bot.say.baseEmbed(interaction)
+      .setDescription(`[Click to invite me to your server.](${inviteLink})`);
 
-    return interaction.reply({ ephemeral: true, embeds: [embed], allowedMentions: { repliedUser: false } });
+    const row = new MessageActionRow().addComponents([
+      new MessageButton()
+      .setLabel("Invite Link")
+      .setStyle("LINK")
+      .setURL(`${inviteLink}`)
+    ]);
+
+
+    return interaction.reply({ ephemeral: true, embeds: [embed], components: [row] });
   }
 };

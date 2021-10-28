@@ -1,9 +1,15 @@
-const moment = require("moment");
 const chalk = require("chalk");
 
 class Logger {
   get now() {
-    return moment().format("DD-MM-YYYY, HH:mm:ss a");
+    return Intl.DateTimeFormat("be-BE", {
+      minute: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      second: "2-digit",
+    }).format(Date.now());
   }
 
   /**
@@ -11,7 +17,8 @@ class Logger {
    * @param {string} error
    */
   error(type, error) {
-    return console.error(`${chalk.red("[ERROR]")}[${type.toUpperCase()}][${this.now}]: ${error}`);
+    const err = error instanceof Error ? error.message : error;
+    return console.error(`${chalk.red("[ERROR]")}[${type.toUpperCase()}][${this.now}]: ${err}`);
   }
 
   /**
@@ -19,19 +26,7 @@ class Logger {
    * @param {string} warning
    */
   warn(type, warning) {
-    return console.warn(
-      `${chalk.yellow("[WARNING]")}[${type.toUpperCase()}][${this.now}]: ${warning}`
-    );
-  }
-
-  /**
-   * @param {string} type
-   * @param {string} text
-   */
-  log(type, text) {
-    return console.log(
-      `${chalk.blue("[LOG]")}[${type.toUpperCase()}][${this.now}]: ${text}`
-    );
+    return console.warn(`${chalk.yellow("[WARNING]")}[${type.toUpperCase()}][${this.now}]: ${warning}`);
   }
 
   /**
@@ -39,9 +34,15 @@ class Logger {
    * @param {string} content
    */
   info(type, content) {
-    return console.log(
-      `${chalk.blueBright("[INFO]")}[${type.toUpperCase()}][${this.now}]: ${content}`
-    );
+    return console.log(`${chalk.blueBright("[INFO]")}[${type.toUpperCase()}][${this.now}]: ${content}`);
+  }
+
+  /**
+   * @param {string} type
+   * @param {string} text
+   */
+  debug(type, text) {
+    return console.log(`${chalk.green("[DEBUG]")}[${type.toUpperCase()}][${this.now}]: ${text}`);
   }
 }
 

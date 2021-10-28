@@ -8,12 +8,13 @@ module.exports = {
     if (!queue || !queue.playing)
       return bot.say.errorMessage(interaction, "I’m currently not playing in this guild.");
 
-    if (!bot.utils.canModifyQueue(interaction)) return;
+    if (!bot.utils.modifyQueue(interaction)) return;
 
     if (queue.connection.paused)
       return bot.say.warnMessage(interaction, "The song is already paused.");
 
     queue.setPaused(true);
-    return bot.say.infoMessage(interaction, "Paused the current song.");
+
+    return bot.say.successMessage(interaction, "Paused the current song.");
   }
 };

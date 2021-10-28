@@ -16,8 +16,8 @@ module.exports = async function loadCommands(bot) {
       );
     }
 
-    if (command.name.trim() === "") {
-      throw new TypeError(`[ERROR][COMMANDS]: name cannot be empty! (${file})`);
+    if (!command.category) {
+      bot.logger.warn("[COMMANDS]", `${command.name} command will not be shown in the help command because no category is set.`);
     }
 
     const data = {
@@ -26,13 +26,15 @@ module.exports = async function loadCommands(bot) {
       options: command?.options ?? []
     };
 
-    await bot.application?.commands.create(data);
+    const cmd = bot.application?.commands.cache.find((c) => c.name === command.name);
+    if (!cmd) {
+      await bot.application?.commands.create(data);
+      // debug
+      bot.logger.debug("commands", `Created command: ${command.name}`);
+    }
 
     delete require.cache[require.resolve(`../../${file}`)];
 
     bot.commands.set(command.name, command);
-
-    // debug
-    bot.logger.log("commands", `Loaded Command: ${command.name}`);
   }
 };

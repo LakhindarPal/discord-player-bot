@@ -1,6 +1,7 @@
 const DJS = require("discord.js");
 
 /**
+ * Send error log to discord channel
  * @param {DJS.Client} bot
  * @param {DJS.DiscordAPIError | DJS.HTTPError | Error } error
  * @param {"warning" | "error"} type
@@ -9,31 +10,21 @@ async function sendErrorLog(bot, error, type) {
   try {
     if (
       error.message?.includes("Missing Access") ||
+      error.message?.includes("Unknown Message") ||
       error.message?.includes("Missing Permissions")
-    ) return;
-
-    if (
-      error.stack?.includes?.("DeprecationWarning: Listening to events on the Db class")
     ) return;
 
     const { errorLogsChannel } = require("../../config.json");
     const channelId = errorLogsChannel;
     if (!channelId) {
-      return bot.logger.error("ERR_LOG", error?.stack || `${error}`);
+      return bot.logger.error("ERR_LOG", error);
     }
 
     const channel = (bot.channels.cache.get(channelId) ||
       (await bot.channels.fetch(channelId)));
 
     if (!channel || !havePermissions(channel)) {
-      return bot.logger.error("ERR_LOG", error?.stack || `${error}`);
-    }
-
-    const webhooks = await channel.fetchWebhooks();
-    const hook = webhooks.first();
-
-    if (!hook) {
-      return bot.logger.error("ERR_LOG", error?.stack || `${error}`);
+      return bot.logger.error("ERR_LOG", error);
     }
 
     const code = error.code || "N/A";
@@ -49,13 +40,9 @@ async function sendErrorLog(bot, error, type) {
       jsonString = "";
     }
 
-    if (jsonString?.length >= 4096) {
-      jsonString = jsonString ? `${jsonString?.substr(0, 4090)}...` : "";
-    }
-
     if (typeof stack === "object") stack = JSON.stringify(stack);
 
-    if (typeof stack === "string" && stack.length >= 4096) {
+    if (typeof stack === "string" && stack.length > 4096) {
       console.error(stack);
       stack = "An error occurred but was too long to send to Discord, check your console.";
     }
@@ -72,7 +59,7 @@ async function sendErrorLog(bot, error, type) {
       .setDescription(`${codeBlock(stack)}`)
       .setColor(type === "error" ? "RED" : "ORANGE");
 
-    await hook.send({ embeds: [embed] });
+    await channel.send({ embeds: [embed] });
   } catch (e) {
     console.error({ error });
     console.error(e);
@@ -87,6 +74,7 @@ async function sendErrorLog(bot, error, type) {
 function havePermissions(resolveable) {
   const ch = "channel" in resolveable ? resolveable.channel : resolveable;
   if (ch instanceof DJS.ThreadChannel || ch instanceof DJS.DMChannel) return true;
+
   return (
     ch.permissionsFor(resolveable.guild.me)?.has(DJS.Permissions.FLAGS.VIEW_CHANNEL) &&
     ch.permissionsFor(resolveable.guild.me)?.has(DJS.Permissions.FLAGS.SEND_MESSAGES) &&
@@ -95,17 +83,15 @@ function havePermissions(resolveable) {
 }
 
 /**
- * @param {string} str
+ * Capitalise a word
+ * @param {string} word
  * @returns {string}
  */
-function toCapitalize(str) {
-  if ((str === null) || (str === "")) {
-    return false;
-  } else {
-    str = str.toString();
-  }
+function toCapitalize(word) {
+  if (!word) return null;
+  word = word.toString();
 
-  return str.replace(/\w\S*/g,
+  return word.replace(/\w\S*/g,
     function(txt) {
       return txt.charAt(0).toUpperCase() +
         txt.substr(1).toLowerCase();
@@ -113,6 +99,7 @@ function toCapitalize(str) {
 }
 
 /**
+ * Format a number to local string
  * @param {number | string} n
  * @returns {string}
  */
@@ -121,35 +108,27 @@ function formatNumber(n) {
 }
 
 /**
- * @param {number} int
- * @returns {string}
- */
-function formatInt(int) {
-  return (int < 10 ? `0${int}` : int);
-}
-
-/**
  * Format duration to string
  * @param {number} millisec Duration in milliseconds
  * @returns {string}
  */
 function formatDuration(millisec) {
-  if (!millisec || !Number(millisec)) return "00:00";
+  if (!millisec || !Number(millisec)) return "0 Second";
   const seconds = Math.round((millisec % 60000) / 1000);
   const minutes = Math.floor((millisec % 3600000) / 60000);
   const hours = Math.floor(millisec / 3600000);
-  if (hours > 0) return `${formatInt(hours)}:${formatInt(minutes)}:${formatInt(seconds)}`;
-  if (minutes > 0) return `${formatInt(minutes)}:${formatInt(seconds)}`;
-  return `00:${formatInt(seconds)}`;
+  if (hours > 0) return `${hours} Hour, ${minutes} Minute, ${seconds} Second`;
+  if (minutes > 0) return `${minutes} Minute, ${seconds} Second`;
+  return `${seconds} Second`;
 };
 
 
 /**
- * Convert formatted duration to seconds
+ * Convert formatted duration to milliseconds
  * @param {string} formatted duration input
  * @returns {number}
  */
-function toMilliSeconds(input) {
+function toMilliseconds(input) {
   if (!input) return 0;
   if (typeof input !== "string") return Number(input) || 0;
   if (input.match(/:/g)) {
@@ -176,38 +155,20 @@ function parseNumber(input) {
 }
 
 /**
- * @param {string} string
- * @returns {string}
- */
-function codeContent(string, extension = "") {
-  return `\`\`\`${extension}\n${string}\`\`\``;
-}
-
-/**
- * Check if modify queue
- * @param {Interaction} interaction
+ * Check if interaction member can modify queue
+ * @param {DJS.Interaction} interaction
  * @returns {boolean}
  */
-function canModifyQueue(interaction) {
-  const memberChannelId = interaction.member.voice.channelId;
-  const botChannelId = interaction.guild.me.voice.channelId;
+function modifyQueue(interaction) {
+  const memberChannelId = interaction.member?.voice?.channelId;
+  const botChannelId = interaction.guild.me?.voice?.channelId;
 
   if (!memberChannelId) {
-
-    const embed1 = new DJS.MessageEmbed()
-      .setDescription("You need to join a voice channel first!")
-      .setColor("ORANGE");
-
-    return interaction.reply({ ephemeral: true, embeds: [embed1], allowedMentions: { repliedUser: false } }).catch(console.error);
+    return interaction.client.say.errorMessage(interaction, "You need to join a voice channel first!");
   }
 
   if (memberChannelId !== botChannelId) {
-
-    const embed2 = new DJS.MessageEmbed()
-      .setDescription("You must be in the same voice channel as me!")
-      .setColor("ORANGE");
-
-    return interaction.reply({ ephemeral: true, embeds: [embed2], allowedMentions: { repliedUser: false } }).catch(console.error);
+    return interaction.client.say.warnMessage(interaction, "You must be in the same voice channel as me!");
   }
 
   return true;
@@ -218,10 +179,7 @@ module.exports = {
   havePermissions,
   toCapitalize,
   formatNumber,
-  formatInt,
   formatDuration,
-  toMilliSeconds,
-  parseNumber,
-  codeContent,
-  canModifyQueue
+  toMilliseconds,
+  modifyQueue
 };

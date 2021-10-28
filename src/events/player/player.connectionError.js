@@ -1,8 +1,8 @@
 module.exports = {
   name: "connectionError",
   execute(bot, queue, error) {
-    bot.say.queueMessage(bot, queue, "An error occurred while playing. Sorry for the inconveniences.", "RED");
+    bot.utils.sendErrorLog(bot, error, "error");
 
-    return bot.utils.sendErrorLog(bot, { stack: `${error.message}`, name: "PLAYER_CONNECTION_ERROR", code: `${queue.id}` }, "error");
+    return bot.say.queueMessage(queue, `An error occurred while playing.\nReason: ${error.message}`, "RED");
   }
 };

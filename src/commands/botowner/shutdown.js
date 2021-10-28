@@ -4,8 +4,8 @@ module.exports = {
   category: "botowner",
   ownerOnly: true,
   async execute(bot, interaction) {
+    await bot.say.successMessage(interaction, "Shutting the bot down.....", true);
 
-    await bot.say.infoMessage(interaction, "Shutting the bot down.....");
     process.exit(1);
   }
 };

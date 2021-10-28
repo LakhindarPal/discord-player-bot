@@ -6,10 +6,7 @@ const classified = [
   "bot.config",
   "bot.token",
   "token",
-  "process.env",
-  'bot["token"]',
-  "bot['token']",
-  "bot[`token`]"
+  "process.env"
 ];
 
 module.exports = {
@@ -25,51 +22,50 @@ module.exports = {
     required: true
   }],
   async execute(bot, interaction) {
-    const toEval = interaction.options.getString("code", true);
+    await interaction.deferReply({ ephemeral: true });
 
-    if (classified.some(item => toEval.toLowerCase().includes(item)))
+    const code = interaction.options.getString("code", true);
+
+    if (classified.some(item => code.toLowerCase().includes(item)))
       return bot.say.errorMessage(interaction, "That operation was cancelled because it may include tokens or secrets.");
 
-    const hasAwait = toEval.includes("await");
-    const hasReturn = toEval.includes("return");
-
     try {
-      let evaled = hasAwait ? await eval(`(async () => { ${hasReturn ? " " : "return"} ${toEval} })()`) : eval(toEval);
+      let evaled = await eval(code);
 
-      const eevaled = typeof evaled;
+      const type = typeof evaled;
       evaled = inspect(evaled, {
         depth: 0,
-        maxArrayLength: null,
+        maxArrayLength: null
       });
 
-      const type = bot.utils.toCapitalize(eevaled);
+      if (type === "object") evaled = JSON.stringify(evaled);
 
-      if (eevaled === "object") evaled = JSON.stringify(evaled);
-
-      const embed1 = bot.say.rootEmbed(interaction)
+      const embed1 = bot.say.baseEmbed(interaction)
         .setTitle("Eval Command")
         .setDescription(`Eval Type: \`${type}\``);
 
-      const embed2 = bot.say.rootEmbed(interaction)
+      const embed2 = bot.say.baseEmbed(interaction)
         .setTitle("Eval Input")
-        .setDescription(`${codeBlock("js", toEval)}`);
+        .setDescription(`${codeBlock("js", code)}`);
 
       const embed3 = bot.say.baseEmbed(interaction)
         .setTitle("Eval Output")
         .setDescription(`${codeBlock("js", evaled)}`);
 
-      return interaction.reply({ embeds: [embed1, embed2, embed3] });
+      return interaction.editReply({ embeds: [embed1, embed2, embed3] });
     } catch (error) {
+      const err = error instanceof Error ? error.message : "An unknown error occurred";
+
       const wrEmbed = bot.say.baseEmbed(interaction)
         .setTitle("Something went wrong")
-        .setDescription(codeBlock(clean(error)));
+        .setDescription(codeBlock(clean(err)));
 
-      return interaction.reply({ embeds: [wrEmbed] });
+      return interaction.editReply({ embeds: [wrEmbed] });
     }
   }
 };
 
-const clean = text => {
+function clean(text) {
   if (typeof(text) === "string")
     return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
   else

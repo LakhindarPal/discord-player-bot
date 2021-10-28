@@ -8,10 +8,10 @@ module.exports = {
     if (!queue || !queue.playing)
       return bot.say.errorMessage(interaction, "I’m currently not playing in this guild.");
 
-    if (!bot.utils.canModifyQueue(interaction)) return;
+    if (!bot.utils.modifyQueue(interaction)) return;
 
     queue.seek(0);
 
-    return bot.say.infoMessage(interaction, "Restarted the current song.");
+    return bot.say.successMessage(interaction, "Restarted the current song.");
   }
 };

@@ -2,63 +2,47 @@ const { QueueRepeatMode } = require("discord-player");
 
 module.exports = {
   name: "loop",
-  description: "Shows current set loop mode",
+  description: "Change the loop mode (autoplay|track|queue|off)",
   category: "music",
-  subCommands: ["queue**\nLoop the queue.", "track**\nRepeat the current playing song.", "off**\nTurn looping off.", "autoplay**\nToogle autoplay mode on/off."],
-  options: [{
-    name: "mode",
-    type: "STRING",
-    description: "Choose the new loop mode to change",
-    required: false,
-    choices: [
-      {
-        name: "Off",
-        value: "off"
-      },
-      {
-        name: "Track",
-        value: "track"
-       },
-      {
-        name: "Queue",
-        value: "queue"
-      },
-      {
-        name: "Autoplay",
-        value: "autoplay"
-       }
-     ]
-  }],
+  options: [
+    {
+      type: "SUB_COMMAND",
+      name: "mode",
+      description: "Shows current set loop mode."
+    },
+    {
+      type: "SUB_COMMAND",
+      name: "off",
+      description: "Turn the looping off"
+    },
+    {
+      type: "SUB_COMMAND",
+      name: "queue",
+      description: "Loop the queue (all songs)"
+    },
+    {
+      type: "SUB_COMMAND",
+      name: "track",
+      description: "Repeat the current song"
+    },
+    {
+      type: "SUB_COMMAND",
+      name: "autoplay",
+      description: "Autoplay related songs after queue end"
+    }
+  ],
   async execute(bot, interaction) {
-    const arg = interaction.options.getString("mode", false);
+    const subCmd = await interaction.options.getSubcommand(true);
 
     const queue = bot.player.getQueue(interaction.guild.id);
 
     if (!queue || !queue.playing)
       return bot.say.errorMessage(interaction, "I’m currently not playing in this guild.");
 
-    if (!bot.utils.canModifyQueue(interaction)) return;
-
-    let md = "none";
-    if (queue.repeatMode === 3) {
-      md = "autoplay";
-    } else if (queue.repeatMode == 2) {
-      md = "queue";
-    } else if (queue.repeatMode == 1) {
-      md = "track";
-    } else if (queue.repeatMode == 0) {
-      md = "off";
-    }
-
-    const embed = bot.say.rootEmbed(interaction)
-      .setDescription(`Loop mode is set to: \`${md}\`.`)
-      .setFooter(`Use \'\/loop <off|track|queue|autoplay>\' to change loop mode.`);
-
-    if (!arg)
-      return interaction.reply({ ephemeral: true, embeds: [embed], allowedMentions: { repliedUser: false } }).catch(console.error);
+    if (!bot.utils.modifyQueue(interaction)) return;
 
     let mode;
-    switch (arg) {
+    switch (subCmd) {
       case "off":
         queue.setRepeatMode(QueueRepeatMode.OFF);
         mode = "Turned off loop mode.";
@@ -76,9 +60,23 @@ module.exports = {
         mode = "Autoplay mode activated.";
         break;
       default:
-        return interaction.reply({ ephemeral: true, embeds: [embed], allowedMentions: { repliedUser: false } }).catch(console.error);
+        let md = "none";
+        if (queue.repeatMode === 3) {
+          md = "autoplay";
+        } else if (queue.repeatMode == 2) {
+          md = "queue";
+        } else if (queue.repeatMode == 1) {
+          md = "track";
+        } else if (queue.repeatMode == 0) {
+          md = "off";
+        }
+
+        const embed = bot.say.baseEmbed(interaction)
+          .setDescription(`Loop mode is set to: \`${md}\`.`)
+          .setFooter(`Use \'\/loop <off|track|queue|autoplay>\' to change loop mode.`);
+        return interaction.reply({ ephemeral: true, embeds: [embed] }).catch(console.error);
     }
 
-    return bot.say.infoMessage(interaction, `${mode}`);
+    return bot.say.successMessage(interaction, `${mode}`);
   }
 };
