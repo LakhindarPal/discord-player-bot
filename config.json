@@ -3,5 +3,11 @@
   "inviteLink": "",
   "supportServer": "https://discord.gg/aj7M84cdT8",
   "owners": [],
-  "errorLogsChannel": ""
+  "errorLogsChannel": "",
+
+  "DJ": {
+    "enabled": false,
+    "role": "DJ",
+    "commands": ["back", "clear", "filter", "jump", "loop", "move", "pause", "remove", "replay", "resume", "seek", "shuffle", "skip", "stop", "volume"]
+  }
 }

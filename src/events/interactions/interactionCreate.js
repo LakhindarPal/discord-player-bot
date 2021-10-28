@@ -1,4 +1,4 @@
-const { owners } = require("../../../config.json");
+const { DJ, owners } = require("../../../config.json");
 
 module.exports = {
   name: "interactionCreate",
@@ -17,7 +17,10 @@ module.exports = {
       if ((command.category === "botowner" || command.ownerOnly === true) && !owners.includes(interaction.user.id))
         return bot.say.errorMessage(interaction, "This command can only be used by the bot owners.");
 
-      await command?.execute(bot, interaction);
+      if (DJ.enabled && DJ.commands.includes(command.name) && !interaction.member.roles.cache.some((r) => r.name !== DJ.role))
+        return bot.say.errorMessage(interaction, "Non DJs can't use this command.");
+
+      await command.execute(bot, interaction);
     } catch (err) {
       bot.utils.sendErrorLog(bot, err, "error");
       if (interaction.replied) return;

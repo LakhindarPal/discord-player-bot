@@ -24,7 +24,12 @@ Open the configuration file located in the root directory `config.json`.
   "inviteLink": "",
   "supportServer": "https://discord.gg/aj7M84cdT8",
   "owners": [],
-  "errorLogsChannel": ""
+  "errorLogsChannel": "",
+  "DJ": {
+    "enabled": false,
+    "role": "",
+    "commands": []
+  }
 }
 ```
 
@@ -35,6 +40,12 @@ Basic configuration
 - `supportServer`, the discord support server link
 - `owners`, an array of bot owner ids, i,e. `"owners": ["668157292927254587"]`
 - `errorLogsChannel`, a Discord text channel id, if you want to log error in discord. Else errors will be logged in console.
+
+DJ mode configuration
+
+- `DJ/enabled`, whether the DJ mode should be activated or not 
+- `DJ/role`, the name of the DJ role to be used
+- `DJ/commands`, the list of commands limited to members with the DJ role
 
 ### 📑 Installation
 

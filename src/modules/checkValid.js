@@ -1,5 +1,5 @@
 const config = require("../../config.json");
-const logger = require("../modules/logger");
+const logger = require("../modules/Logger");
 
 function checkValid() {
   const nodeV = parseFloat(process.versions.node);
