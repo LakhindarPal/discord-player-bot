@@ -12,7 +12,7 @@ Discord music bot built using djs v13, discord-player. Slash Commands only bot
 
 If you need help with this project, to get support faster you can join the help server by just clicking [here](https://discord.gg/8yaJBZBQTA).
 
-*If you don't have any development knowledge, it is recommended to join the Discord support server to get help.*
+***`If you don't have any development knowledge, I can't help you.`***
 
 ### Configuration
 
