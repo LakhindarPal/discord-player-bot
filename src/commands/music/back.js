@@ -6,12 +6,12 @@ module.exports = {
     const queue = bot.player.getQueue(interaction.guild.id);
 
     if (!queue || !queue.playing)
-      return bot.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+      return bot.say.errorMessage(interaction, "I’m currently not playing in this server.");
 
     if (!bot.utils.modifyQueue(interaction)) return;
 
     if (queue.previousTracks.length <= 1)
-      return bot.say.warnMessage(interaction, "No previous track was found.");
+      return bot.say.wrongMessage(interaction, "No previous track was found.");
 
     queue.back();
 

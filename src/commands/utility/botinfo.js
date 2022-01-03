@@ -12,7 +12,7 @@ module.exports = {
     const users = bot.guilds.cache.reduce((a, g) => a + g.memberCount, 0);
 
     const embed = bot.say.baseEmbed(interaction)
-      .setAuthor(`${bot.user.username}’s Information`, bot.user.displayAvatarURL())
+      .setAuthor({ name: `${bot.user.username}’s Information`, iconURL: bot.user.displayAvatarURL() })
       .addField("General Info",
         `**Bot Id:** ${bot.user.id}
 **Bot Tag:** ${bot.user.tag}

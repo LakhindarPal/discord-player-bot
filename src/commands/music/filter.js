@@ -20,7 +20,7 @@ module.exports = {
     const queue = bot.player.getQueue(interaction.guild.id);
 
     if (!queue || !queue.playing)
-      return bot.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+      return bot.say.errorMessage(interaction, "I’m currently not playing in this server.");
 
     if (!bot.utils.modifyQueue(interaction)) return;
 
@@ -29,7 +29,7 @@ module.exports = {
 
     if (subCmd === "reset") {
       if (!filters.length)
-        return bot.say.warnMessage(interaction, "No filter is applied now.");
+        return bot.say.wrongMessage(interaction, "No filter is applied now.");
 
       queue.setFilters({});
 

@@ -22,16 +22,14 @@ module.exports = async function loadCommands(bot) {
 
     const data = {
       name: command.name,
-      description: command?.description ?? "Empty description",
-      options: command?.options ?? []
+      description: command.description ?? "Empty description",
+      options: command.options ?? []
     };
 
-    const cmd = bot.application?.commands.cache.find((c) => c.name === command.name);
-    if (!cmd) {
-      await bot.application?.commands.create(data);
-      // debug
-      bot.logger.debug("commands", `Created command: ${command.name}`);
-    }
+    await bot.application?.commands.create(data);
+
+    // debug
+    bot.logger.debug("COMMANDS", `Loaded: ${command.name}`);
 
     delete require.cache[require.resolve(`../../${file}`)];
 

@@ -9,7 +9,7 @@ module.exports = {
     await bot.application?.commands.fetch(interaction.commandId).catch(() => null);
 
     try {
-      const command = bot.commands.get(interaction.command?.name ?? "")
+      const command = bot.commands.get(interaction.commandName)
 
       if (!command) return;
       if (!interaction.commandId) return;

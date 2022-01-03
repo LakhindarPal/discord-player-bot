@@ -8,23 +8,21 @@ module.exports = {
     description: "That song index.",
     required: true
   }],
-  async execute(bot, interaction) {
-    let index = await interaction.options.getNumber("index", true);
-
+  execute(bot, interaction) {
     const queue = bot.player.getQueue(interaction.guild.id);
 
     if (!queue || !queue.current)
-      return bot.say.errorMessage(interaction, "I’m currently not playing in this guild.");
-
-    index = index - 1;
+      return bot.say.errorMessage(interaction, "I’m currently not playing in this server.");
 
     if (!queue.tracks[index] || index > queue.tracks.length || index < 0)
       return bot.say.errorMessage(interaction, "Provided Song Index does not exist.");
 
-    const song = queue.tracks[index]
+    const index = interaction.options.getNumber("index", true) - 1;
+
+    const song = queue.tracks[index];
 
     const embed = bot.say.baseEmbed(interaction)
-      .setAuthor("Songinfo 🎵")
+      .setAuthor({ name: "Songinfo 🎵" })
       .setTitle(`${song.title}`)
       .setURL(`${song.url}`)
       .setThumbnail(`${song.thumbnail}`)

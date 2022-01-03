@@ -37,7 +37,7 @@ module.exports = {
     const queue = bot.player.getQueue(interaction.guild.id);
 
     if (!queue || !queue.playing)
-      return bot.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+      return bot.say.errorMessage(interaction, "I’m currently not playing in this server.");
 
     if (!bot.utils.modifyQueue(interaction)) return;
 
@@ -73,7 +73,7 @@ module.exports = {
 
         const embed = bot.say.baseEmbed(interaction)
           .setDescription(`Loop mode is set to: \`${md}\`.`)
-          .setFooter(`Use \'\/loop <off|track|queue|autoplay>\' to change loop mode.`);
+          .setFooter({ text: `Use \'\/loop <off|track|queue|autoplay>\' to change loop mode.` });
         return interaction.reply({ ephemeral: true, embeds: [embed] }).catch(console.error);
     }
 

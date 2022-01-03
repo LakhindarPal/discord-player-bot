@@ -45,7 +45,7 @@
     "@discordjs/voice": "^0.7.5",
     "chalk": "^4.1.2",
     "discord-player": "^5.2.0",
-    "discord.js": "^13.3.1",
+    "discord.js": "^13.5.0",
     "ffmpeg-static": "^4.4.0",
     "glob": "^7.1.7",
     "ytdl-core": "^4.9.2"

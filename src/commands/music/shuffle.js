@@ -6,12 +6,12 @@ module.exports = {
     const queue = bot.player.getQueue(interaction.guild.id);
 
     if (!queue || !queue.playing)
-      return bot.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+      return bot.say.errorMessage(interaction, "I’m currently not playing in this server.");
 
     if (!bot.utils.modifyQueue(interaction)) return;
 
     if (queue.tracks.length < 3)
-      return bot.say.warnMessage(interaction, "Need at least \`3\` songs in the queue to shuffle.");
+      return bot.say.wrongMessage(interaction, "Need at least \`3\` songs in the queue to shuffle.");
 
     queue.shuffle();
 

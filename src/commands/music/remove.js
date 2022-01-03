@@ -9,26 +9,24 @@ module.exports = {
     type: "NUMBER",
     required: true
   }],
-  async execute(bot, interaction) {
-    let index = await interaction.options.getNumber("index", true);
-
+  execute(bot, interaction) {
     const queue = bot.player.getQueue(interaction.guild.id);
 
     if (!queue || !queue.playing)
-      return bot.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+      return bot.say.errorMessage(interaction, "I’m currently not playing in this server.");
 
     if (!bot.utils.modifyQueue(interaction)) return;
 
     if (queue.tracks.length < 1)
-      return bot.say.warnMessage(interaction, "There's no song to remove in the queue.");
+      return bot.say.wrongMessage(interaction, "There's no song to remove in the queue.");
 
-    index = index - 1;
+    const index = interaction.options.getNumber("index", true) - 1;
 
     if (index < 0 || index > queue.tracks.length || !queue.tracks[index])
-      return bot.say.warnMessage(interaction, "Provided Song Index does not exist.");
+      return bot.say.wrongMessage(interaction, "Provided Song Index does not exist.");
 
-    queue.remove(index);
+    const track = queue.remove(index)[0];
 
-    return bot.say.successMessage(interaction, `Removed track \`${index}\`.`);
+    return bot.say.successMessage(interaction, `Removed \`${track.title}\`.`);
   }
 };

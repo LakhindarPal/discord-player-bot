@@ -9,25 +9,24 @@ module.exports = {
     type: "NUMBER",
     required: true
   }],
-  async execute(bot, interaction) {
-    let index = await interaction.options.getNumber("index", true);
-    index = index - 1;
-
+  execute(bot, interaction) {
     const queue = bot.player.getQueue(interaction.guild.id);
 
     if (!queue || !queue.playing)
-      return bot.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+      return bot.say.errorMessage(interaction, "I’m currently not playing in this server.");
 
     if (!bot.utils.modifyQueue(interaction)) return;
 
     if (queue.tracks.length < 1)
       return bot.say.errorMessage(interaction, "There is no song in the queue.");
 
+    const index = interaction.options.getNumber("index", true) - 1;
+
     if (index > queue.tracks.length || index < 0 || !queue.tracks[index])
       return bot.say.errorMessage(interaction, "Provided song index does not exist.");
 
     queue.jump(index);
 
-    return bot.say.successMessage(interaction, `Jumped to song \`${index}\`.`);
+    return bot.say.successMessage(interaction, `Jumped to song \`${index + 1}\`.`);
   }
 };

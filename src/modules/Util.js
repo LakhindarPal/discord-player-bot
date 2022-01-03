@@ -168,7 +168,7 @@ function modifyQueue(interaction) {
   }
 
   if (memberChannelId !== botChannelId) {
-    return interaction.client.say.warnMessage(interaction, "You must be in the same voice channel as me!");
+    return interaction.client.say.wrongMessage(interaction, "You must be in the same voice channel as me!");
   }
 
   return true;

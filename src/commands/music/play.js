@@ -20,20 +20,20 @@ module.exports = {
     const channel = interaction.member?.voice?.channel;
 
     if (!channel)
-      return bot.say.warnMessage(interaction, "You have to join a voice channel first.");
+      return bot.say.wrongMessage(interaction, "You have to join a voice channel first.");
 
     if (guildQueue) {
       if (channel.id !== interaction.guild.me?.voice?.channelId)
-        return bot.say.warnMessage(interaction, "I'm already playing in a different voice channel!");
+        return bot.say.wrongMessage(interaction, "I'm already playing in a different voice channel!");
     } else {
       if (!channel.viewable)
-        return bot.say.warnMessage(interaction, "I need **\`VIEW_CHANNEL\`** permission.");
+        return bot.say.wrongMessage(interaction, "I need **\`VIEW_CHANNEL\`** permission.");
       if (!channel.joinable)
-        return bot.say.warnMessage(interaction, "I need **\`CONNECT_CHANNEL\`** permission.");
+        return bot.say.wrongMessage(interaction, "I need **\`CONNECT_CHANNEL\`** permission.");
       if (!channel.speakable)
-        return bot.say.warnMessage(interaction, "I need **\`SPEAK\`** permission.");
+        return bot.say.wrongMessage(interaction, "I need **\`SPEAK\`** permission.");
       if (channel.full)
-        return bot.say.warnMessage(interaction, "Can't join, the voice channel is full.");
+        return bot.say.wrongMessage(interaction, "Can't join, the voice channel is full.");
     }
 
     let result = await bot.player.search(string, { requestedBy: interaction.user }).catch(() => {});
@@ -51,7 +51,9 @@ module.exports = {
     }
 
     try {
-      if (!queue.connection) await queue.connect(channel);
+      if (!queue.connection)
+        await queue.connect(channel);
+
     } catch (error) {
       bot.logger.error("JOIN", error);
       bot.player.deleteQueue(interaction.guild.id);

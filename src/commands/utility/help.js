@@ -19,14 +19,14 @@ module.exports = {
     if (arg) {
       const cmd = bot.commands.get(arg);
       if (!cmd)
-        return bot.say.warnMessage(interaction, `No command was found named \`${arg}\`.`);
+        return bot.say.wrongMessage(interaction, `No command was found named \`${arg}\`.`);
 
       const cmdUsage = cmd.usage ? `\/${cmd.name} ${cmd.usage}` : `\/${cmd.name}`;
 
       const embed = bot.say.baseEmbed(interaction)
-        .setAuthor(`${cmd.category} command: ${cmd.name}`, bot.user.displayAvatarURL())
+        .setAuthor({ name: `${cmd.category} command: ${cmd.name}`, iconURL: bot.user.displayAvatarURL() })
         .addField(`${cmdUsage}`, `${cmd.description ?? "Not specified"}`)
-        .setFooter("[] : optional • <> : required • | : or");
+        .setFooter({ text: "[] : optional • <> : required • | : or" });
 
       return interaction.reply({ ephemeral: true, embeds: [embed] });
     }
@@ -39,8 +39,8 @@ module.exports = {
     }
 
     const embed = bot.say.baseEmbed(interaction)
-      .setAuthor("Help Commands", bot.user.displayAvatarURL())
-      .setFooter(`Type '\/help <command>' for more details on a command`);
+      .setAuthor({ name: "Help Commands", iconURL: bot.user.displayAvatarURL() })
+      .setFooter({ text: `Type '\/help <command>' for more details on a command` });
 
     for (let j = 0; j < cates.length; j++) {
       const name = catDetails[categories[j]];

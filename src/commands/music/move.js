@@ -1,7 +1,7 @@
 module.exports = {
   name: "move",
   description: "Move the selected song to the provided position in the queue",
-  usage: "<from> [to]",
+  usage: "<from> <to>",
   category: "music",
   options: [
     {
@@ -14,36 +14,32 @@ module.exports = {
       name: "to",
       description: "To which position, the song be moved",
       type: "NUMBER",
-      required: false
+      required: true
     }
   ],
-  async execute(bot, interaction) {
-    const fromIndex = await interaction.options.getNumber("from", true);
-    const toIndex = await interaction.options.getNumber("to") ?? 1;
-
+  execute(bot, interaction) {
     const queue = bot.player.getQueue(interaction.guild.id);
 
     if (!queue || !queue.playing)
-      return bot.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+      return bot.say.errorMessage(interaction, "I’m currently not playing in this server.");
 
     if (!bot.utils.modifyQueue(interaction)) return;
 
     if (queue.tracks.length < 3)
-      return bot.say.warnMessage(interaction, "Need at least \`3\` songs in the queue to use this command.");
+      return bot.say.wrongMessage(interaction, "Need at least \`3\` songs in the queue to use this command.");
 
-    const fr = fromIndex - 1;
-    const to = toIndex - 1;
+    const from = interaction.options.getNumber("from", true) - 1;
+    const to = interaction.options.getNumber("to", true) - 1;
 
-    if (fr < 0 || to < 0 || fr > queue.tracks.length || !queue.tracks[fr] || to > queue.tracks.length || !queue.tracks[to])
-      return bot.say.warnMessage(interaction, "Provided Song Index does not exist.");
+    if (from < 0 || to < 0 || from > queue.tracks.length || !queue.tracks[from] || to > queue.tracks.length || !queue.tracks[to])
+      return bot.say.wrongMessage(interaction, "Provided Song Index does not exist.");
 
-    if (fr === to)
-      return bot.say.warnMessage(interaction, "The song is already in this position.");
+    if (from === to)
+      return bot.say.wrongMessage(interaction, "The song is already in this position.");
 
-    const song = queue.tracks[fr];
-    queue.splice(fr, 1);
+    const song = queue.splice(from, 1)[0];
     queue.splice(to, 0, song);
 
-    return bot.say.successMessage(interaction, `**[${song.title}](${song.url})** has been moved to the **position ${toIndex}** in the queue.`);
+    return bot.say.successMessage(interaction, `**[${song.title}](${song.url})** has been moved to the **position ${to + 1}** in the queue.`);
   }
 };

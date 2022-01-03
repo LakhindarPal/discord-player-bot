@@ -8,16 +8,16 @@ module.exports = {
     type: "NUMBER",
     required: false
   }],
-  async execute(bot, interaction) {
-    let page = (await interaction.options.getNumber("page", false)) ?? 1;
-
+  execute(bot, interaction) {
     const queue = bot.player.getQueue(interaction.guild.id);
 
     if (!queue || !queue.playing)
-      return bot.say.errorMessage(interaction, "I’m currently not playing in this guild.");
+      return bot.say.errorMessage(interaction, "I’m currently not playing in this server.");
 
     if (!queue.tracks.length)
-      return bot.say.warnMessage(interaction, "There is currently no song in the queue.");
+      return bot.say.wrongMessage(interaction, "There is currently no song in the queue.");
+
+    let page = interaction.options.getNumber("page", false) ?? 1;
 
     const multiple = 10;
 
@@ -36,10 +36,10 @@ module.exports = {
         `${start + (++i)} - [${song.title}](${song.url}) ~ [${song.requestedBy.toString()}]`
         ).join("\n")}`
       )
-      .setFooter(
-        `Page ${page} of ${maxPages} | song ${start + 1} to ${end > queue.tracks.length ? `${queue.tracks.length}` : `${end}`} of ${queue.tracks.length}`,
-        interaction.user.displayAvatarURL({ dynamic: true })
-      );
+      .setFooter({
+        text: `Page ${page} of ${maxPages} | song ${start + 1} to ${end > queue.tracks.length ? `${queue.tracks.length}` : `${end}`} of ${queue.tracks.length}`,
+        iconURL: interaction.user.displayAvatarURL({ dynamic: true })
+      });
 
     return interaction.reply({ ephemeral: true, embeds: [embed] }).catch(console.error);
   }

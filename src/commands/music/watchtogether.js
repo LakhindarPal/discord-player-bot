@@ -9,23 +9,21 @@ module.exports = {
       type: "CHANNEL",
       name: "channel",
       description: "Mention the voice channel. (default: your voice channel)",
-      required: false
+      required: false,
+      channelTypes: ["GUILD_VOICE"]
     }
   ],
   async execute(bot, interaction) {
     const channel = (await interaction.options.getChannel("channel", false)) ?? interaction.member?.voice?.channel;
 
     if (!channel)
-      return bot.say.warnMessage(interaction, "You have to join or mention a voice channel.");
+      return bot.say.wrongMessage(interaction, "You have to join or mention a voice channel.");
 
     if (!channel.viewable)
-      return bot.say.warnMessage(interaction, "I need \`View Channel\` permission.");
-
-    if (channel.type !== "GUILD_VOICE")
-      return bot.say.warnMessage(interaction, "Provide a valid guild voice channel.");
+      return bot.say.wrongMessage(interaction, "I need \`View Channel\` permission.");
 
     if (!channel.permissionsFor(interaction.guild.me)?.has(1n))
-      return bot.say.warnMessage(interaction, "I need \`Create Invite\` permission.");
+      return bot.say.wrongMessage(interaction, "I need \`Create Invite\` permission.");
 
     const invite = await channel.createInvite({
       targetApplication: "755600276941176913",

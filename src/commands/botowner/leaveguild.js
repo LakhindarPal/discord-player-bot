@@ -11,19 +11,15 @@ module.exports = {
     required: true
   }],
   async execute(bot, interaction) {
-    try {
-      const id = interaction.options.getString("guild", true);
+    const id = interaction.options.getString("guild", true);
 
-      const guild = bot.guilds.cache.get(id);
+    const guild = bot.guilds.cache.get(id);
 
-      if (!guild)
-        return bot.say.warnMessage(interaction, `No guild was found with id \`${id}\`.`);
+    if (!guild)
+      return bot.say.wrongMessage(interaction, `No guild was found with id \`${id}\`.`);
 
-      await guild.leave();
+    await guild.leave();
 
-      return bot.say.successMessage(interaction, `Left **${guild.name}** guild with id \`${id}\`.`);
-    } catch (error) {
-      return bot.say.errorMessage(interaction, `${error.message}`);
-    }
+    return bot.say.successMessage(interaction, `Left **${guild.name}** guild with id \`${id}\`.`);
   }
 };

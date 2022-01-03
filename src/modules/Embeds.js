@@ -45,13 +45,13 @@ function successMessage(interaction, text, ephemeral = false) {
  * @param {DJS.Interaction} interaction
  * @param {string} text
  */
-function warnMessage(interaction, text) {
+function wrongMessage(interaction, text) {
   if (!interaction) {
-    throw Error("'interaction' must be passed down as param! (warnMessage)");
+    throw Error("'interaction' must be passed down as param! (wrongMessage)");
   }
 
   if (!text) {
-    throw Error("'text' must be passed down as param! (warnMessage)");
+    throw Error("'text' must be passed down as param! (wrongMessage)");
   }
 
   const embedW = new DJS.MessageEmbed()
@@ -122,7 +122,7 @@ function queueMessage(queue, text, color) {
 module.exports = {
   baseEmbed,
   successMessage,
-  warnMessage,
+  wrongMessage,
   errorMessage,
   queueMessage
 };
