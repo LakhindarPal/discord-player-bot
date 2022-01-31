@@ -44,10 +44,10 @@
     "@discordjs/opus": "^0.7.0",
     "@discordjs/voice": "^0.8.0",
     "chalk": "^4.1.2",
-    "discord-player": "^5.2.0",
-    "discord.js": "^13.5.0",
-    "ffmpeg-static": "^4.4.0",
+    "discord-player": "^5.2.1",
+    "discord.js": "^13.6.0",
+    "ffmpeg-static": "^4.4.1",
     "glob": "^7.1.7",
-    "ytdl-core": "^4.9.2"
+    "ytdl-core": "^4.10.0"
   }
 }
