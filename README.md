@@ -59,6 +59,11 @@ To use the project correctly you will need some tools.
 1) `npm install`
 2) `node src/index.js`
 
+### Docker installation
+1) Fill the `config.json` file
+2) Run `npm run build`
+3) Enjoy dockerized deejay
+
 ### Disclaimer (if self-hosted)
 
 You are not allowed to upload this bot to any service such as discordbotlist or top.gg, you are only allowed to host this bot for your community.
