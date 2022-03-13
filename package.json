@@ -12,7 +12,8 @@
   },
   "scripts": {
     "test": "echo \"error: no test specified\" && exit 1",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "build": "docker build -t deejay-stereo ."
   },
   "engines": {
     "npm": ">=7.0.0",
