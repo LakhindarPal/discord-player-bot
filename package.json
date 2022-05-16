@@ -48,7 +48,7 @@
     "discord-player": "^5.2.1",
     "discord.js": "^13.6.0",
     "ffmpeg-static": "^4.4.1",
-    "glob": "^7.1.7",
+    "glob": "^8.0.3",
     "ytdl-core": "^4.10.0"
   }
 }
