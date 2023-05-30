@@ -1,13 +1,13 @@
 const { ApplicationCommandOptionType } = require("discord.js");
 
 module.exports = {
-  name: "remove",
-  description: "Remove a track from queue",
+  name: "skipto",
+  description: "Skip to the given track, removing others on the way",
   category: "music",
   options: [
     {
       name: "index",
-      description: "The track index to remove",
+      description: "The track index to skip to",
       type: ApplicationCommandOptionType.Number,
       required: true,
     },
@@ -20,8 +20,8 @@ module.exports = {
     if (index > queue.size || index < 0)
       return bot.say.wrongEmbed(interaction, "Provided track index does not exist.");
 
-    queue.node.remove(index);
+    queue.node.skipTo(index);
 
-    return bot.say.successEmbed(interaction, `Removed track ${index + 1}.`);
+    return bot.say.successEmbed(interaction, `Skipped to track ${index + 1}.`);
   },
 };

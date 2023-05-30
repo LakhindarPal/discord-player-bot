@@ -1,20 +1,12 @@
 module.exports = {
   name: "clear",
-  description: "Clears the current queue.",
+  description: "Clear the tracks in the queue.",
   category: "music",
-  execute(bot, interaction) {
-    const queue = bot.player.getQueue(interaction.guild.id);
+  execute(bot, interaction, queue) {
+    if (queue.size < 2) return bot.say.errorEmbed(interaction, "The queue has no more track.");
 
-    if (!queue || !queue.playing)
-      return bot.say.errorMessage(interaction, "I’m currently not playing in this server.");
+    queue.tracks.clear();
 
-    if (!bot.utils.modifyQueue(interaction)) return;
-
-    if (queue.tracks.length < 1)
-      return bot.say.wrongMessage(interaction, "There is currently no song in the queue.");
-
-    queue.clear();
-
-    return bot.say.successMessage(interaction, "Cleared the queue.");
-  }
+    return bot.say.successEmbed(interaction, "Cleared the queue tracks.");
+  },
 };

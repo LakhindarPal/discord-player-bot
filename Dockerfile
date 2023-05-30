@@ -1,5 +1,5 @@
 FROM node:latest
-WORKDIR /home/deejay-stereo
+WORKDIR /home/discord-player-bot
 COPY . .
 RUN npm install
 CMD ["npm", "start"]

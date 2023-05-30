@@ -1,18 +1,18 @@
-# deejay-stereo
+# discord-player-bot
 
-![license](https://img.shields.io/github/license/l0ser8228/deejay-stereo?color=gr)
-![contr](https://img.shields.io/github/contributors/l0ser8228/deejay-stereo)
-[![stars](https://img.shields.io/github/stars/l0ser8228/deejay-stereo?color=gr)](https://github.com/l0ser8228/deejay-stereo)
-[![invite](https://img.shields.io/badge/Invite-DeejayBot-blue)](https://dsc.gg/deejay)
+![license](https://img.shields.io/github/license/l0ser8228/discord-player-bot?color=gr)
+![contr](https://img.shields.io/github/contributors/l0ser8228/discord-player-bot)
+[![stars](https://img.shields.io/github/stars/l0ser8228/discord-player-bot?color=gr)](https://github.com/l0ser8228/discord-player-bot)
+[![invite](https://img.shields.io/badge/Invite-DeejayBot-blue)](https://discord.ly/deejay)
 [![Support](https://img.shields.io/badge/Support-Server-blue)](https://discord.gg/8yaJBZBQTA)
 
-Discord music bot built using djs v13, discord-player. Slash Commands only bot
+Discord music bot built using discord.js v14 & discord-player v6.3.0. Slash Commands only bot
 
 [![banner](https://invidget.switchblade.xyz/8yaJBZBQTA)](https://discord.gg/8yaJBZBQTA)
 
 If you need help with this project, to get support faster you can join the help server by just clicking [here](https://discord.gg/8yaJBZBQTA).
 
-***`If you don't have any development knowledge, I can't help you.`***
+**_`If you don't have any development knowledge, I can't help you.`_**
 
 ### Configuration
 
@@ -20,32 +20,23 @@ Open the configuration file located in the root directory `config.json`.
 
 ```json
 {
-  "botToken": "",
-  "inviteLink": "",
-  "supportServer": "https://discord.gg/aj7M84cdT8",
-  "owners": [],
-  "errorLogsChannel": "",
-  "DJ": {
-    "enabled": false,
-    "role": "",
-    "commands": []
-  }
+  "botDevIds": [""],
+  "botInviteLink": "",
+  "devGuildId": "",
+  "logChannelId": "",
+  "supportServerLink": ""
 }
 ```
 
 Basic configuration
 
-- `botToken`, the token of the bot available on the [Discord Developers](https://discordapp.com/developers/applications) section
-- `inviteLink`, the invite link that will be used to invite the bot
-- `supportServer`, the discord support server link
-- `owners`, an array of bot owner ids, i,e. `"owners": ["668157292927254587"]`
-- `errorLogsChannel`, a Discord text channel id, if you want to log error in discord. Else errors will be logged in console.
+- `botinviteLink`, the invite link that will be used to invite the bot
+- `supportServerLink`, the discord support server link
+- `botDevIds`, an array of bot developer ids, i,e. `"owners": ["123456789012"]`
+- `devGuildId`, the guild id, in which you want to register dev only commands
+- `logChannelId`, a discord text channel id, if you want to log error in discord. Else errors will be logged in console.
 
-DJ mode configuration
-
-- `DJ/enabled`, whether the DJ mode should be activated or not 
-- `DJ/role`, the name of the DJ role to be used
-- `DJ/commands`, the list of commands limited to members with the DJ role
+- Add `DISCORD_BOT_TOKEN` in your environment variable. The token of the bot available on the [Discord Developers](https://discordapp.com/developers/applications) section
 
 ### 📑 Installation
 
@@ -53,20 +44,26 @@ To use the project correctly you will need some tools.
 
 [NPM](https://www.npmjs.org) (>= v7) to install packages
 
-[Node JS](https://nodejs.org/en/) (>= v16.6) for environment
+[Node JS](https://nodejs.org/en/) (>= v16.9) for environment
+
+[FFMPEG](https://ffmpeg.org) for media transcoding
 
 **step**
-1) `npm install`
-2) `node src/index.js`
+
+1. `npm install`
+2. `node src/index.js`
 
 ### Docker installation
-1) Fill the `config.json` file
-2) Run `npm run build`
-3) Enjoy dockerized deejay
+
+1. Fill the `config.json` file
+2. Run `npm run build`
+3. Enjoy dockerized discord-player-bot
 
 ### Disclaimer (if self-hosted)
 
-You are not allowed to upload this bot to any service such as discordbotlist or top.gg, you are only allowed to host this bot for your community.
+You are not allowed to upload this bot to any service such as discordbotlist or top.gg.
+You are also not allowed to use this project for any comercial purposes or to make money.
+You are only allowed to host this bot for your community.
 
 ## Support Deejay
 

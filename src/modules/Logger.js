@@ -2,7 +2,7 @@ const chalk = require("chalk");
 
 class Logger {
   get now() {
-    return Intl.DateTimeFormat("be-BE", {
+    return Intl.DateTimeFormat("en-IN", {
       minute: "2-digit",
       day: "2-digit",
       hour: "2-digit",
@@ -14,7 +14,7 @@ class Logger {
 
   /**
    * @param {string} type
-   * @param {string} error
+   * @param {unknown} error
    */
   error(type, error) {
     const err = error instanceof Error ? error.message : error;
@@ -26,7 +26,9 @@ class Logger {
    * @param {string} warning
    */
   warn(type, warning) {
-    return console.warn(`${chalk.yellow("[WARNING]")}[${type.toUpperCase()}][${this.now}]: ${warning}`);
+    return console.warn(
+      `${chalk.yellow("[WARNING]")}[${type.toUpperCase()}][${this.now}]: ${warning}`
+    );
   }
 
   /**
@@ -34,7 +36,9 @@ class Logger {
    * @param {string} content
    */
   info(type, content) {
-    return console.log(`${chalk.blueBright("[INFO]")}[${type.toUpperCase()}][${this.now}]: ${content}`);
+    return console.log(
+      `${chalk.blueBright("[INFO]")}[${type.toUpperCase()}][${this.now}]: ${content}`
+    );
   }
 
   /**

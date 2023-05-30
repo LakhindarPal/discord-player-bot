@@ -1,40 +1,53 @@
-const { Lyrics } = require("@discord-player/extractor");
-const lyricsClient = Lyrics.init();
+const { ApplicationCommandOptionType } = require("discord.js");
+const { lyricsExtractor } = require("@discord-player/extractor");
+const lyricsFinder = lyricsExtractor();
 
 module.exports = {
   name: "lyrics",
-  description: "Get lyrics for a song.",
-  usage: "[songName]",
+  description: "Get lyrics for a track.",
   category: "music",
-  options: [{
-    type: "STRING",
-    name: "query",
-    description: "The song title to search lyrics",
-    required: false
-  }],
-  async execute(bot, interaction) {
+  options: [
+    {
+      type: ApplicationCommandOptionType.String,
+      name: "query",
+      description: "The track title to search lyrics",
+      required: false,
+    },
+  ],
+  async execute(bot, interaction, queue) {
     await interaction.deferReply({ ephemeral: true });
 
-    const queue = bot.player.getQueue(interaction.guild.id);
+    const query = interaction.options.getString("query", false) ?? queue?.currentTrack?.title;
 
-    const query = interaction.options.getString("query", false) ?? queue?.current?.title;
-
-    if (!query)
-      return bot.say.errorMessage(interaction, "You forgot to provide the song name.");
+    if (!query) return bot.say.wrongEmbed(interaction, "You forgot to provide the track name.");
 
     const queryFormated = query
       .toLowerCase()
-      .replace(/\(lyrics|lyric|official music video|official video hd|official video|audio|official|clip officiel|clip|extended|hq\)/g, "");
+      .replace(
+        /\(lyrics|lyric|official music video|official video hd|official video|audio|official|clip officiel|clip|extended|hq\)/g,
+        ""
+      );
 
-    const result = await lyricsClient.search(`${queryFormated}`);
+    const result = await lyricsFinder.search(queryFormated).catch(() => null);
 
     if (!result || !result.lyrics)
-      return bot.say.errorMessage(interaction, "No lyrics were found for this song.");
+      return bot.say.errorEmbed(interaction, "No lyrics were found for this track.");
 
-    const embed = bot.say.baseEmbed(interaction)
-      .setTitle(`${query}`)
-      .setDescription(`${result.lyrics.slice(0, 4090)}...`);
+    const lyrics =
+      result.lyrics.length > 4096 ? `${result.lyrics.slice(0, 4090)}...` : result.lyrics;
+
+    const embed = bot.utils
+      .baseEmbed(interaction)
+      .setTitle(result.title)
+      .setURL(result.url)
+      .setThumbnail(result.thumbnail)
+      .setAuthor({
+        name: result.artist.name,
+        iconURL: result.artist.image,
+        url: result.artist.url,
+      })
+      .setDescription(lyrics);
 
     return interaction.editReply({ embeds: [embed] }).catch(console.error);
-  }
+  },
 };

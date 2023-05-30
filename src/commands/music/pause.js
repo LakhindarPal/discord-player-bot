@@ -1,20 +1,13 @@
 module.exports = {
   name: "pause",
-  description: "Pauses the current playing song.",
+  description: "Pause the playback",
   category: "music",
-  execute(bot, interaction) {
-    const queue = bot.player.getQueue(interaction.guild.id);
+  execute(bot, interaction, queue) {
+    if (queue.node.isPaused())
+      return bot.say.wrongEmbed(interaction, "The playback is already paused.");
 
-    if (!queue || !queue.playing)
-      return bot.say.errorMessage(interaction, "I’m currently not playing in this server.");
+    queue.node.pause();
 
-    if (!bot.utils.modifyQueue(interaction)) return;
-
-    if (queue.connection.paused)
-      return bot.say.wrongMessage(interaction, "The song is already paused.");
-
-    queue.setPaused(true);
-
-    return bot.say.successMessage(interaction, "Paused the current song.");
-  }
+    return bot.say.successEmbed(interaction, "Paused the playback.");
+  },
 };

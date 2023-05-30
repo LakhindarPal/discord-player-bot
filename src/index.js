@@ -1,48 +1,33 @@
+require("dotenv").config();
 require("./modules/checkValid");
 
-const { Collection, Client, Intents } = require("discord.js");
+const { Client, Collection, GatewayIntentBits } = require("discord.js");
+
 const { Player } = require("discord-player");
 
-const { botToken } = require("../config.json");
-const Logger = require("./modules/Logger");
-const Embeds = require("./modules/Embeds");
-const Util = require("./modules/Util");
-
 const bot = new Client({
-  intents: [
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.GUILD_VOICE_STATES
-  ],
-  allowedMentions: { parse: ["roles", "users"], repliedUser: false }
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates],
 });
 
 bot.commands = new Collection();
+bot.cooldowns = new Collection();
 
-bot.logger = Logger;
-bot.utils = Util;
-bot.say = Embeds;
+bot.logger = require("./modules/logger");
+bot.utils = require("./modules/utils");
+bot.say = require("./modules/reply");
 
-bot.player = new Player(bot, {
-  leaveOnEnd: true,
-  leaveOnStop: true,
-  leaveOnEmpty: true,
-  leaveOnEmptyCooldown: 60000,
-  autoSelfDeaf: true,
-  initialVolume: 100
-});
+const player = Player.singleton(bot);
+player.extractors.loadDefault();
 
-require("./handler/EventHandler")(bot);
+require("./handlers/Event")(bot);
 
-bot.login(botToken);
+bot.login(process.env["DISCORD_BOT_TOKEN"]);
 
-//bot.setMaxListeners(0)
+// unhandled errors
+process.on("unhandledRejection", (error) => bot.utils.sendErrorLog(bot, error, "error"));
 
-// Unhandled errors
-process.on("unhandledRejection", (error) => Util.sendErrorLog(bot, error, "error"));
-
-process.on("uncaughtExceptionMonitor", (error) => Util.sendErrorLog(bot, error, "error"));
+process.on("uncaughtExceptionMonitor", (error) => bot.utils.sendErrorLog(bot, error, "error"));
 
 process.on("warning", (warning) => {
-  Util.sendErrorLog(bot, warning, "warning");
+  bot.utils.sendErrorLog(bot, warning, "warning");
 });

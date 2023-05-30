@@ -1,32 +1,27 @@
+const { ApplicationCommandOptionType } = require("discord.js");
+
 module.exports = {
   name: "jump",
-  description: "Jump to a specific track in the queue.",
+  description: "Jump to specific track on the queue without removing other tracks",
   category: "music",
-  usage: "<songIndex>",
-  options: [{
-    name: "index",
-    description: "The song index to jump to",
-    type: "NUMBER",
-    required: true
-  }],
-  execute(bot, interaction) {
-    const queue = bot.player.getQueue(interaction.guild.id);
-
-    if (!queue || !queue.playing)
-      return bot.say.errorMessage(interaction, "I’m currently not playing in this server.");
-
-    if (!bot.utils.modifyQueue(interaction)) return;
-
-    if (queue.tracks.length < 1)
-      return bot.say.errorMessage(interaction, "There is no song in the queue.");
+  options: [
+    {
+      name: "index",
+      description: "The track index to jump to",
+      type: ApplicationCommandOptionType.Number,
+      required: true,
+    },
+  ],
+  execute(bot, interaction, queue) {
+    if (queue.isEmpty()) return bot.say.errorEmbed(interaction, "The queue has no more track.");
 
     const index = interaction.options.getNumber("index", true) - 1;
 
-    if (index > queue.tracks.length || index < 0 || !queue.tracks[index])
-      return bot.say.errorMessage(interaction, "Provided song index does not exist.");
+    if (index > queue.size || index < 0)
+      return bot.say.wrongEmbed(interaction, "Provided track index does not exist.");
 
-    queue.jump(index);
+    queue.node.jump(index);
 
-    return bot.say.successMessage(interaction, `Jumped to song \`${index + 1}\`.`);
-  }
+    return bot.say.successEmbed(interaction, `Jumped to track ${index + 1}.`);
+  },
 };

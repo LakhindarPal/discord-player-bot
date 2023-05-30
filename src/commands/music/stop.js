@@ -1,17 +1,10 @@
 module.exports = {
   name: "stop",
-  description: "Stops the playback.",
+  description: "Stop the playback.",
   category: "music",
-  execute(bot, interaction) {
-    const queue = bot.player.getQueue(interaction.guild.id);
+  async execute(bot, interaction, queue) {
+    queue.node.delete();
 
-    if (!queue || !queue.playing)
-      return bot.say.errorMessage(interaction, "I’m currently not playing in this server.");
-
-    if (!bot.utils.modifyQueue(interaction)) return;
-
-    queue.stop();
-
-    return bot.say.successMessage(interaction, "Stopped the music.");
-  }
+    return bot.say.successEmbed(interaction, "Stopped the playback.");
+  },
 };

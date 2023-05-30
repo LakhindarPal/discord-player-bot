@@ -1,0 +1,114 @@
+{
+  "env": {
+    "commonjs": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:promise/recommended",
+    "prettier"
+  ],
+  "overrides": [],
+  "parserOptions": {
+    "ecmaVersion": 2021
+  },
+  "plugins": [
+    "promise"
+  ],
+  "rules": {
+    "block-scoped-var": "error",
+    "capitalized-comments": [
+      "error",
+      "never"
+    ],
+    "constructor-super": "error",
+    "default-case": "error",
+    "default-case-last": "error",
+    "eqeqeq": "error",
+    "grouped-accessor-pairs": "error",
+    "handle-callback-err": "off",
+    "max-nested-callbacks": [
+      "error",
+      {
+        "max": 4
+      }
+    ],
+    "max-statements-per-line": [
+      "error",
+      {
+        "max": 2
+      }
+    ],
+    "no-array-constructor": "error",
+    "no-caller": "error",
+    "no-console": "off",
+    "no-constructor-return": "error",
+    "no-dupe-class-members": "error",
+    "no-duplicate-case": "error",
+    "no-duplicate-imports": "error",
+    "no-else-return": "error",
+    "no-empty-function": "error",
+    "no-empty-pattern": "error",
+    "no-eval": "error",
+    "no-extend-native": "error",
+    "no-extra-label": "error",
+    "no-inline-comments": "error",
+    "no-iterator": "error",
+    "no-labels": "error",
+    "no-lone-blocks": "error",
+    "no-lonely-if": "error",
+    "no-multi-assign": "error",
+    "no-new-func": "error",
+    "no-new-object": "error",
+    "no-new-symbol": "error",
+    "no-new-wrappers": "error",
+    "no-promise-executor-return": "error",
+    "no-proto": "error",
+    "no-return-await": "error",
+    "no-self-compare": "error",
+    "no-shadow": [
+      "error",
+      {
+        "allow": [
+          "err",
+          "resolve",
+          "reject"
+        ]
+      }
+    ],
+    "no-template-curly-in-string": "error",
+    "no-undef": "error",
+    "no-unneeded-ternary": "error",
+    "no-unreachable": "error",
+    "no-unreachable-loop": "error",
+    "no-unsafe-optional-chaining": "error",
+    "no-unused-vars": "error",
+    "no-useless-backreference": "error",
+    "no-useless-catch": "warn",
+    "no-useless-concat": "error",
+    "no-useless-constructor": "error",
+    "no-useless-rename": "error",
+    "no-useless-return": "error",
+    "no-var": "error",
+    "no-with": "error",
+    "object-shorthand": [
+      "error",
+      "always",
+      {
+        "avoidQuotes": true
+      }
+    ],
+    "one-var": [
+      "error",
+      "never"
+    ],
+    "prefer-arrow-callback": "error",
+    "prefer-const": "error",
+    "prefer-rest-params": "error",
+    "prefer-spread": "error",
+    "prefer-template": "error",
+    "promise/always-return": "off",
+    "yoda": "error"
+  }
+}

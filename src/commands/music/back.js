@@ -1,20 +1,17 @@
+const { useHistory } = require("discord-player");
+
 module.exports = {
   name: "back",
-  description: "Back to the previous song",
+  description: "Play the history track",
   category: "music",
   execute(bot, interaction) {
-    const queue = bot.player.getQueue(interaction.guild.id);
+    const history = useHistory(interaction.guildId);
 
-    if (!queue || !queue.playing)
-      return bot.say.errorMessage(interaction, "I’m currently not playing in this server.");
+    if (history.isEmpty())
+      return bot.say.errorEmbed(interaction, "The queue has no history track.");
 
-    if (!bot.utils.modifyQueue(interaction)) return;
+    history.previous();
 
-    if (queue.previousTracks.length <= 1)
-      return bot.say.wrongMessage(interaction, "No previous track was found.");
-
-    queue.back();
-
-    return bot.say.successMessage(interaction, "Backed to the previous song.");
-  }
+    return bot.say.successEmbed(interaction, "Backed the history track.");
+  },
 };

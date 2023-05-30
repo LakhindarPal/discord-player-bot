@@ -1,7 +1,7 @@
 const { EmbedBuilder, Colors } = require("discord.js");
 
 module.exports = {
-  name: "error",
+  name: "playerError",
   execute(bot, queue, error) {
     bot.utils.sendErrorLog(bot, error, "error");
 

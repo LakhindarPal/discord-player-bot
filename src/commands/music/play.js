@@ -1,67 +1,65 @@
+const { ApplicationCommandOptionType } = require("discord.js");
+const { useQueue, useMasterPlayer } = require("discord-player");
+
 module.exports = {
   name: "play",
-  description: "Play a song or playlist from url or name",
+  description: "Play a track or playlist from url or name",
   category: "music",
-  usage: "<song url/name>",
-  options: [{
-    name: "song",
-    description: "The song name/url, you want to play.",
-    type: "STRING",
-    required: true
-  }],
+  options: [
+    {
+      type: ApplicationCommandOptionType.String,
+      name: "track",
+      description: "The track name/url, you want to play.",
+      required: true,
+    },
+  ],
   async execute(bot, interaction) {
-    if (!bot.utils.havePermissions(interaction))
-      return bot.say.errorMessage(interaction, "I need **\`EMBED_LINKS\`** permission.");
+    await interaction.deferReply({ ephemeral: true });
 
-    const string = await interaction.options.getString("song", true);
+    const query = interaction.options.getString("track", true);
 
-    const guildQueue = bot.player.getQueue(interaction.guild.id);
+    const player = useMasterPlayer();
+    const queue = useQueue(interaction.guild.id);
 
     const channel = interaction.member?.voice?.channel;
 
-    if (!channel)
-      return bot.say.wrongMessage(interaction, "You have to join a voice channel first.");
+    if (!channel) return bot.say.wrongEmbed(interaction, "You have to join a voice channel first.");
 
-    if (guildQueue) {
-      if (channel.id !== interaction.guild.me?.voice?.channelId)
-        return bot.say.wrongMessage(interaction, "I'm already playing in a different voice channel!");
-    } else {
-      if (!channel.viewable)
-        return bot.say.wrongMessage(interaction, "I need **\`VIEW_CHANNEL\`** permission.");
-      if (!channel.joinable)
-        return bot.say.wrongMessage(interaction, "I need **\`CONNECT_CHANNEL\`** permission.");
-      if (!channel.speakable)
-        return bot.say.wrongMessage(interaction, "I need **\`SPEAK\`** permission.");
-      if (channel.full)
-        return bot.say.wrongMessage(interaction, "Can't join, the voice channel is full.");
-    }
+    if (queue && queue.channel.id !== channel.id)
+      return bot.say.wrongEmbed(interaction, "I'm already playing in a different voice channel!");
 
-    let result = await bot.player.search(string, { requestedBy: interaction.user }).catch(() => {});
-    if (!result || !result.tracks.length)
-      return bot.say.errorMessage(interaction, `No result was found for \`${string}\`.`);
+    if (!channel.viewable)
+      return bot.say.wrongEmbed(interaction, "I need `View Channel` permission.");
 
-    let queue;
-    if (guildQueue) {
-      queue = guildQueue;
-      queue.metadata = interaction;
-    } else {
-      queue = await bot.player.createQueue(interaction.guild, {
-        metadata: interaction
-      });
-    }
+    if (!channel.joinable)
+      return bot.say.wrongEmbed(interaction, "I need `Connect Channel` permission.");
+
+    if (channel.full)
+      return bot.say.wrongEmbed(interaction, "Can't join, the voice channel is full.");
+
+    if (interaction.member.voice.deaf)
+      return bot.say.wrongEmbed(interaction, "You cannot run this command while deafened.");
+
+    if (interaction.guild.members.me?.voice?.mute)
+      return bot.say.wrongEmbed(interaction, "Please unmute me before playing.");
+
+    const searchResult = await player
+      .search(query, { requestedBy: interaction.user })
+      .catch(() => null);
+
+    if (!searchResult?.hasTracks())
+      return bot.say.wrongEmbed(interaction, `No track was found for ${query}!`);
 
     try {
-      if (!queue.connection)
-        await queue.connect(channel);
+      await player.play(channel, searchResult, {
+        nodeOptions: {
+          metadata: interaction.channel,
+        },
+      });
 
-    } catch (error) {
-      bot.logger.error("JOIN", error);
-      bot.player.deleteQueue(interaction.guild.id);
-      return bot.say.errorMessage(interaction, `Could not join your voice channel!\n\`${error}\``);
+      return bot.say.successEmbed(interaction, `Loading your track`);
+    } catch (e) {
+      return bot.say.errorEmbed(interaction, `Something went wrong: ${e.message}`);
     }
-
-    result.playlist ? queue.addTracks(result.tracks) : queue.addTrack(result.tracks[0]);
-
-    if (!queue.playing) await queue.play();
-  }
+  },
 };
