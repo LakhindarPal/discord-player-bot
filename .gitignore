@@ -72,7 +72,7 @@ typings/
 .env
 .env.test
 
-#config file
+# config file
 config.json
 config.js
 
