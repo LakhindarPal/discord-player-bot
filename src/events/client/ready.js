@@ -7,6 +7,9 @@ module.exports = {
     // initializing commands
     require("../../handlers/Command")(bot);
 
+    // initializing website
+    require("../../website/server")(bot);
+
     const format = bot.utils.formatNumber;
     const serverCount = format(bot.guilds.cache.size);
     const userCount = format(bot.guilds.cache.reduce((a, g) => a + g.memberCount, 0));

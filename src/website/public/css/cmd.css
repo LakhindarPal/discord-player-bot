@@ -1,0 +1,103 @@
+/*search box*/
+#search-box {
+  margin-top: 10px;
+  position: sticky;
+  text-align: center;
+}
+
+input[type=text] {
+  width: 40%;
+  border: 1px solid grey;
+  margin: 3px;
+  background-color: lightgray;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+  width: 100%;
+}
+
+
+/* category style*/
+#categoryButton {
+  position: sticky;
+  text-align: center;
+}
+
+/* Style the buttons */
+.btn {
+  border: none;
+  outline: none;
+  padding: 12px 16px;
+  background-color: #a9a9a9;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #d3d3d3;
+  color: white;
+}
+
+.btn.active {
+  background-color: #5865f5;
+  color: white;
+}
+
+/* cmd-name command description*/
+.cmd-box {
+  margin: 2px;
+  display: none;
+  border-style: solid;
+  border-width: medium;
+  border-color: lightgrey;
+  border-radius: 5px;
+}
+
+.show {
+  display: block;
+}
+
+#commands-container {
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+.cmd-name {
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  font-size: 30px;
+  outline: none;
+}
+
+.cmd-name.dark {
+  background-color: #36393e;
+}
+
+.cmd-name.active,
+.cmd-name:hover {
+  background-color: #555555;
+}
+
+.cmd-name:after {
+  content: '\002B';
+  color: #777777;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.cmd-name.active:after {
+  content: "\2212";
+}
+
+.content {
+  padding: 0 18px;
+  display: none;
+  font-size: 20px;
+  overflow: hidden;
+}

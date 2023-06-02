@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("../partials/head"); %>
+  </head>
+  <body>
+    <div>
+      <header><%- include("../partials/header"); %></header>
+      <hr />
+      <div id="search-box"><input id="searchInput" type="text" placeholder="Search..." /></div>
+      <br />
+      <div id="categoryButton">
+        <button class="btn active" onclick="filterSelection('all')">All</button>
+        <% categories.forEach(cat => { %>
+        <button class="btn" onclick="filterSelection('<%= cat.toLowerCase() %>')">
+          <%= cat %>
+        </button>
+        <% }) %>
+      </div>
+      <hr />
+    </div>
+    <main>
+      <section id="commands-container">
+        <% commands.forEach((cmd )=> { %>
+        <div class="cmd-box <%= cmd.category %>">
+          <button type="button" class="cmd-name"><%= cmd.name %></button>
+          <p class="content"><%= cmd.description %></p>
+        </div>
+        <% }) %>
+      </section>
+    </main>
+    <hr />
+    <footer><%- include("../partials/footer"); %></footer>
+  </body>
+</html>
