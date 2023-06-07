@@ -1,6 +1,6 @@
 {
   "name": "discord-player-bot",
-  "version": "2.1.0",
+  "version": "2.2.1",
   "description": "A bot for better discord music experience",
   "main": "src/index.js",
   "scripts": {
