@@ -1,58 +1,86 @@
+:root {
+  --background: #f5f5f5;
+  --text: #212121;
+  --primary: #000000;
+  --secondery: #ffffff;
+  --button-bg: #6d6bf9;
+  --hover: #7289da;
+  --active: #001aff;
+}
+
+html[data-theme="dark"] {
+  --background: #121212;
+  --text: #f5f5f5;
+  --primary: #ffffff;
+  --secondery: #000000;
+}
+
 /*search box*/
 #search-box {
-  margin-top: 10px;
-  position: sticky;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  position: fixed;
+  top: 30;
+  width: 100%;
+  padding: 10px 0;
+  background-color: var(--secondery);
 }
 
 input[type=text] {
   width: 40%;
-  border: 1px solid grey;
-  margin: 3px;
-  background-color: lightgray;
+  border: 1px solid var(--primary);
+  padding: 3px;
   -webkit-transition: width 0.4s ease-in-out;
   transition: width 0.4s ease-in-out;
+  background-color: var(--background);
 }
 
 input[type=text]:focus {
   width: 100%;
+  border-color: var(--active);
+  color: var(--text);
 }
-
 
 /* category style*/
 #categoryButton {
-  position: sticky;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  position: fixed;
+  top: 60;
+  width: 100%;
+  padding: 10px 0;
+  background-color: var(--secondery);
 }
 
 /* Style the buttons */
 .btn {
   border: none;
   outline: none;
+  margin: 0 auto;
   padding: 12px 16px;
-  background-color: #a9a9a9;
-  color: #ffffff;
+  background-color: var(--button-bg);
+  color: var(--text);
   cursor: pointer;
 }
 
 .btn:hover {
-  background-color: #d3d3d3;
-  color: white;
+  background-color: var(--hover);
 }
 
 .btn.active {
-  background-color: #5865f5;
-  color: white;
+  background-color: var(--active);
 }
 
 /* cmd-name command description*/
 .cmd-box {
-  margin: 2px;
+  margin: 5px;
   display: none;
   border-style: solid;
   border-width: medium;
-  border-color: lightgrey;
-  border-radius: 5px;
+  border-color: var(--primary);
+  border-radius: 3px;
 }
 
 .show {
@@ -65,6 +93,8 @@ input[type=text]:focus {
 }
 
 .cmd-name {
+  color: var(--primary);
+  background-color: var(--background);
   cursor: pointer;
   padding: 18px;
   width: 100%;
@@ -74,18 +104,27 @@ input[type=text]:focus {
   outline: none;
 }
 
-.cmd-name.dark {
-  background-color: #36393e;
+.cmd-content {
+  color: var(--text);
+  background-color: var(--background);
+  padding: 0 18px;
+  display: none;
+  font-size: 20px;
+  overflow: hidden;
+}
+
+.cmd-box.active,
+.cmd-box:hover {
+  border-color: var(--active);
 }
 
 .cmd-name.active,
 .cmd-name:hover {
-  background-color: #555555;
+  background-color: var(--secondery);
 }
 
 .cmd-name:after {
   content: '\002B';
-  color: #777777;
   font-weight: bold;
   float: right;
   margin-left: 5px;
@@ -93,11 +132,4 @@ input[type=text]:focus {
 
 .cmd-name.active:after {
   content: "\2212";
-}
-
-.content {
-  padding: 0 18px;
-  display: none;
-  font-size: 20px;
-  overflow: hidden;
 }

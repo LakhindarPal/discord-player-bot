@@ -6,7 +6,7 @@
   <body>
     <div>
       <header><%- include("../partials/header"); %></header>
-      <hr />
+      <br />
       <div id="search-box"><input id="searchInput" type="text" placeholder="Search..." /></div>
       <br />
       <div id="categoryButton">
@@ -24,7 +24,7 @@
         <% commands.forEach((cmd )=> { %>
         <div class="cmd-box <%= cmd.category %>">
           <button type="button" class="cmd-name"><%= cmd.name %></button>
-          <p class="content"><%= cmd.description %></p>
+          <p class="cmd-content"><%= cmd.description %></p>
         </div>
         <% }) %>
       </section>

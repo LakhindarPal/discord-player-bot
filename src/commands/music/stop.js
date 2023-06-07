@@ -3,7 +3,7 @@ module.exports = {
   description: "Stop the playback.",
   category: "music",
   async execute(bot, interaction, queue) {
-    queue.node.delete();
+    queue.delete();
 
     return bot.say.successEmbed(interaction, "Stopped the playback.");
   },

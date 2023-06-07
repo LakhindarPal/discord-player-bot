@@ -4,11 +4,7 @@ const menuIcon = document.getElementById("menuIcon");
 const nav = document.getElementById("navbar");
 
 menuButton.addEventListener("click", () => {
-  if (nav.className === "topnav") {
-    nav.className = "topnav responsive";
-  } else {
-    nav.className = "topnav";
-  }
+  nav.classList.toggle("responsive");
 
   menuIcon.classList.toggle("fa-xmark");
 });
@@ -23,21 +19,29 @@ navitems.forEach((item) => {
 });
 
 //darkmode
-const button = document.getElementById("darkModeButton");
 
-button.addEventListener("click", () => {
-  const icon = document.getElementById("sunMoonIcon");
-  const navbar = document.getElementById("navbar");
-  const cmds = document.querySelectorAll(".cmd-name");
+const htmlEl = document.getElementsByTagName("html")[0];
+const icon = document.getElementById("sunMoonIcon");
 
-  const footer = document.getElementsByTagName("footer")[0];
+document.addEventListener("DOMContentLoaded", () => {
+  const theme = currentTheme();
+  htmlEl.dataset.theme = theme;
 
-  document.body.classList.toggle("dark-mode");
-
-  navbar.classList.toggle("dark");
-  footer.classList.toggle("dark");
-  cmds.forEach((element) => {
-    element.classList.toggle("dark");
-  });
-  icon.classList.toggle("fa-moon");
+  icon.className = theme === "light" ? "fa-solid fa-sun" : "fa-solid fa-moon";
 });
+
+const toggleBtn = document.getElementById("themeToggleButton");
+toggleBtn.addEventListener("click", () => {
+  const newTheme = currentTheme() === "dark" ? "light" : "dark";
+
+  htmlEl.dataset.theme = newTheme;
+  localStorage.setItem("theme", newTheme);
+
+  icon.className = newTheme === "light" ? "fa-solid fa-sun" : "fa-solid fa-moon";
+});
+
+const currentTheme = () => {
+  const defaultTheme = window.matchMedia("(prefers-color-scheme: dark)") ? "dark" : "light";
+
+  return localStorage.getItem("theme") ?? defaultTheme;
+};
