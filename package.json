@@ -9,7 +9,8 @@
     "start": "node src/index.js"
   },
   "engines": {
-    "node": ">16.9.0"
+    "node": ">16.9.0",
+    "npm": ">7"
   },
   "keywords": [
     "discord-bot",
