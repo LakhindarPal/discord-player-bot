@@ -26,7 +26,7 @@
   "author": "L0SER8228",
   "license": "Apache-2.0",
   "dependencies": {
-    "@discord-player/extractor": "^4.2.2",
+    "@discord-player/extractor": "^4.3.1",
     "@discordjs/opus": "^0.9.0",
     "chalk": "^4.1.2",
     "discord-player": "^6.5.0",
