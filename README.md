@@ -64,7 +64,7 @@ $ npm i ffmpeg-binaries
 
 ## Clone the repository
 ```bash
-gh repo clone L0SER8228/discord-player-bot
+git clone L0SER8228/discord-player-bot
 ```
 
 ## Configuration
@@ -130,7 +130,14 @@ Made with ❤️ and JavaScript!
 # Support Server
 If you need further help with this project, to get support faster you can join the discord server by just clicking [here](https://discord.gg/8yaJBZBQTA).
 
-[![banner](https://invidget.switchblade.xyz/8yaJBZBQTA)](https://discord.gg/8yaJBZBQTA)
+[![banner](https://invite.caspertheghost.me?inviteCode=8yaJBZBQTA)](https://discord.gg/8yaJBZBQTA)
 
 #### Pre-qualities
 - Basic understanding of nodejs, discordjs.
+
+## :clap:  Supporters
+[![Stargazers repo roster](https://reporoster.com/stars/l0ser8228/discord-player-bot)](https://github.com/l0ser8228/discord-player-bot/stargazers)
+[![Forkers repo roster](https://reporoster.com/forks/l0ser8228/discord-player-bot)](https://github.com/l0ser8228/discord-player-bot/network/members)
+<p align="center"><a href="https://github.com/l0ser8228/discord-player-bot"><img src="http://randojs.com/images/barsSmallTransparentBackground.gif" alt="Animated footer bars" width="100%"/></a></p>
+<br/>
+<p align="center"><a href="https://github.com/l0ser8228/discord-player-bot#"><img src="http://randojs.com/images/backToTopButtonTransparentBackground.png" alt="Back to top" height="29"/></a></p>
