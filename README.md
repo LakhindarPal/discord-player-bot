@@ -135,7 +135,10 @@ If you need further help with this project, to get support faster you can join t
 #### Pre-qualities
 - Basic understanding of nodejs, discordjs.
 
-## :clap:  Supporters
+### Star History
+[![Star History Chart](https://api.star-history.com/svg?repos=l0ser8228/discord-player-bot)](https://star-history.com/#l0ser8228/discord-player-bot)
+
+## Supporters
 [![Stargazers repo roster](https://reporoster.com/stars/l0ser8228/discord-player-bot)](https://github.com/l0ser8228/discord-player-bot/stargazers)
 [![Forkers repo roster](https://reporoster.com/forks/l0ser8228/discord-player-bot)](https://github.com/l0ser8228/discord-player-bot/network/members)
 <p align="center"><a href="https://github.com/l0ser8228/discord-player-bot"><img src="http://randojs.com/images/barsSmallTransparentBackground.gif" alt="Animated footer bars" width="100%"/></a></p>
