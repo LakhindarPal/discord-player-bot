@@ -18,8 +18,8 @@ module.exports = function loadEvents(bot) {
     }
 
     if (type === "player") {
-      const { useMasterPlayer } = require("discord-player");
-      const player = useMasterPlayer();
+      const { useMainPlayer } = require("discord-player");
+      const player = useMainPlayer();
 
       player.events.on(event.name, event.execute.bind(null, bot));
     } else if (event.once) {
