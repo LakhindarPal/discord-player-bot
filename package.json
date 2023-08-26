@@ -23,25 +23,25 @@
     "bot",
     "music"
   ],
-  "author": "L0SER8228",
+  "author": "Lakhindar Pal",
   "license": "Apache-2.0",
   "dependencies": {
-    "@discord-player/extractor": "^4.4.0",
+    "@discord-player/extractor": "^4.4.1",
     "@discordjs/opus": "^0.9.0",
     "chalk": "^4.1.2",
-    "discord-player": "^6.6.1",
-    "discord.js": "^14.11.0",
+    "discord-player": "^6.6.2",
+    "discord.js": "^14.13.0",
     "dotenv": "^16.3.1",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
-    "glob": "^10.3.1",
-    "ytdl-core": "^4.11.4"
+    "glob": "^10.3.3",
+    "ytdl-core": "^4.11.5"
   },
   "devDependencies": {
-    "eslint": "^8.43.0",
-    "eslint-config-prettier": "^8.8.0",
+    "eslint": "^8.47.0",
+    "eslint-config-prettier": "^8.10.0",
     "eslint-plugin-promise": "^6.1.1",
     "nodemon": "^2.0.22",
-    "prettier": "2.8.8"
+    "prettier": "^2.8.8"
   }
 }

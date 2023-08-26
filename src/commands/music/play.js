@@ -1,5 +1,5 @@
 const { ApplicationCommandOptionType } = require("discord.js");
-const { useQueue, useMasterPlayer } = require("discord-player");
+const { useQueue, useMainPlayer } = require("discord-player");
 
 module.exports = {
   name: "play",
@@ -18,7 +18,7 @@ module.exports = {
 
     const query = interaction.options.getString("track", true);
 
-    const player = useMasterPlayer();
+    const player = useMainPlayer();
     const queue = useQueue(interaction.guild.id);
 
     const channel = interaction.member?.voice?.channel;
