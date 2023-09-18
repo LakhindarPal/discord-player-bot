@@ -26,7 +26,7 @@
   "author": "Lakhindar Pal",
   "license": "Apache-2.0",
   "dependencies": {
-    "@discord-player/extractor": "^4.4.3",
+    "@discord-player/extractor": "^4.4.4",
     "@discordjs/opus": "^0.9.0",
     "chalk": "^4.1.2",
     "discord-player": "^6.6.3",
