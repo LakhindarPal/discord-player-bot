@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "eslint": "^8.53.0",
-    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-promise": "^6.1.1",
     "nodemon": "^2.0.22",
     "prettier": "^3.0.3"
