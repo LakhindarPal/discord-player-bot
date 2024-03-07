@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("../partials/head"); %>
+  </head>
+  <body>
+    <header><%- include("../partials/header"); %></header>
+    <hr />
+    <main>
+      <section id="hero">
+        <img id="hero-image" src="<%= data.avatar %>" alt="Avatar" />
+        <h2><%= data.botname %></h2>
+        <p>A bot for better music experience</p>
+        <a href="/invite"><button class="btn-normal">Add to discord</button></a>
+      </section>
+      <hr />
+      <section class="features">
+        <h2>Why choose this bot ?</h2>
+        <% features.forEach(element => { %>
+        <div>
+          <img src="<%= element.thumbnail %>" />
+          <h3><%= element.title %></h3>
+          <p><%= element.description %></p>
+        </div>
+        <% }) %>
+      </section>
+    </main>
+    <hr />
+    <footer><%- include("../partials/footer"); %></footer>
+  </body>
+</html>

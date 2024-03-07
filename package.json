@@ -1,0 +1,47 @@
+{
+  "name": "discord-player-bot",
+  "version": "2.2.1",
+  "description": "A bot for better discord music experience",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "npx eslint .",
+    "format": "npx prettier .",
+    "start": "node src/index.js",
+    "devStart": "nodemon src/index.js"
+  },
+  "engines": {
+    "node": ">16.9.0"
+  },
+  "keywords": [
+    "discord-bot",
+    "discord.js",
+    "discord-js",
+    "discord-music-bot",
+    "music-bot",
+    "discord-player",
+    "discord",
+    "bot",
+    "music"
+  ],
+  "author": "Lakhindar Pal",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@discord-player/extractor": "^4.4.5",
+    "@discordjs/opus": "^0.9.0",
+    "chalk": "^4.1.2",
+    "discord-player": "^6.6.6",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "glob": "^10.3.10",
+    "ytdl-core": "^4.11.5"
+  },
+  "devDependencies": {
+    "eslint": "^8.53.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "nodemon": "^3.0.2",
+    "prettier": "^3.0.3"
+  }
+}

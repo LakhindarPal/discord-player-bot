@@ -1,0 +1,169 @@
+:root {
+  --background-primary: #f5f5f5;
+  --text-color: #212121;
+  --primary-color: #ffffff;
+  --secondery-color: #000000;
+  --hover-color: #7289da;
+  --active-color: #5865f5;
+}
+
+html[data-theme="dark"] {
+  --background-primary: #121212;
+  --text-color: #f5f5f5;
+  --primary-color: #000000;
+  --secondery-color: #ffffff;
+  --hover-color: #7289da;
+  --active-color: #5865f5;
+}
+
+body {
+  background-color: var(--background-primary);
+  color: var(--text-color);
+  margin: 0;
+  font-size: 30px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.main {
+  margin-top: 30px;
+}
+
+#navbar {
+  overflow: hidden;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+#navbar a {
+  float: left;
+  display: block;
+  color: var(--secondery-color);
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+#navbar a:hover {
+  background-color: var(--hover-color);
+}
+
+#navbar a.active {
+  background-color: var(--active-color);
+}
+
+#navbar .icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+#navbar .menu {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  #navbar a:not(:first-child) {
+    display: none;
+  }
+
+  #navbar a.menu {
+    float: right;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #navbar.responsive {
+    position: relative;
+  }
+
+  #navbar.responsive.menu {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  #navbar.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+}
+
+footer {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  text-align: center;
+  font-size: small;
+}
+
+/* Heading */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--secondery-color);
+}
+
+#hero {
+  justify-content: center;
+  text-align: center;
+}
+
+#hero-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.btn-normal {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: var(--active-color);
+  color: var(--primary-color);
+  text-decoration: none;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+}
+
+#hero button:hover {
+  background-color: var(--hover-color);
+}
+
+.features {
+  text-align: center;
+}
+
+.features img {
+  height: 50%;
+  width: 50%;
+}
+
+.lost {
+  text-align: center;
+}
+
+.lost h1 {
+  animation: shake 0.5s infinite alternate;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(-10px);
+  }
+
+  100% {
+    transform: translateX(10px);
+  }
+}
