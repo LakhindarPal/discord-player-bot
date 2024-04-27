@@ -28,7 +28,7 @@ module.exports = {
           value: `Bot Id: ${bot.user.id}
 Bot Tag: ${bot.user.tag}
 Created At : ${time(createdAt, "F")}
-Developer: [L0SER#8228](https://l0ser.is-a.dev)
+Developer: [LakhindarPal](https://lakhindar.is-a.dev)
 Prefix: /`,
         },
         {

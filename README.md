@@ -132,7 +132,7 @@ Made with ❤️ and JavaScript!
 
 ## License
 
-[Apache © L0SER](./LICENSE)
+[Apache © LakhindarPal](./LICENSE)
 
 # Support Server
 
