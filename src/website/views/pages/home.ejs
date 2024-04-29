@@ -1,31 +1,120 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <%- include("../partials/head"); %>
-  </head>
-  <body>
-    <header><%- include("../partials/header"); %></header>
+
+<head>
+  <%- include("../partials/head"); %>
+</head>
+
+<body>
+  <header>
+    <%- include("../partials/navbar"); %>
+  </header>
+  <hr />
+  <main>
+    <section id="hero">
+      <figure>
+        <img src="<%= data.botAvatar %>?size=512" alt="Avatar" width="512" height="512" />
+      </figure>
+      <div>
+        <h1>
+          <%= data.botName %>
+        </h1>
+        <p>A Dynamic Discord Music Bot</p>
+        <a href="/invite">Add to Discord</a>
+      </div>
+    </section>
     <hr />
-    <main>
-      <section id="hero">
-        <img id="hero-image" src="<%= data.avatar %>" alt="Avatar" />
-        <h2><%= data.botname %></h2>
-        <p>A bot for better music experience</p>
-        <a href="/invite"><button class="btn-normal">Add to discord</button></a>
-      </section>
-      <hr />
-      <section class="features">
-        <h2>Why choose this bot ?</h2>
-        <% features.forEach(element => { %>
-        <div>
-          <img src="<%= element.thumbnail %>" />
-          <h3><%= element.title %></h3>
-          <p><%= element.description %></p>
+    <section id="features">
+      <h2>Why Choose This Bot?</h2>
+      <div>
+        <article class="feature">
+          <img src="images/no-payment.png" alt="No Fee" width="250" />
+          <h3>No Payment Limits</h3>
+          <p>
+            <%= data.botName %> offers all features for free, ensuring everyone can enjoy premium
+              music experiences without any limitations.
+          </p>
+        </article>
+        <article class="feature">
+          <img src="images/open-source.png" alt="Open Source" width="250" />
+          <h3>Open Source Codebase</h3>
+          <p>
+            Our open-source codebase ensures transparency, fostering trust, collaboration, and
+            innovation within our community.
+          </p>
+        </article>
+        <article class="feature">
+          <img src="images/24-7-clock.png" alt="Always Online" width="250" />
+          <h3>Always Available</h3>
+          <p>
+            Our bot is online round-the-clock, ensuring uninterrupted music playback and
+            accessibility whenever you need it.
+          </p>
+        </article>
+        <article class="feature">
+          <img src="images/commands.png" alt="Command Set" width="250" />
+          <h3>Extensive Command Set</h3>
+          <p>
+            Access a comprehensive list of commands covering all aspects of music playback,
+            providing versatility and control.
+          </p>
+        </article>
+        <article class="feature">
+          <img src="images/platforms.png" alt="Multi-Platform" width="250" />
+          <h3>Multi-Platform Support</h3>
+          <p>
+            Seamlessly stream music from your preferred sources such as YouTube, SoundCloud,
+            Spotify, Apple Music, Reverbnation, and more.
+          </p>
+        </article>
+        <article class="feature">
+          <img src="images/equalizer.png" alt="Audio Filters" width="250" />
+          <h3>Customizable Audio Filters</h3>
+          <p>
+            Personalize your listening experience with audio filters, including options like bass
+            boost, lofi, 8D and nightcore effects.
+          </p>
+        </article>
+      </div>
+    </section>
+    <hr />
+    <section id="statistics">
+      <h2>Statistics</h2>
+      <div class="stat-values">
+        <div class="stat">
+          <img src="images/servers.webp" alt="Servers" />
+          <p>
+            Servers
+            <span>
+              <%= data.guildsCount %>
+            </span>
+          </p>
         </div>
-        <% }) %>
-      </section>
-    </main>
-    <hr />
-    <footer><%- include("../partials/footer"); %></footer>
-  </body>
+        <div class="stat">
+          <img src="images/members.webp" alt="Members" />
+          <p>
+            Members
+            <span>
+              <%= data.usersCount %>
+            </span>
+          </p>
+        </div>
+        <div class="stat">
+          <img src="images/command.webp" alt="Commands" />
+          <p>
+            Commands
+            <span>
+              <%= data.commandsCount %>
+            </span>
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <hr />
+  <footer>
+    <%- include("../partials/footer"); %>
+  </footer>
+</body>
+
 </html>

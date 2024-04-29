@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <%- include("../partials/head"); %>
+</head>
+
+<body>
+  <header>
+    <%- include("../partials/navbar"); %>
+  </header>
+  <hr />
+  <main class="text-left">
+    <h2>Privacy Policy</h2>
+    <p>
+      Last updated on
+      <time datetime="2024-04-29">29th of April in 2024 (IST)</time>.
+    </p>
+    <p>
+      This Privacy Policy describes Our policies and procedures on the collection, use and
+      disclosure of Your information when You use the Service and tells You about Your privacy
+      rights and how the law protects You. We use Your Personal data to provide and improve the
+      Service. By using the Service, You agree to the collection and use of information in
+      accordance with this Privacy Policy.
+    </p>
+
+    <ul>
+      <li>
+        <h3>Data Collection</h3>
+        <p>
+          We do not collect personal data such as passwords, pins, or real-life credentials. The
+          bot stores guild-specific settings organized by guild ID. Therefore, only your guild ID
+          and the configuration is stored. Our bot does not request any personal data and strictly
+          adheres to Discord's
+          <a href="https://discord.com/terms" target="_blank" rel="noopener noreferrer">Terms of Service (TOS)</a>.
+        </p>
+      </li>
+      <li>
+        <h3>Purpose of Data</h3>
+        <p>
+          The sole purpose of this data is to enhance the music system experience. We do not
+          collect any personal information about users. The data is utilized solely for improving
+          the user interface and functionality of the bot.
+        </p>
+      </li>
+      <li>
+        <h3>Data Retention</h3>
+        <p>
+          Your guild ID is retained for as long as the bot remains a member of your guild.
+          Additionally, user and song information is stored for each music listening session. A
+          session concludes either with the use of a stop command or when the queue is empty.
+          Queue data is retained for a brief period when restarting the bot.
+        </p>
+      </li>
+      <li>
+        <h3>Data Usage</h3>
+        <p>
+          The collected data is utilized exclusively within user-accessible commands. We do not
+          employ this data for any other purposes beyond enhancing the bot's functionality and
+          user experience.
+        </p>
+      </li>
+      <li>
+        <h3>Data Sharing</h3>
+        <p>
+          We do not share user data with individuals or unregistered organizations. Our data is
+          stored and shared with MongoDB Inc., a reputable database company. As we do not
+          currently have the capability to host this data independently, partnering with MongoDB
+          Inc. is essential. Access to this data is restricted to our team as outlined in our
+          agreement with MongoDB Inc.
+        </p>
+      </li>
+      <li>
+        <h3>Links to Other Websites</h3>
+        <p>
+          Our Service may contain links to other websites that are not operated by us. If you
+          click on a third-party link, you will be directed to that third party's site. We
+          strongly advise you to review the Privacy Policy of every site you visit. We have no
+          control over, and assume no responsibility for, the content, privacy policies, or
+          practices of any third-party sites or services.
+        </p>
+      </li>
+      <li>
+        <h3>Policy Agreement</h3>
+        <p>
+          By utilizing our service (<%= data.botName %> the Discord bot), you implicitly agree to
+            the terms outlined in the above policy. Non-agreement necessitates refraining from using
+            our provided services.
+        </p>
+      </li>
+      <li>
+        <h3>Contact Us</h3>
+        <p>
+          If you have any questions, concerns, or inquiries regarding your data or our services,
+          please don't hesitate to reach out to our support team. You can contact us by joining
+          our
+          <a href="/support" target="_blank">Support Server</a>.
+        </p>
+      </li>
+      <li>
+        <h3>Data Removal</h3>
+        <p>
+          We respect your privacy and understand the importance of data control. If you wish to
+          have your personal data removed from our records, or if you represent a guild and want
+          its data removed, simply contact our support team in our
+          <a href="/support" target="_blank">Support Server</a>. We will promptly assist you in
+          removing the relevant data as per your request.
+        </p>
+      </li>
+    </ul>
+  </main>
+  <hr />
+  <footer>
+    <%- include("../partials/footer"); %>
+  </footer>
+</body>
+
+</html>

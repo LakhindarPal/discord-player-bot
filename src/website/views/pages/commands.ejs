@@ -1,35 +1,52 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <%- include("../partials/head"); %>
-  </head>
-  <body>
-    <div>
-      <header><%- include("../partials/header"); %></header>
-      <br />
-      <div id="search-box"><input id="searchInput" type="text" placeholder="Search..." /></div>
-      <br />
-      <div id="categoryButton">
-        <button class="btn active" onclick="filterSelection('all')">All</button>
-        <% categories.forEach(cat => { %>
-        <button class="btn" onclick="filterSelection('<%= cat.toLowerCase() %>')">
-          <%= cat %>
-        </button>
-        <% }) %>
-      </div>
-      <hr />
-    </div>
-    <main>
-      <section id="commands-container">
-        <% commands.forEach((cmd )=> { %>
-        <div class="cmd-box <%= cmd.category %>">
-          <button type="button" class="cmd-name"><%= cmd.name %></button>
-          <p class="cmd-content"><%= cmd.description %></p>
+
+<head>
+  <%- include("../partials/head"); %>
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <%- include("../partials/navbar"); %>
+      <search>
+        <input type="search" placeholder="Search a command ..." />
+        <div id="categories">
+          <button type="button" class="cat-btn active">All</button>
+          <button type="button" class="cat-btn">Music</button>
+          <button type="button" class="cat-btn">Misc</button>
         </div>
-        <% }) %>
-      </section>
-    </main>
-    <hr />
-    <footer><%- include("../partials/footer"); %></footer>
-  </body>
+      </search>
+      <hr />
+  </header>
+  <main>
+    <section id="commands">
+      <h2>All Commands</h2>
+      <div id="cmd-container">
+        <% data.commands.forEach((cmd)=> { %>
+          <article class="cmd-wrapper" data-category="<%= cmd.category %>">
+            <h3 class="cmd-name">
+              <%= cmd.name %>
+            </h3>
+            <div class="cmd-content">
+              <p class="cmd-description">
+                <%= cmd.description %>
+              </p>
+              <p class="cmd-usage"><span>Usage:</span> /<%= cmd.name %>
+                  <%= cmd.options?.length>= 1 ?
+                    cmd.options.map(opt => opt.required ? `<${opt.name}>` : `[${opt.name}]`).join(" ")
+                      : "" %>
+              </p>
+            </div>
+          </article>
+          <% }) %>
+      </div>
+    </section>
+  </main>
+  <hr />
+  <footer>
+    <%- include("../partials/footer"); %>
+  </footer>
+</body>
+
 </html>
