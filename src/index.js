@@ -4,7 +4,8 @@ require("./modules/checkValid");
 const { Client, Collection, GatewayIntentBits } = require("discord.js");
 
 const { Player } = require("discord-player");
-
+const { default: DeezerExtractor } = require("discord-player-deezer");
+const { default: TidalExtractor } = require("discord-player-tidal");
 const bot = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates],
 });
@@ -17,6 +18,8 @@ bot.utils = require("./modules/utils");
 bot.say = require("./modules/reply");
 
 const player = Player.singleton(bot);
+player.extractors.register(DeezerExtractor);
+player.extractors.register(TidalExtractor);
 player.extractors.loadDefault();
 
 require("./handlers/Event")(bot);

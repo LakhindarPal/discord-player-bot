@@ -29,6 +29,8 @@
     "@discord-player/extractor": "^4.4.7",
     "chalk": "^4.1.2",
     "discord-player": "^6.6.8",
+    "discord-player-deezer": "^1.0.1",
+    "discord-player-tidal": "^0.1.0",
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
