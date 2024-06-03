@@ -40,7 +40,7 @@
     "youtube-ext": "^1.1.23"
   },
   "devDependencies": {
-    "eslint": "^8.57.0",
+    "eslint": "^9.4.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-promise": "^6.1.1",
     "nodemon": "^3.1.0",
