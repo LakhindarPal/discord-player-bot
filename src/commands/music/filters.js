@@ -1,5 +1,5 @@
-/* eslint-disable no-case-declarations */
-const { ApplicationCommandOptionType } = require("discord.js");
+import { ApplicationCommandOptionType } from "discord.js";
+import { BaseEmbed, ErrorEmbed, SuccessEmbed } from "../../modules/Embeds.js";
 const avlFilters = [
   "Bassboost",
   "Chorus",
@@ -27,76 +27,78 @@ const avlFilters = [
   "Vaporwave",
   "Vibrato",
 ];
-
-module.exports = {
+export const data = {
   name: "filters",
-  description: "Audio filters commands",
-  category: "music",
+  description: "Manage audio filters.",
   options: [
     {
       type: ApplicationCommandOptionType.Subcommand,
       name: "clear",
-      description: "Clear all applied filters.",
+      description: "Remove all applied filters.",
     },
     {
       type: ApplicationCommandOptionType.Subcommand,
       name: "show",
-      description: "Show all filters.",
+      description: "Show all applied filters.",
     },
     {
       type: ApplicationCommandOptionType.Subcommand,
       name: "toggle",
-      description: "Toggle a audio filter.",
+      description: "Enable or disable a specific filter.",
       options: [
         {
           type: ApplicationCommandOptionType.String,
           name: "name",
-          description: "The name of the filter",
+          description: "The name of the filter to toggle.",
           required: true,
-          choices: avlFilters.map((f) => ({
-            name: `${f}`,
-            value: `${f.toLowerCase()}`,
+          choices: avlFilters.map((filter) => ({
+            name: filter,
+            value: filter.toLowerCase(),
           })),
         },
       ],
     },
   ],
-  async execute(bot, interaction, queue) {
-    const subCmd = await interaction.options.getSubcommand(true);
-
-    const filters = queue.filters.ffmpeg.getFiltersEnabled();
-
-    switch (subCmd) {
-      case "clear":
-        if (!filters.length)
-          return bot.say.errorEmbed(interaction, "No audio filter is applied currently.");
-
-        queue.filters.ffmpeg.setFilters(false);
-
-        await bot.say.successEmbed(interaction, "Cleared all audio filters.");
-        break;
-
-      case "toggle":
-        const filterName = interaction.options.getString("name", true);
-        queue.filters.ffmpeg.toggle(filterName);
-
-        await bot.say.successEmbed(interaction, `Toggle the ${filterName} audio filter`);
-        break;
-
-      default:
-        const enabledFilters = queue.filters.ffmpeg.getFiltersEnabled();
-        const disabledFilters = queue.filters.ffmpeg.getFiltersDisabled();
-
-        const enFDes = enabledFilters.map((f) => `${f} --> ✅`).join("\n");
-
-        const disFDes = disabledFilters.map((f) => `${f} --> ❌`).join("\n");
-        const embed = bot.utils
-          .baseEmbed(interaction)
-          .setTitle("All Audio Filters")
-          .setDescription(`${enFDes}\n\n${disFDes}`);
-
-        await interaction.reply({ ephemeral: true, embeds: [embed] });
-        break;
-    }
-  },
+  category: "music",
+  queueOnly: true,
+  validateVC: true,
 };
+
+export async function execute(interaction, queue) {
+  const subCmd = interaction.options.getSubcommand(true);
+  const filters = queue.filters.ffmpeg.getFiltersEnabled();
+
+  switch (subCmd) {
+    case "clear": {
+      if (!filters.length) {
+        return interaction.reply({
+          embeds: [ErrorEmbed("No audio filter is currently applied.")],
+        });
+      }
+      queue.filters.ffmpeg.setFilters(false);
+      return interaction.reply({
+        embeds: [SuccessEmbed("Cleared all applied filters.")],
+      });
+    }
+    case "toggle": {
+      const filterName = interaction.options.getString("name", true);
+      queue.filters.ffmpeg.toggle(filterName);
+      return interaction.reply({
+        embeds: [SuccessEmbed(`Toggled the ${filterName} audio filter.`)],
+      });
+    }
+    default: {
+      const enabledFilters = queue.filters.ffmpeg.getFiltersEnabled();
+      const disabledFilters = queue.filters.ffmpeg.getFiltersDisabled();
+
+      const enFDes = enabledFilters.map((f) => `${f} --> ✅`).join("\n");
+      const disFDes = disabledFilters.map((f) => `${f} --> ❌`).join("\n");
+
+      const embed = BaseEmbed()
+        .setTitle("All Filters")
+        .setDescription(`${enFDes}\n\n${disFDes}`);
+
+      return interaction.reply({ ephemeral: true, embeds: [embed] });
+    }
+  }
+}

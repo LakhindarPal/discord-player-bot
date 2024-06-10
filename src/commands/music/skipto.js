@@ -1,27 +1,41 @@
-const { ApplicationCommandOptionType } = require("discord.js");
+import { ApplicationCommandOptionType } from "discord.js";
+import { ErrorEmbed, SuccessEmbed } from "../../modules/Embeds.js";
 
-module.exports = {
+export const data = {
   name: "skipto",
-  description: "Skip to the given track, removing others on the way",
-  category: "music",
+  description: "Skip to the given song, removing others on the way",
   options: [
     {
-      name: "index",
-      description: "The track index to skip to",
       type: ApplicationCommandOptionType.Number,
+      name: "position",
+      description: "The position of the song to skip to",
+      min_value: 1,
       required: true,
     },
   ],
-  execute(bot, interaction, queue) {
-    if (queue.size < 1) return bot.say.errorEmbed(interaction, "The queue has no more track.");
-
-    const index = interaction.options.getNumber("index", true) - 1;
-
-    if (index > queue.size || index < 0)
-      return bot.say.wrongEmbed(interaction, "Provided track index does not exist.");
-
-    queue.node.skipTo(index);
-
-    return bot.say.successEmbed(interaction, `Skipped to track ${index + 1}.`);
-  },
+  category: "music",
+  queueOnly: true,
+  validateVC: true,
 };
+
+export function execute(interaction, queue) {
+  if (queue.isEmpty())
+    return interaction.reply({
+      ephemeral: true,
+      embeds: [ErrorEmbed("The queue has no song to skip to.")],
+    });
+
+  const position = interaction.options.getNumber("position", true) - 1;
+
+  if (position >= queue.size)
+    interaction.reply({
+      ephemeral: true,
+      embeds: [ErrorEmbed("The provided position is not valid.")],
+    });
+
+  queue.node.skipTo(position);
+
+  return interaction.reply({
+    embeds: [SuccessEmbed(`Skipped to song ${position + 1}.`)],
+  });
+}

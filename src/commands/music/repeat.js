@@ -1,82 +1,77 @@
-/* eslint-disable no-case-declarations */
-const { ApplicationCommandOptionType } = require("discord.js");
-const { QueueRepeatMode } = require("discord-player");
+import { ApplicationCommandOptionType } from "discord.js";
+import { QueueRepeatMode } from "discord-player";
+import { BaseEmbed } from "../../modules/Embeds.js";
 
-module.exports = {
+export const data = {
   name: "repeat",
-  description: "Set repeat mode for the queue",
-  category: "music",
+  description: "Get or set repeat mode",
   options: [
     {
       type: ApplicationCommandOptionType.Subcommand,
-      name: "show",
-      description: "Show current repeat mode status.",
+      name: "status",
+      description: "Show the current repeat mode.",
     },
     {
       type: ApplicationCommandOptionType.Subcommand,
       name: "off",
-      description: "Default mode with no loop active",
+      description: "Disable repeat mode.",
     },
     {
       type: ApplicationCommandOptionType.Subcommand,
       name: "queue",
-      description: "Loop the current queue",
+      description: "Repeat the entire queue.",
     },
     {
       type: ApplicationCommandOptionType.Subcommand,
-      name: "track",
-      description: "Repeat the current track",
+      name: "song",
+      description: "Repeat the current song.",
     },
     {
       type: ApplicationCommandOptionType.Subcommand,
       name: "autoplay",
-      description: "Play related songs automatically based on your existing queue",
+      description: "Automatically play related songs based on your queue.",
     },
   ],
-  async execute(bot, interaction, queue) {
-    const subCmd = await interaction.options.getSubcommand(true);
-
-    let description;
-    switch (subCmd) {
-      case "off":
-        queue.setRepeatMode(QueueRepeatMode.OFF);
-        description = "Turned off repeat mode.";
-        break;
-      case "track":
-        queue.setRepeatMode(QueueRepeatMode.TRACK);
-        description = "Looping the current track.";
-        break;
-      case "queue":
-        queue.setRepeatMode(QueueRepeatMode.QUEUE);
-        description = "Looing the current queue.";
-        break;
-      case "autoplay":
-        queue.setRepeatMode(QueueRepeatMode.AUTOPLAY);
-        description = "Autoplay mode activated.";
-        break;
-      // case "show":
-      default:
-        let status = "none";
-        if (queue.repeatMode === 3) {
-          status = "autoplay";
-        } else if (queue.repeatMode === 2) {
-          status = "queue";
-        } else if (queue.repeatMode === 1) {
-          status = "track";
-        } else if (queue.repeatMode === 0) {
-          status = "off";
-        }
-
-        const embed = bot.utils
-          .baseEmbed(interaction)
-          .setDescription(`Playback repeat status: \`${status}\`.`)
-          .setFooter({ text: `Use '/repeat <off|track|queue|autoplay>' to change repeat mode.` });
-
-        return interaction.reply({ ephemeral: true, embeds: [embed] }).catch(console.error);
-    }
-
-    return interaction.reply({
-      embeds: [bot.utils.baseEmbed(interaction).setDescription(description)],
-    });
-  },
+  category: "music",
+  queueOnly: true,
+  validateVC: true,
 };
+
+export function execute(interaction, queue) {
+  const subCmd = interaction.options.getSubcommand(true);
+
+  let description;
+  switch (subCmd) {
+    case "off":
+      queue.setRepeatMode(QueueRepeatMode.OFF);
+      description = "Turned off repeat mode.";
+      break;
+    case "song":
+      queue.setRepeatMode(QueueRepeatMode.TRACK);
+      description = "Now looping the current song.";
+      break;
+    case "queue":
+      queue.setRepeatMode(QueueRepeatMode.QUEUE);
+      description = "Now looping the entire queue.";
+      break;
+    case "autoplay":
+      queue.setRepeatMode(QueueRepeatMode.AUTOPLAY);
+      description = "Autoplay mode activated.";
+      break;
+    default: {
+      const status = {
+        0: "Off",
+        1: "Track",
+        2: "Queue",
+        3: "Autoplay",
+      }[queue.repeatMode];
+
+      description = `Playback repeat status: \`${status}\`.`;
+    }
+  }
+
+  return interaction.reply({
+    ephemeral: subCmd !== "status",
+    embeds: [BaseEmbed().setDescription(description)],
+  });
+}

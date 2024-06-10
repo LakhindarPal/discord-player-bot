@@ -1,33 +1,37 @@
-const { ApplicationCommandOptionType } = require("discord.js");
+import { ApplicationCommandOptionType } from "discord.js";
+import { SuccessEmbed, InfoEmbed } from "../../modules/Embeds.js";
 
-module.exports = {
+export const data = {
   name: "volume",
-  description: "Check or change the volume",
-  category: "music",
+  description: "Adjust the volume of the music player.",
   options: [
     {
-      name: "amount",
-      description: "Volume amount to set",
+      name: "level",
+      description: "The volume level to set (0-100).",
       type: ApplicationCommandOptionType.Number,
       required: false,
-      minValue: 1,
-      maxValue: 200,
+      min_value: 0,
+      max_value: 100,
     },
   ],
-  execute(bot, interaction, queue) {
-    const newVol = interaction.options.getNumber("amount", false);
-
-    if (!newVol) {
-      const embed = bot.utils
-        .baseEmbed(interaction)
-        .setDescription(`Current volume is \`${queue.node.volume}%\`.`)
-        .setFooter({ text: "Use '/volume <1-200>' to change the volume." });
-
-      return interaction.reply({ ephemeral: true, embeds: [embed] }).catch(console.error);
-    }
-
-    queue.node.setVolume(newVol);
-
-    return bot.say.successEmbed(interaction, `Volume is updated to ${newVol}.`);
-  },
+  category: "music",
+  queueOnly: true,
+  validateVC: true,
 };
+
+export function execute(interaction, queue) {
+  const level = interaction.options.getInteger("level", false);
+
+  if (!level) {
+    return interaction.reply({
+      ephemeral: true,
+      embeds: [InfoEmbed(`Current volume level is ${queue.node.volume}%.`)],
+    });
+  }
+
+  queue.node.setVolume(level);
+
+  return interaction.reply({
+    embeds: [SuccessEmbed(`Volume has been set to ${level}%.`)],
+  });
+}

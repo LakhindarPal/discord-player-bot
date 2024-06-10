@@ -1,36 +1,38 @@
-require("dotenv").config();
-require("./modules/checkValid");
+import "dotenv/config";
+import "./modules/checkEnv.js";
 
-const { Client, Collection, GatewayIntentBits } = require("discord.js");
+import { Client, Collection, GatewayIntentBits } from "discord.js";
+import { Player } from "discord-player";
+import { default as DeezerExtractor } from "discord-player-deezer";
+import { default as TidalExtractor } from "discord-player-tidal";
 
-const { Player } = require("discord-player");
-const { default: DeezerExtractor } = require("discord-player-deezer");
-const { default: TidalExtractor } = require("discord-player-tidal");
-const bot = new Client({
+import { loadEvents } from "./handlers/event.js";
+
+class ExtendedClient extends Client {
+  commands = new Collection();
+  cooldowns = new Collection();
+
+  constructor(options) {
+    super(options);
+  }
+}
+
+const client = new ExtendedClient({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates],
 });
 
-bot.commands = new Collection();
-bot.cooldowns = new Collection();
+const player = new Player(client);
+await player.extractors.register(DeezerExtractor);
+await player.extractors.register(TidalExtractor);
+await player.extractors.loadDefault();
 
-bot.logger = require("./modules/logger");
-bot.utils = require("./modules/utils");
-bot.say = require("./modules/reply");
+await loadEvents(client);
 
-const player = Player.singleton(bot);
-player.extractors.register(DeezerExtractor);
-player.extractors.register(TidalExtractor);
-player.extractors.loadDefault();
+await client.login(process.env.DISCORD_TOKEN);
 
-require("./handlers/Event")(bot);
-
-bot.login(process.env["DISCORD_BOT_TOKEN"]);
-
-// unhandled errors
-process.on("unhandledRejection", (error) => bot.utils.sendErrorLog(bot, error, "error"));
-
-process.on("uncaughtExceptionMonitor", (error) => bot.utils.sendErrorLog(bot, error, "error"));
-
-process.on("warning", (warning) => {
-  bot.utils.sendErrorLog(bot, warning, "warning");
-});
+// prevent crash on unhandled promise rejection
+process.on("unhandledRejection", (reason) => console.error(reason));
+// prevent crash on uncaught exception
+process.on("uncaughtException", (error) => console.error(error));
+// prevent crash on uncaught warning
+process.on("warning", (warning) => console.error(warning));

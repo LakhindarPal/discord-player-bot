@@ -1,35 +1,42 @@
-const { Events, ActivityType } = require("discord.js");
+import { ActivityType, Events, PresenceUpdateStatus } from "discord.js";
+import { loadCommands } from "../../handlers/command.js";
 
-module.exports = {
+export const data = {
   name: Events.ClientReady,
   once: true,
-  async execute(bot) {
-    // initializing commands
-    require("../../handlers/Command")(bot);
-
-    // initializing website
-    require("../../website/server")(bot);
-
-    const format = bot.utils.formatNumber;
-    const serverCount = format(bot.guilds.cache.size);
-    const userCount = format(bot.guilds.cache.reduce((a, g) => a + g.memberCount, 0));
-
-    const statuses = [
-      {
-        name: `${serverCount} servers & ${userCount} users`,
-        type: ActivityType.Watching,
-      },
-      { name: "/play", type: ActivityType.Listening },
-      { name: "/help", type: ActivityType.Playing },
-    ];
-
-    const data = `${bot.user.tag} is ready in ${serverCount} servers.`;
-
-    bot.logger.info("BOT_READY", data);
-
-    setInterval(() => {
-      const status = statuses[Math.floor(Math.random() * statuses.length)];
-      bot.user.setActivity(status.name, { type: status.type });
-    }, 60000);
-  },
 };
+export async function execute(client) {
+  await loadCommands(client);
+
+  client.user.setPresence({
+    activities: [{ name: "/help", type: ActivityType.Listening }],
+    status: PresenceUpdateStatus.Online,
+  });
+
+  if (process.env.REGISTER_COMMANDS === "true") {
+    const devGuild = client.guilds.cache.get(process.env.DEV_GUILD);
+    const { devCommands, otherCommands } = client.commands.reduce(
+      (acc, { data: cmd }) => {
+        const cmdData = {
+          name: cmd.name,
+          description: cmd.description,
+          options: cmd.options,
+        };
+
+        if (cmd.devOnly || cmd.category === "dev") {
+          acc.devCommands.push(cmdData);
+        } else {
+          acc.otherCommands.push(cmdData);
+        }
+
+        return acc;
+      },
+      { devCommands: [], otherCommands: [] }
+    );
+
+    if (devGuild) await devGuild.commands.set(devCommands);
+    await client.application?.commands.set(otherCommands);
+  }
+
+  console.log(`Ready! Logged in as ${client.user.tag}`);
+}

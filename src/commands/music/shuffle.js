@@ -1,13 +1,23 @@
-module.exports = {
+import { ErrorEmbed, SuccessEmbed } from "../../modules/Embeds.js";
+
+export const data = {
   name: "shuffle",
-  description: "Shuffle the queue.",
+  description: "Toggle shuffle mode for this queue.",
   category: "music",
-  execute(bot, interaction, queue) {
-    if (queue.size < 3)
-      return bot.say.wrongEmbed(interaction, "Need at least 3 tracks in the queue to shuffle.");
-
-    queue.tracks.shuffle();
-
-    return bot.say.successEmbed(interaction, "Shuffled the queue.");
-  },
+  queueOnly: true,
+  validateVC: true,
 };
+
+export function execute(interaction, queue) {
+  if (queue.isEmpty())
+    return interaction.reply({
+      ephemeral: true,
+      embeds: [ErrorEmbed("The queue is empty.")],
+    });
+
+  const mode = queue.toggleShuffle();
+
+  return interaction.reply({
+    embeds: [SuccessEmbed(`${mode ? "Enabled" : "Disabled"} shuffle mode.`)],
+  });
+}

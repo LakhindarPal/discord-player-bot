@@ -1,13 +1,23 @@
-module.exports = {
+import { QueueRepeatMode } from "discord-player";
+import { ErrorEmbed, SuccessEmbed } from "../../modules/Embeds.js";
+
+export const data = {
   name: "skip",
-  description: "Skip current track",
+  description: "Skip to the next song",
   category: "music",
-  execute(bot, interaction, queue) {
-    if (queue.size < 1 && queue.repeatMode !== 3)
-      return bot.say.errorEmbed(interaction, "The queue has no more track.");
-
-    queue.node.skip();
-
-    return bot.say.successEmbed(interaction, "Skipped the current track.");
-  },
+  queueOnly: true,
+  validateVC: true,
 };
+export function execute(interaction, queue) {
+  if (queue.isEmpty() && queue.repeatMode !== QueueRepeatMode.AUTOPLAY)
+    return interaction.reply({
+      ephemeral: true,
+      embeds: [ErrorEmbed("There is no next song to skip to.")],
+    });
+
+  queue.node.skip();
+
+  return interaction.reply({
+    embeds: [SuccessEmbed("Skipped to the next song.")],
+  });
+}

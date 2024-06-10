@@ -1,17 +1,26 @@
-const { useHistory } = require("discord-player");
+import { useHistory } from "discord-player";
+import { ErrorEmbed, SuccessEmbed } from "../../modules/Embeds.js";
 
-module.exports = {
+export const data = {
   name: "back",
-  description: "Play the history track",
+  description: "Go back to the previous song",
   category: "music",
-  execute(bot, interaction) {
-    const history = useHistory(interaction.guildId);
-
-    if (history.isEmpty())
-      return bot.say.errorEmbed(interaction, "The queue has no history track.");
-
-    history.previous();
-
-    return bot.say.successEmbed(interaction, "Backed the history track.");
-  },
+  queueOnly: true,
+  validateVC: true,
 };
+
+export async function execute(interaction) {
+  const history = useHistory(interaction.guildId);
+
+  if (history.isEmpty())
+    return interaction.reply({
+      ephemeral: true,
+      embeds: [ErrorEmbed("There is no previous song to go back to.")],
+    });
+
+  await history.previous();
+
+  return await interaction.reply({
+    embeds: [SuccessEmbed("Went back to the previous song.")],
+  });
+}

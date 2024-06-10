@@ -1,27 +1,45 @@
-const { ApplicationCommandOptionType } = require("discord.js");
+import { ApplicationCommandOptionType } from "discord.js";
+import { ErrorEmbed, SuccessEmbed } from "../../modules/Embeds.js";
 
-module.exports = {
+export const data = {
   name: "remove",
-  description: "Remove a track from queue",
-  category: "music",
+  description: "Remove a song from the queue",
   options: [
     {
-      name: "index",
-      description: "The track index to remove",
+      name: "position",
+      description: "The position of the song to remove",
       type: ApplicationCommandOptionType.Number,
       required: true,
+      min_value: 1,
     },
   ],
-  execute(bot, interaction, queue) {
-    if (queue.size < 1) return bot.say.errorEmbed(interaction, "The queue has no more track.");
-
-    const index = interaction.options.getNumber("index", true) - 1;
-
-    if (index > queue.size || index < 0)
-      return bot.say.wrongEmbed(interaction, "Provided track index does not exist.");
-
-    queue.node.remove(index);
-
-    return bot.say.successEmbed(interaction, `Removed track ${index + 1}.`);
-  },
+  category: "music",
+  queueOnly: true,
+  validateVC: true,
 };
+
+export function execute(interaction, queue) {
+  if (queue.isEmpty())
+    return interaction.reply({
+      ephemeral: true,
+      embeds: [ErrorEmbed("The queue is empty.")],
+    });
+
+  const position = interaction.options.getNumber("position", true) - 1;
+
+  if (position >= queue.size)
+    return interaction.reply({
+      ephemeral: true,
+      embeds: [ErrorEmbed("The provided position is not valid.")],
+    });
+
+  const removed = queue.node.remove(position);
+
+  return interaction.reply({
+    embeds: [
+      SuccessEmbed(
+        `Removed [${removed.title}](${removed.url}) from the queue.`
+      ),
+    ],
+  });
+}

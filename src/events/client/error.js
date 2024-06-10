@@ -1,8 +1,8 @@
-const { Events } = require("discord.js");
+import { Events } from "discord.js";
 
-module.exports = {
+export const data = {
   name: Events.Error,
-  execute(bot, error) {
-    return bot.utils.sendErrorLog(bot, error, "error");
-  },
 };
+export function execute(err) {
+  console.error(err);
+}

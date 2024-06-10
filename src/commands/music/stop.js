@@ -1,10 +1,16 @@
-module.exports = {
+import { SuccessEmbed } from "../../modules/Embeds.js";
+
+export const data = {
   name: "stop",
   description: "Stop the playback.",
   category: "music",
-  async execute(bot, interaction, queue) {
-    queue.delete();
-
-    return bot.say.successEmbed(interaction, "Stopped the playback.");
-  },
+  queueOnly: true,
+  validateVC: true,
 };
+export function execute(interaction, queue) {
+  queue.node.stop();
+
+  return interaction.reply({
+    embeds: [SuccessEmbed("Stopped the playback.")],
+  });
+}

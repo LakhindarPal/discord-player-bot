@@ -1,44 +1,74 @@
-const { ApplicationCommandOptionType } = require("discord.js");
+import { ApplicationCommandOptionType } from "discord.js";
+import {
+  ErrorEmbed,
+  SuccessEmbed,
+  WarningEmbed,
+} from "../../modules/Embeds.js";
 
-module.exports = {
+export const data = {
   name: "move",
-  description: "Move a track in the queue",
-  category: "music",
+  description: "Move a song in the queue",
   options: [
     {
       name: "from",
-      description: "The track to move",
+      description: "The current position of the song",
       type: ApplicationCommandOptionType.Number,
       required: true,
+      min_value: 1,
     },
     {
       name: "to",
-      description: "The position to move to",
+      description: "The new position to move to",
       type: ApplicationCommandOptionType.Number,
       required: true,
+      min_value: 1,
     },
   ],
-  execute(bot, interaction, queue) {
-    if (queue.size < 3)
-      return bot.say.errorEmbed(
-        interaction,
-        "Need at least 3 songs in the queue to use this command."
-      );
-
-    const from = interaction.options.getNumber("from", true);
-    const to = interaction.options.getNumber("to", true);
-
-    if (from < 1 || from >= queue.size)
-      return bot.say.wrongEmbed(interaction, "Provided `from` index is not valid.");
-
-    if (to < 1 || to >= queue.size)
-      return bot.say.wrongEmbed(interaction, "Provided `to` position is not valid.");
-
-    if (from === to)
-      return bot.say.wrongEmbed(interaction, "The track is already in this position.");
-
-    queue.node.move(from, to);
-
-    return bot.say.successEmbed(interaction, `The track is moved to the position ${to}.`);
-  },
+  category: "music",
+  queueOnly: true,
+  validateVC: true,
 };
+
+export function execute(interaction, queue) {
+  if (queue.size < 2) {
+    return interaction.reply({
+      ephemeral: true,
+      embeds: [ErrorEmbed("There are not enough songs in the queue to move.")],
+    });
+  }
+
+  const from = interaction.options.getNumber("from", true) - 1;
+  const to = interaction.options.getNumber("to", true) - 1;
+
+  if (from >= queue.size) {
+    return interaction.reply({
+      ephemeral: true,
+      embeds: [WarningEmbed("The `from` position is not valid.")],
+    });
+  }
+
+  if (to >= queue.size) {
+    return interaction.reply({
+      ephemeral: true,
+      embeds: [WarningEmbed("The `to` position is not valid.")],
+    });
+  }
+
+  if (from === to) {
+    return interaction.reply({
+      ephemeral: true,
+      embeds: [WarningEmbed("The song is already in this position.")],
+    });
+  }
+
+  queue.node.move(from, to);
+
+  return interaction.reply({
+    ephemeral: true,
+    embeds: [
+      SuccessEmbed(
+        `Moved \`${queue.tracks.at(from).title}\` to position ${to + 1}.`
+      ),
+    ],
+  });
+}

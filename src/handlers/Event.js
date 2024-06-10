@@ -1,36 +1,35 @@
-const glob = require("glob");
+import { useMainPlayer } from "discord-player";
+import { sync } from "glob";
 
-module.exports = function loadEvents(bot) {
-  const eventFiles = glob.sync("./src/events/**/*.js");
+export async function loadEvents(client) {
+  const eventFiles = sync("./src/events/**/*.js");
+  const player = useMainPlayer();
 
   for (const file of eventFiles) {
-    const event = require(`../../${file}`);
+    const event = await import(`../../${file}`);
 
-    let type = "bot";
-    if (file.includes("player.")) type = "player";
-
-    if (!event.execute) {
-      throw new TypeError(`[ERROR]: execute function is required for events! (${file})`);
+    if (!event.data?.name) {
+      throw new TypeError(
+        `The event at ${file} is missing a required "data.name" property.`
+      );
     }
 
-    if (!event.name) {
-      throw new TypeError(`[ERROR]: name is required for events! (${file})`);
+    if (typeof event.execute !== "function") {
+      throw new TypeError(
+        `The event at ${file} is missing a required "execute" function.`
+      );
     }
 
-    if (type === "player") {
-      const { useMainPlayer } = require("discord-player");
-      const player = useMainPlayer();
-
-      player.events.on(event.name, event.execute.bind(null, bot));
-    } else if (event.once) {
-      bot.once(event.name, event.execute.bind(null, bot));
+    if (event.data.type === "player") {
+      player.events.on(event.data.name, (...args) => event.execute(...args));
+    } else if (event.data.once) {
+      client.once(event.data.name, (...args) => event.execute(...args));
     } else {
-      bot.on(event.name, event.execute.bind(null, bot));
+      client.on(event.data.name, (...args) => event.execute(...args));
     }
 
-    delete require.cache[require.resolve(`../../${file}`)];
-
-    // debug
-    // bot.logger.debug("EVENTS", `Loaded ${type}: ${event.name}`);
+    if (process.env.DEVELOPMENT_MODE === "true") {
+      console.log(`Loaded Event: ${event.data.name}`);
+    }
   }
-};
+}

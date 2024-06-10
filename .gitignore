@@ -1,12 +1,3 @@
-# Dependency directories
-node_modules/
-
-# Optional npm cache directory
-.npm
-
-# dotenv environment variables file
+node_modules
 .env
-.env.test
-
-# config file
-config.json
+.env.local

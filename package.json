@@ -1,13 +1,15 @@
 {
   "name": "discord-player-bot",
-  "version": "2.2.2",
-  "description": "A bot for better discord music experience",
+  "version": "3.0.0",
+  "description": "A discord music bot built using discord.js and discord-player",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
-    "lint": "npx eslint .",
-    "format": "npx prettier .",
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "lint": "eslint src/**/*.js",
+    "lint:fix": "eslint src/**/*.js --fix",
+    "format": "prettier . --write",
+    "start": "node .",
+    "dev": "node --watch-path=./src ."
   },
   "engines": {
     "node": "20.x"
@@ -25,25 +27,30 @@
   ],
   "author": "Lakhindar Pal",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LakhindarPal/discord-player-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LakhindarPal/discord-player-bot/issues"
+  },
+  "homepage": "https://github.com/LakhindarPal/discord-player-bot#readme",
   "dependencies": {
     "@discord-player/extractor": "^4.4.7",
-    "chalk": "^4.1.2",
-    "discord-player": "^6.6.8",
+    "@distube/ytdl-core": "^4.13.4",
+    "discord-player": "^6.6.10",
     "discord-player-deezer": "^1.0.1",
     "discord-player-tidal": "^0.1.0",
-    "discord.js": "^14.14.1",
+    "discord.js": "^14.15.3",
     "dotenv": "^16.4.5",
-    "ejs": "^3.1.10",
-    "express": "^4.19.2",
-    "glob": "^10.3.12",
-    "mediaplex": "^0.0.9",
-    "youtube-ext": "^1.1.23"
+    "glob": "^10.4.1",
+    "mediaplex": "^0.0.9"
   },
   "devDependencies": {
-    "eslint": "^8.57.0",
+    "@eslint/js": "^9.4.0",
+    "eslint": "^9.4.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-promise": "^6.1.1",
-    "nodemon": "^3.1.0",
-    "prettier": "^3.2.5"
+    "globals": "^15.4.0",
+    "prettier": "3.3.1"
   }
 }

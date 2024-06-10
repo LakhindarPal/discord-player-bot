@@ -1,32 +1,46 @@
-const { ApplicationCommandOptionType } = require("discord.js");
+import { ApplicationCommandOptionType } from "discord.js";
+import { SuccessEmbed, ErrorEmbed } from "../../modules/Embeds.js";
 
-module.exports = {
+export const data = {
   name: "seek",
-  description: "Seek the player",
-  category: "music",
+  description: "Seek to a specific timestamp in the current track.",
   options: [
     {
-      name: "duration",
-      description: "The duration to seek to <mm:ss>",
-      type: ApplicationCommandOptionType.String,
+      name: "timestamp",
+      description: "The timestamp to seek to (in seconds).",
+      type: ApplicationCommandOptionType.Number,
       required: true,
     },
   ],
-  execute(bot, interaction, queue) {
-    let timeString = interaction.options.getString("duration", true);
-
-    if (isNaN(timeString) && !timeString.includes(":"))
-      return bot.say.errorEmbed(interaction, "Provide a valid duration to seek.");
-
-    if (!isNaN(timeString)) timeString = `00:${timeString}`;
-
-    const time = bot.utils.toMilliseconds(timeString);
-
-    if (!time || isNaN(time) || time > queue.currentTrack.durationMS || time < 0)
-      return bot.say.wrongEmbed(interaction, "Provide a valid duration to seek.");
-
-    queue.node.seek(time);
-
-    return bot.say.successEmbed(interaction, `Seeked to \`${timeString}\`.`);
-  },
+  category: "music",
+  queueOnly: true,
+  validateVC: true,
 };
+
+export function execute(interaction, queue) {
+  const timestamp = interaction.options.getNumber("timestamp", true) * 1000;
+
+  if (!queue.currentTrack) {
+    return interaction.reply({
+      ephemeral: true,
+      embeds: [ErrorEmbed("There is no song currently playing.")],
+    });
+  }
+
+  if (timestamp > queue.currentTrack.durationMS) {
+    return interaction.reply({
+      ephemeral: true,
+      embeds: [
+        ErrorEmbed(
+          `Please provide a valid timestamp within 0 and ${queue.currentTrack.durationMS / 1000}.`
+        ),
+      ],
+    });
+  }
+
+  queue.node.seek(timestamp);
+
+  return interaction.reply({
+    embeds: [SuccessEmbed(`Seeked to ${timestamp / 1000} seconds.`)],
+  });
+}

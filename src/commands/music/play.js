@@ -1,65 +1,127 @@
-const { ApplicationCommandOptionType } = require("discord.js");
-const { useQueue, useMainPlayer } = require("discord-player");
+import { ApplicationCommandOptionType } from "discord.js";
+import { useMainPlayer, QueueRepeatMode } from "discord-player";
+import { BaseEmbed, ErrorEmbed } from "../../modules/Embeds.js";
 
-module.exports = {
+export const data = {
   name: "play",
-  description: "Play a track or playlist from url or name",
+  description: "Play a song or playlist from url or name",
   category: "music",
   options: [
     {
       type: ApplicationCommandOptionType.String,
-      name: "track",
-      description: "The track name/url, you want to play.",
+      name: "query",
+      description: "The name or url of the song, you want to play.",
       required: true,
+      min_length: 1,
+      max_length: 256,
+      autocomplete: true,
     },
   ],
-  async execute(bot, interaction) {
-    await interaction.deferReply({ ephemeral: true });
-
-    const query = interaction.options.getString("track", true);
-
-    const player = useMainPlayer();
-    const queue = useQueue(interaction.guild.id);
-
-    const channel = interaction.member?.voice?.channel;
-
-    if (!channel) return bot.say.wrongEmbed(interaction, "You have to join a voice channel first.");
-
-    if (queue && queue.channel.id !== channel.id)
-      return bot.say.wrongEmbed(interaction, "I'm already playing in a different voice channel!");
-
-    if (!channel.viewable)
-      return bot.say.wrongEmbed(interaction, "I need `View Channel` permission.");
-
-    if (!channel.joinable)
-      return bot.say.wrongEmbed(interaction, "I need `Connect Channel` permission.");
-
-    if (channel.full)
-      return bot.say.wrongEmbed(interaction, "Can't join, the voice channel is full.");
-
-    if (interaction.member.voice.deaf)
-      return bot.say.wrongEmbed(interaction, "You cannot run this command while deafened.");
-
-    if (interaction.guild.members.me?.voice?.mute)
-      return bot.say.wrongEmbed(interaction, "Please unmute me before playing.");
-
-    const searchResult = await player
-      .search(query, { requestedBy: interaction.user })
-      .catch(() => null);
-
-    if (!searchResult?.hasTracks())
-      return bot.say.wrongEmbed(interaction, `No track was found for ${query}!`);
-
-    try {
-      await player.play(channel, searchResult, {
-        nodeOptions: {
-          metadata: interaction.channel,
-        },
-      });
-
-      return bot.say.successEmbed(interaction, `Loading your track`);
-    } catch (e) {
-      return bot.say.errorEmbed(interaction, `Something went wrong: ${e.message}`);
-    }
-  },
+  validateVC: true,
 };
+export async function execute(interaction) {
+  const channel = interaction.member?.voice?.channel;
+  const checks = [
+    {
+      condition: !channel,
+      message: "You need to join a voice channel first.",
+    },
+    {
+      condition: !channel.viewable,
+      message: "I need `View Channel` permission.",
+    },
+    {
+      condition: !channel.speakable,
+      message: "I need `Speak Channel` permission.",
+    },
+    {
+      condition: !channel.joinable,
+      message: "I need `Connect Channel` permission.",
+    },
+    {
+      condition: channel.full,
+      message: "Can't join, the voice channel is full.",
+    },
+    {
+      condition: interaction.member.voice.deaf,
+      message: "You cannot run this command while deafened.",
+    },
+    {
+      condition: interaction.guild.members.me?.voice?.mute,
+      message: "Please unmute me before playing.",
+    },
+  ];
+
+  for (const check of checks) {
+    if (check.condition)
+      return interaction.reply({
+        ephemeral: true,
+        embeds: [ErrorEmbed(check.message)],
+      });
+  }
+
+  const query = interaction.options.getString("query", true);
+  const player = useMainPlayer();
+  await interaction.deferReply();
+
+  const result = await player.search(query, {
+    requestedBy: interaction.user,
+  });
+
+  if (!result.hasTracks())
+    return interaction.editReply({
+      embeds: [ErrorEmbed(`No results found for \`${query}\`.`)],
+    });
+
+  try {
+    const { queue, track, searchResult } = await player.play(channel, result, {
+      nodeOptions: {
+        metadata: interaction,
+        volume: 70,
+        repeatMode: QueueRepeatMode.AUTOPLAY,
+        noEmitInsert: true,
+        leaveOnStop: false,
+        leaveOnEmpty: true,
+        leaveOnEmptyCooldown: 60_000,
+        leaveOnEnd: true,
+        leaveOnEndCooldown: 60_000,
+        pauseOnEmpty: true,
+        preferBridgedMetadata: true,
+        disableBiquad: true,
+      },
+      requestedBy: interaction.user,
+      connectionOptions: { deaf: true },
+    });
+
+    const embed = BaseEmbed().setFooter({
+      text: `Requested by: ${interaction.user.tag}`,
+      iconURL: interaction.member.displayAvatarURL(),
+    });
+
+    if (searchResult.hasPlaylist()) {
+      const playlist = searchResult.playlist;
+      embed
+        .setAuthor({
+          name: `Playlist queued - ${playlist.tracks.length} tracks.`,
+        })
+        .setTitle(playlist.title)
+        .setURL(playlist.url)
+        .setThumbnail(playlist.thumbnail);
+    } else {
+      embed
+        .setAuthor({
+          name: `Track queued - Position ${queue.node.getTrackPosition(track) + 1}`,
+        })
+        .setTitle(track.title)
+        .setURL(track.url)
+        .setThumbnail(track.thumbnail);
+    }
+
+    return interaction.editReply({ embeds: [embed] }).catch(console.error);
+  } catch (e) {
+    console.error(e);
+    return interaction.editReply({
+      embeds: [ErrorEmbed(`Something went wrong while playing \`${query}\``)],
+    });
+  }
+}

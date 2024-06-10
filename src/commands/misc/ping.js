@@ -1,16 +1,23 @@
-module.exports = {
+import { BaseEmbed } from "../../modules/Embeds.js";
+
+export const data = {
   name: "ping",
   description: "Ping? Pong!",
   category: "misc",
-  async execute(bot, interaction) {
-    const embed1 = bot.utils.baseEmbed(interaction).setDescription("Pinging...");
-
-    await interaction.reply({ ephemeral: true, embeds: [embed1] }).catch(console.error);
-
-    const embed2 = bot.utils.baseEmbed(interaction).setTitle("🏓 Pong")
-      .setDescription(`💓: ${Math.round(bot.ws.ping)} ms
-⏱️: ${Date.now() - interaction.createdTimestamp} ms`);
-
-    return interaction.editReply({ embeds: [embed2] });
-  },
 };
+export async function execute(interaction) {
+  const embed1 = BaseEmbed().setDescription("Pinging...");
+
+  await interaction
+    .reply({ ephemeral: true, embeds: [embed1] })
+    .catch(console.error);
+
+  const embed2 = BaseEmbed()
+    .setTitle("🏓 Pong")
+    .setDescription(
+      `💓: ${interaction.client.ws.ping.toFixed(0)} ms
+⏱️: ${Date.now() - interaction.createdTimestamp} ms`
+    );
+
+  return interaction.editReply({ embeds: [embed2] }).catch(console.error);
+}

@@ -1,12 +1,62 @@
-module.exports = {
+import { ApplicationCommandOptionType } from "discord.js";
+import { useHistory } from "discord-player";
+import { ErrorEmbed, SuccessEmbed } from "../../modules/Embeds.js";
+
+export const data = {
   name: "clear",
-  description: "Clear the tracks in the queue.",
+  description: "Clear songs from the queue, history, or all.",
+  options: [
+    {
+      name: "type",
+      description: "Select the type of songs to clear.",
+      type: ApplicationCommandOptionType.String,
+      required: true,
+      choices: [
+        { name: "Queue", value: "queue" },
+        { name: "History", value: "history" },
+        { name: "All", value: "all" },
+      ],
+    },
+  ],
   category: "music",
-  execute(bot, interaction, queue) {
-    if (queue.size < 2) return bot.say.errorEmbed(interaction, "The queue has no more track.");
-
-    queue.tracks.clear();
-
-    return bot.say.successEmbed(interaction, "Cleared the queue tracks.");
-  },
+  queueOnly: true,
+  validateVC: true,
 };
+
+export function execute(interaction, queue) {
+  const type = interaction.options.getString("type");
+  const history = useHistory(interaction.guildId);
+
+  if ((type === "queue" || type === "both") && queue.isEmpty()) {
+    return interaction.reply({
+      ephemeral: true,
+      embeds: [ErrorEmbed("The queue is empty.")],
+    });
+  }
+  if ((type === "history" || type === "both") && history.isEmpty()) {
+    return interaction.reply({
+      ephemeral: true,
+      embeds: [ErrorEmbed("The history is empty.")],
+    });
+  }
+
+  switch (type) {
+    case "queue":
+      queue.tracks.clear();
+      break;
+    case "history":
+      history.clear();
+      break;
+    default:
+      queue.clear();
+      break;
+  }
+
+  return interaction.reply({
+    embeds: [
+      SuccessEmbed(
+        `Cleared ${type === "all" ? "all the" : `the ${type}`} tracks.`
+      ),
+    ],
+  });
+}

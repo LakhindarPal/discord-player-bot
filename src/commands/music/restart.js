@@ -1,22 +1,24 @@
 import { ErrorEmbed, SuccessEmbed } from "../../modules/Embeds.js";
 
 export const data = {
-  name: "resume",
-  description: "Resume the playback",
+  name: "restart",
+  description: "Restart the current song",
   category: "music",
   queueOnly: true,
   validateVC: true,
 };
+
 export function execute(interaction, queue) {
-  if (queue.isPlaying())
+  if (!queue.currentTrack) {
     return interaction.reply({
       ephemeral: true,
-      embeds: [ErrorEmbed("The playback is not paused.")],
+      embeds: [ErrorEmbed("There is no song currently playing.")],
     });
+  }
 
-  queue.node.resume();
+  queue.node.seek(0);
 
   return interaction.reply({
-    embeds: [SuccessEmbed("Resumed the playback.")],
+    embeds: [SuccessEmbed("Restarted the current song.")],
   });
 }

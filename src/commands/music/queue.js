@@ -1,50 +1,56 @@
-const { ApplicationCommandOptionType } = require("discord.js");
+import { ApplicationCommandOptionType } from "discord.js";
+import { BaseEmbed, ErrorEmbed } from "../../modules/Embeds.js";
 
-module.exports = {
+export const data = {
   name: "queue",
-  description: "Show tracks in the queue.",
-  category: "music",
+  description: "Show the songs in the queue.",
   options: [
     {
       name: "page",
       description: "The page number of the queue",
       type: ApplicationCommandOptionType.Number,
       required: false,
+      min_value: 1,
     },
   ],
-  execute(bot, interaction, queue) {
-    if (!queue.size) return bot.say.wrongEmbed(interaction, "There is no track in the queue.");
-
-    let page = interaction.options.getNumber("page", false) ?? 1;
-
-    const multiple = 10;
-
-    const maxPages = Math.ceil(queue.size / multiple);
-
-    if (page < 1 || page > maxPages) page = 1;
-
-    const end = page * multiple;
-    const start = end - multiple;
-
-    const tracks = queue.tracks.toArray().slice(start, end);
-
-    const embed = bot.utils
-      .baseEmbed(interaction)
-      .setDescription(
-        `${tracks
-          .map(
-            (track, i) =>
-              `${start + ++i} - [${track.title}](${track.url}) ~ [${track.requestedBy.toString()}]`
-          )
-          .join("\n")}`
-      )
-      .setFooter({
-        text: `Page ${page} of ${maxPages} | track ${start + 1} to ${
-          end > queue.size ? `${queue.size}` : `${end}`
-        } of ${queue.size}`,
-        iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
-      });
-
-    return interaction.reply({ ephemeral: true, embeds: [embed] }).catch(console.error);
-  },
+  category: "music",
+  queueOnly: true,
+  validateVC: true,
 };
+
+export function execute(interaction, queue) {
+  if (queue.isEmpty()) {
+    return interaction.reply({
+      ephemeral: true,
+      embeds: [ErrorEmbed("There are no songs in the queue.")],
+    });
+  }
+
+  let page = interaction.options.getNumber("page", false) ?? 1;
+  const multiple = 10;
+  const maxPage = Math.ceil(queue.size / multiple);
+
+  if (page > maxPage) page = maxPage;
+
+  const end = page * multiple;
+  const start = end - multiple;
+  const tracks = queue.tracks.toArray().slice(start, end);
+
+  const embed = BaseEmbed()
+    .setDescription(
+      tracks
+        .map(
+          (track, i) =>
+            `${start + i + 1} - [${track.title}](${track.url}) ~ [${track.requestedBy.toString()}]`
+        )
+        .join("\n")
+    )
+    .setFooter({
+      text: `Page ${page} of ${maxPage} | Showing songs ${start + 1} to ${
+        end > queue.size ? queue.size : end
+      } of ${queue.size}`,
+      iconURL: interaction.user.displayAvatarURL(),
+    });
+
+  return interaction.reply({ ephemeral: true, embeds: [embed] });
+}

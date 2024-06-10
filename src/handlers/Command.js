@@ -1,51 +1,34 @@
-const glob = require("glob");
-const { ApplicationCommandType } = require("discord.js");
-const { devGuildId } = require("../../config.json");
+import { sync } from "glob";
 
-module.exports = async function loadCommands(bot) {
-  const commandFiles = glob.sync("./src/commands/**/*.js");
-  const guild = bot.guilds.cache.get(devGuildId) || (await bot.guilds.fetch(devGuildId));
+export async function loadCommands(client) {
+  const commandFiles = sync("./src/commands/**/*.js");
 
   for (const file of commandFiles) {
-    const command = require(`../../${file}`);
+    const command = await import(`../../${file}`);
 
-    if (!command.name) {
-      throw new TypeError(`[ERROR][COMMANDS]: name is required for commands! (${file})`);
-    }
-
-    if (!command.execute) {
+    if (!command.data?.name) {
       throw new TypeError(
-        `[ERROR][COMMANDS]: execute function is required for commands! (${file})`
+        `The command at ${file} is missing a required "data.name" property.`
       );
     }
 
-    if (!command.category) {
-      bot.logger.warn(
-        "[COMMANDS]",
-        `${command.name} command will not be shown in the help command because no category is set.`
+    if (!command.data?.description) {
+      throw new TypeError(
+        `The command at ${file} is missing a required "data.description" property.`
       );
     }
 
-    // register slash commands
-
-    const data = {
-      type: ApplicationCommandType.ChatInput,
-      name: command.name,
-      description: command.description ?? "Empty description",
-      options: command.options ?? [],
-    };
-
-    if (command.category === "dev" || command.devOnly) {
-      await guild.commands.set([data]);
-    } else {
-      await bot.application?.commands.create(data);
+    if (typeof command.execute !== "function") {
+      throw new TypeError(
+        `The command at ${file} is missing a required "execute" function.`
+      );
     }
 
-    // debug
-    //bot.logger.debug("COMMANDS", `Loaded: ${command.name}`);
+    const cmdName = command.data.name;
+    client.commands.set(cmdName, command);
 
-    delete require.cache[require.resolve(`../../${file}`)];
-
-    bot.commands.set(command.name, command);
+    if (process.env.DEVELOPMENT_MODE === "true") {
+      console.log(`Loaded Command: ${cmdName}`);
+    }
   }
-};
+}

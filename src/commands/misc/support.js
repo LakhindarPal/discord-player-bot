@@ -1,22 +1,25 @@
-const { supportServerLink } = require("../../../config.json");
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 
-module.exports = {
+export const data = {
   name: "support",
   description: "Join the support server and get some help",
   category: "misc",
-  execute(bot, interaction) {
-    const button = new ButtonBuilder()
-      .setLabel("Need help? Join our support server.")
-      .setStyle(ButtonStyle.Link)
-      .setURL(`${supportServerLink}`);
-
-    const row = new ActionRowBuilder().addComponents([button]);
-
-    return interaction.reply({
-      ephemeral: true,
-      content: "** **",
-      components: [row],
-    });
-  },
 };
+
+export function execute(interaction) {
+  const button = new ButtonBuilder()
+    .setLabel("Need help? Join our support server.")
+    .setStyle(ButtonStyle.Link)
+    .setURL(
+      process.env.SUPPORT_SERVER ||
+        "https://github.com/LakhindarPal/discord-player-bot"
+    );
+
+  const row = new ActionRowBuilder().addComponents([button]);
+
+  return interaction.reply({
+    ephemeral: true,
+    content: "** **",
+    components: [row],
+  });
+}

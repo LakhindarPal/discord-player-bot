@@ -1,13 +1,23 @@
-module.exports = {
+import { ErrorEmbed, SuccessEmbed } from "../../modules/Embeds.js";
+
+export const data = {
   name: "pause",
   description: "Pause the playback",
   category: "music",
-  execute(bot, interaction, queue) {
-    if (queue.node.isPaused())
-      return bot.say.wrongEmbed(interaction, "The playback is already paused.");
-
-    queue.node.pause();
-
-    return bot.say.successEmbed(interaction, "Paused the playback.");
-  },
+  queueOnly: true,
+  validateVC: true,
 };
+
+export function execute(interaction, queue) {
+  if (queue.isPaused())
+    return interaction.reply({
+      ephemeral: true,
+      embeds: [ErrorEmbed("The playback is already paused.")],
+    });
+
+  queue.node.pause();
+
+  return interaction.reply({
+    embeds: [SuccessEmbed("Paused the playback.")],
+  });
+}
