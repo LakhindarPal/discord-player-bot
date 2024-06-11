@@ -19,6 +19,7 @@ It is a Discord music bot built using [discord-player](https://npm.im/discord-pl
 - [Installation](#installation)
   - [Before you start](#before-you-start)
   - [Config](#config)
+  - [Local Installation](#local-installation)
   - [Docker Installation](#docker-installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
@@ -56,6 +57,8 @@ We appreciate your cooperation and understanding in adhering to these guidelines
 
 Before diving into the setup process, ensure you have the following prerequisites:
 
+- **Discord Token** A Discord application with a bot token. You can create one by following the [Discord Developer Portal](https://discord.com/developers/applications) guide.
+
 - **Node.js**: Version 20 or higher is required. If you haven't already installed Node.js, you can download it from the [official website](https://nodejs.org/en/download/).
 - **NPM**: A package manager is required. NPM comes bundled with Node.js, so no separate installation is required.
 - **FFmpeg or Avconv**: Ensure you have FFmpeg or Avconv installed for media transcoding. You can download (recommended) FFmpeg from the [official website](https://ffmpeg.org/download.html) or install it via npm `npm i ffmpeg-static`.
@@ -76,6 +79,32 @@ To configure the Discord Player Bot, you'll need to set up environment variables
 
 By following these steps and customizing the `.env` file with your specific configuration, you can effectively set up the Discord Player Bot according to your requirements.
 
+### Local Installation
+
+1. **Fill the `.env` File**: Ensure that you have filled out the necessary environment variables in the `.env` file as described above.
+
+2. **Install Dependencies**: Install the required dependencies by running the following command in the project directory:
+
+   ```bash
+   npm install
+   ```
+
+3. **Register Slash Commands**: If you are using this bot for the first time or have added new commands, you need to register the slash commands with Discord. Run the following command:
+
+   ```bash
+   npm run register
+   ```
+
+   This will register all the slash commands defined in your project with Discord. You should see a message indicating the number of commands registered.
+
+4. **Run the Bot**: Start the bot by running:
+
+   ```bash
+   npm start
+   ```
+
+   This will launch the bot, and it will connect to Discord using the provided token.
+
 ### Docker Installation
 
 If you prefer to use Docker for deploying the Discord Player Bot, follow these steps:
@@ -85,18 +114,16 @@ If you prefer to use Docker for deploying the Discord Player Bot, follow these s
 2. **Build Docker Image**: Run the following command to build the Docker image:
 
    ```bash
-   docker build -t your_docker_image_name .
+   docker build -t discord-player-bot .
    ```
 
-   This command will use the Dockerfile provided in the repository to build the Docker image.
+This command will use the Dockerfile provided in the repository to build the Docker image.
 
 3. **Run Docker Container**: Once the Docker image is built successfully, you can run the Docker container using the following command:
 
    ```bash
-   docker run --env-file .env your_docker_image_name
+   docker run --env-file .env discord-player-bot
    ```
-
-   Replace `your_docker_image_name` with the name of the Docker image you built in the previous step.
 
 4. **Enjoy Dockerized Discord Player Bot**: Your Discord Player Bot should now be running in a Docker container, ready to provide music playback functionality in your Discord server.
 
@@ -130,7 +157,7 @@ We value your feedback! If you have any suggestions, feature requests, or bug re
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=lakhindarpal/discord-player-bot)](https://star-history.com/#lakhindarpal/discord-player-bot)
+[![Star History Chart](https://api.star-history.com/svg?repos=lakhindarpal/discord-player-bot&type=Date)](https://star-history.com/#lakhindarpal/discord-player-bot&Date)
 
 ## Supporters
 
@@ -141,3 +168,5 @@ We value your feedback! If you have any suggestions, feature requests, or bug re
 
 ![Animated footer gif](http://randojs.com/images/barsSmallTransparentBackground.gif)
 [![Back to top](http://randojs.com/images/backToTopButtonTransparentBackground.png)](#discord-player-bot)
+
+---

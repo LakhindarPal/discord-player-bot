@@ -1,3 +1,5 @@
+# Contributing
+
 1. [Fork the repo](https://github.com/LakhindarPal/discord-player-bot/fork)
 2. Install the dependencies (`npm install`)
 3. Create the feature branch (`git checkout -b my-cool-feature`)

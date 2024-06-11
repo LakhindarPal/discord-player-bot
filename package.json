@@ -8,6 +8,8 @@
     "lint": "eslint src/**/*.js",
     "lint:fix": "eslint src/**/*.js --fix",
     "format": "prettier . --write",
+    "register": "node src/scripts/register.js",
+    "doc": "node src/scripts/cmd-doc.js",
     "start": "node .",
     "dev": "node --watch-path=./src ."
   },

@@ -87,9 +87,7 @@ const generateMarkdown = (commands) => {
 (async function main() {
   const fakeClient = { commands: new Collection() };
   await loadCommands(fakeClient);
-  const commands = Array.from(fakeClient.commands.values());
-
-  const markdown = generateMarkdown(commands);
+  const markdown = generateMarkdown(fakeClient.commands);
   fs.writeFileSync("COMMANDS.md", markdown);
   console.log("COMMANDS.md has been generated.");
 })();
