@@ -2,6 +2,13 @@ import "dotenv/config";
 import { Collection, REST, Routes } from "discord.js";
 import { loadCommands } from "../handlers/command.js";
 
+// check env variables
+const envVariables = ["DISCORD_TOKEN", "CLIENT_ID", "DEV_GUILD"];
+for (const variable of envVariables) {
+  if (!process.env[variable]) {
+    throw new Error(`[ENV]: '${variable}' is missing.`);
+  }
+}
 // Initialize a fake client with an empty commands collection
 const fakeClient = { commands: new Collection() };
 await loadCommands(fakeClient);
@@ -47,7 +54,7 @@ const registerCommands = async () => {
       Routes.applicationCommands(process.env.CLIENT_ID),
       { body: otherCommands }
     );
-    console.log(`Registered ${otherData.length} other commands.`);
+    console.log(`Registered ${otherData.length} other (/) commands.`);
   } catch (error) {
     console.error("Error registering commands:", error);
   }

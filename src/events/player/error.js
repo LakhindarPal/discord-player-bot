@@ -6,7 +6,7 @@ export const data = {
   name: GuildQueueEvent.Error,
   type: "player",
 };
-export async function execute(queue, error) {
+export function execute(queue, error) {
   console.error(error);
 
   const embed = BaseEmbed({ color: Colors.Red })

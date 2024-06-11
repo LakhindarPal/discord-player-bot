@@ -9,8 +9,8 @@ export const data = {
       type: ApplicationCommandOptionType.Number,
       name: "position",
       description: "The position of the song to skip to",
-      min_value: 1,
       required: true,
+      min_value: 1,
     },
   ],
   category: "music",
@@ -25,17 +25,17 @@ export function execute(interaction, queue) {
       embeds: [ErrorEmbed("The queue has no song to skip to.")],
     });
 
-  const position = interaction.options.getNumber("position", true) - 1;
+  const position = interaction.options.getNumber("position", true);
 
-  if (position >= queue.size)
+  if (position > queue.size)
     interaction.reply({
       ephemeral: true,
       embeds: [ErrorEmbed("The provided position is not valid.")],
     });
 
-  queue.node.skipTo(position);
+  queue.node.skipTo(position - 1);
 
   return interaction.reply({
-    embeds: [SuccessEmbed(`Skipped to song ${position + 1}.`)],
+    embeds: [SuccessEmbed(`Skipped to the ${position} song.`)],
   });
 }

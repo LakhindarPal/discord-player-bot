@@ -10,6 +10,7 @@ export const data = {
       description: "The timestamp to seek to (in seconds).",
       type: ApplicationCommandOptionType.Number,
       required: true,
+      min_value: 0,
     },
   ],
   category: "music",
@@ -17,7 +18,7 @@ export const data = {
   validateVC: true,
 };
 
-export function execute(interaction, queue) {
+export async function execute(interaction, queue) {
   const timestamp = interaction.options.getNumber("timestamp", true) * 1000;
 
   if (!queue.currentTrack) {
@@ -38,9 +39,11 @@ export function execute(interaction, queue) {
     });
   }
 
-  queue.node.seek(timestamp);
+  await interaction.deferReply();
 
-  return interaction.reply({
+  await queue.node.seek(timestamp);
+
+  return interaction.editReply({
     embeds: [SuccessEmbed(`Seeked to ${timestamp / 1000} seconds.`)],
   });
 }

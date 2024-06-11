@@ -1,8 +1,9 @@
 import fs from "fs";
 import { Collection } from "discord.js";
 import { loadCommands } from "../handlers/command.js";
+import { titleCase } from "../modules/utils.js";
 
-const optionTypeMap = {
+const OPTION_TYPE_MAP = {
   1: "Subcommand",
   2: "Subcommand Group",
   3: "String",
@@ -16,14 +17,6 @@ const optionTypeMap = {
   11: "Attachment",
 };
 
-const titleCase = (str) => {
-  if (!str) return "";
-  return str
-    .trim()
-    .toLowerCase()
-    .replace(/\b\w/g, (char) => char.toUpperCase());
-};
-
 const formatOptions = (options) => {
   if (!options || options.length === 0) return "";
 
@@ -32,9 +25,9 @@ const formatOptions = (options) => {
 
   options.forEach((option) => {
     const choices = option.choices
-      ? option.choices.map((choice) => `${choice.name}`).join(", ")
+      ? option.choices.map((choice) => choice.name).join(", ")
       : "";
-    optionsTable += `| ${option.name} | ${option.description || ""} | ${option.required || false} | ${optionTypeMap[option.type] || option.type} | ${choices} |\n`;
+    optionsTable += `| ${option.name} | ${option.description || ""} | ${option.required || false} | ${OPTION_TYPE_MAP[option.type] || option.type} | ${choices} |\n`;
 
     if (option.options) {
       optionsTable += formatOptions(option.options);
@@ -45,38 +38,44 @@ const formatOptions = (options) => {
 };
 
 const formatCommand = (command) => {
-  const hasSubCommand = command.data.options?.[0]?.type === 1;
-  let commandStr = hasSubCommand
+  const { data } = command;
+  const hasSubcommand = data.options?.[0]?.type === 1;
+  let commandStr = hasSubcommand
     ? ""
-    : `## /${command.data.name}\n${command.data.description}\n`;
+    : `### \`/${data.name}\`\n${data.description}\n`;
 
-  if (command.data.options) {
-    if (hasSubCommand) {
-      command.data.options.forEach((subCommand) => {
-        commandStr += `## /${command.data.name} ${subCommand.name}\n${subCommand.description}\n`;
-        commandStr += formatOptions(subCommand.options);
+  if (data.options) {
+    if (hasSubcommand) {
+      data.options.forEach((subcommand) => {
+        commandStr += `### \`/${data.name} ${subcommand.name}\`\n${subcommand.description}\n`;
+        commandStr += formatOptions(subcommand.options);
+        commandStr += "\n---\n";
       });
     } else {
-      commandStr += formatOptions(command.data.options);
+      commandStr += formatOptions(data.options);
     }
   }
+
+  if (!hasSubcommand) commandStr += "\n---\n";
 
   return commandStr;
 };
 
-const generateMarkdown = (commands) => {
-  let markdown = "# Slash Commands List\n\n";
-  const categories = {};
+const generateContent = (commands) => {
+  const categories = new Map();
 
   commands.forEach((command) => {
-    const category = `${titleCase(command.data.category)} Commands`;
-    categories[category] = categories[category] || [];
-    categories[category].push(command);
+    const { category } = command.data;
+    const categoryName = titleCase(category);
+    const categoryCommands = categories.get(categoryName) || [];
+    categoryCommands.push(command);
+    categories.set(categoryName, categoryCommands);
   });
 
-  for (const category in categories) {
-    markdown += `## ${category}\n\n`;
-    categories[category].forEach((command) => {
+  let markdown = "# Slash Commands List\n\n";
+  for (const [category, categoryCommands] of categories) {
+    markdown += `## ${category} Commands\n\n`;
+    categoryCommands.forEach((command) => {
       markdown += formatCommand(command);
     });
   }
@@ -84,10 +83,18 @@ const generateMarkdown = (commands) => {
   return markdown;
 };
 
-(async function main() {
-  const fakeClient = { commands: new Collection() };
-  await loadCommands(fakeClient);
-  const markdown = generateMarkdown(fakeClient.commands);
-  fs.writeFileSync("COMMANDS.md", markdown);
-  console.log("COMMANDS.md has been generated.");
-})();
+async function generateMarkdown() {
+  try {
+    const fakeClient = { commands: new Collection() };
+    await loadCommands(fakeClient);
+
+    const content = generateContent(fakeClient.commands);
+
+    fs.writeFileSync("COMMANDS.md", content);
+    console.log("COMMANDS.md has been generated.");
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
+}
+
+generateMarkdown();

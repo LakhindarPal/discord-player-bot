@@ -18,9 +18,11 @@ export async function execute(interaction) {
       embeds: [ErrorEmbed("There is no previous song to go back to.")],
     });
 
+  await interaction.deferReply();
+
   await history.previous();
 
-  return await interaction.reply({
+  return interaction.editReply({
     embeds: [SuccessEmbed("Went back to the previous song.")],
   });
 }

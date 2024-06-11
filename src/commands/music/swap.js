@@ -57,12 +57,15 @@ export function execute(interaction, queue) {
     });
   }
 
+  const song1 = queue.tracks.at(first);
+  const song2 = queue.tracks.at(second);
+
   queue.node.swap(first, second);
 
   return interaction.reply({
     embeds: [
       SuccessEmbed(
-        `Songs at positions ${first + 1} and ${second + 1} have been swapped.`
+        `Swapped the position of \`${song1.title}\` and \`${song2.title}\`.`
       ),
     ],
   });

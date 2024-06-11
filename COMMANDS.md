@@ -2,14 +2,16 @@
 
 ## Music Commands
 
-## /volume
+### `/volume`
 
 Adjust the volume of the music player.
 | Name | Description | Required | Type | Choices |
 |------|-------------|----------|------|---------|
 | level | The volume level to set (0-100). | false | Number | |
 
-## /swap
+---
+
+### `/swap`
 
 Swap the position of two songs in the queue
 | Name | Description | Required | Type | Choices |
@@ -17,90 +19,126 @@ Swap the position of two songs in the queue
 | first | The position of the first song | true | Number | |
 | second | The position of the second song | true | Number | |
 
-## /stop
+---
+
+### `/stop`
 
 Stop the playback.
 
-## /skipto
+---
+
+### `/skipto`
 
 Skip to the given song, removing others on the way
 | Name | Description | Required | Type | Choices |
 |------|-------------|----------|------|---------|
 | position | The position of the song to skip to | true | Number | |
 
-## /skip
+---
+
+### `/skip`
 
 Skip to the next song
 
-## /shuffle
+---
+
+### `/shuffle`
 
 Toggle shuffle mode for this queue.
 
-## /seek
+---
+
+### `/seek`
 
 Seek to a specific timestamp in the current track.
 | Name | Description | Required | Type | Choices |
 |------|-------------|----------|------|---------|
 | timestamp | The timestamp to seek to (in seconds). | true | Number | |
 
-## /resume
+---
+
+### `/resume`
 
 Resume the playback
 
-## /restart
+---
 
-Restart the current song
+### `/replay`
 
-## /repeat status
+Replay the current song from the beginning
+
+---
+
+### `/repeat status`
 
 Show the current repeat mode.
 
-## /repeat off
+---
+
+### `/repeat off`
 
 Disable repeat mode.
 
-## /repeat queue
+---
+
+### `/repeat queue`
 
 Repeat the entire queue.
 
-## /repeat song
+---
+
+### `/repeat song`
 
 Repeat the current song.
 
-## /repeat autoplay
+---
+
+### `/repeat autoplay`
 
 Automatically play related songs based on your queue.
 
-## /remove
+---
+
+### `/remove`
 
 Remove a song from the queue
 | Name | Description | Required | Type | Choices |
 |------|-------------|----------|------|---------|
 | position | The position of the song to remove | true | Number | |
 
-## /queue
+---
+
+### `/queue`
 
 Show the songs in the queue.
 | Name | Description | Required | Type | Choices |
 |------|-------------|----------|------|---------|
 | page | The page number of the queue | false | Number | |
 
-## /play
+---
+
+### `/play`
 
 Play a song or playlist from url or name
 | Name | Description | Required | Type | Choices |
 |------|-------------|----------|------|---------|
 | query | The name or url of the song, you want to play. | true | String | |
 
-## /pause
+---
+
+### `/pause`
 
 Pause the playback
 
-## /now
+---
+
+### `/now`
 
 Show the current playing song
 
-## /move
+---
+
+### `/move`
 
 Move a song in the queue
 | Name | Description | Required | Type | Choices |
@@ -108,73 +146,101 @@ Move a song in the queue
 | from | The current position of the song | true | Number | |
 | to | The new position to move to | true | Number | |
 
-## /lyrics
+---
+
+### `/lyrics`
 
 Get lyrics for a song.
 | Name | Description | Required | Type | Choices |
 |------|-------------|----------|------|---------|
 | query | The title of the song to get lyrics for. | false | String | |
 
-## /jump
+---
+
+### `/jump`
 
 Jump to specific song on the queue without removing others
 | Name | Description | Required | Type | Choices |
 |------|-------------|----------|------|---------|
 | position | The position of the song to jump to | true | Number | |
 
-## /filters clear
+---
 
-Remove all applied filters.
+### `/filters clear`
 
-## /filters show
+Remove all applied audio filters.
 
-Show all applied filters.
+---
 
-## /filters toggle
+### `/filters status`
 
-Enable or disable a specific filter.
+Show the status of all audio filters.
+
+---
+
+### `/filters toggle`
+
+Enable or disable a specific audio filter.
 | Name | Description | Required | Type | Choices |
 |------|-------------|----------|------|---------|
 | name | The name of the filter to toggle. | true | String | Bassboost, Chorus, Compressor, Dim, Earrape, Expander, Fadein, Flanger, Gate, Haas, Karaoke, Lofi, Mcompand, Mono, Nightcore, Normalizer, Phaser, Pulsator, Reverse, Softlimiter, Subboost, Surrounding, Treble, Vaporwave, Vibrato |
 
-## /clear
+---
+
+### `/clear`
 
 Clear songs from the queue, history, or all.
 | Name | Description | Required | Type | Choices |
 |------|-------------|----------|------|---------|
 | type | Select the type of songs to clear. | true | String | Queue, History, All |
 
-## /back
+---
+
+### `/back`
 
 Go back to the previous song
 
+---
+
 ## Misc Commands
 
-## /uptime
+### `/uptime`
 
 Show how long the bot has been up
 
-## /support
+---
+
+### `/support`
 
 Join the support server and get some help
 
-## /ping
+---
+
+### `/ping`
 
 Ping? Pong!
 
-## /invite
+---
+
+### `/invite`
 
 Invite the bot to your server
 
-## /info
+---
+
+### `/info`
 
 Show info about the bot
 
+---
+
 ## Dev Commands
 
-## /eval
+### `/eval`
 
 Execute a piece of javascript code
 | Name | Description | Required | Type | Choices |
 |------|-------------|----------|------|---------|
 | code | The code to execute | true | String | |
+
+---

@@ -28,3 +28,17 @@ export function formatDuration(duration) {
 export function formatNumber(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+/**
+ * Converts a string to title case.
+ * @param {string} str - The input string to be converted to title case.
+ * @returns {string} The input string converted to title case.
+ */
+export function titleCase(str) {
+  if (!str) return "";
+
+  return str
+    .trim()
+    .toLowerCase()
+    .replace(/(?:^|\s|-|_)\S/g, (match) => match.toUpperCase());
+}

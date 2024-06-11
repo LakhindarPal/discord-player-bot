@@ -62,6 +62,7 @@ export async function execute(interaction) {
 
   const query = interaction.options.getString("query", true);
   const player = useMainPlayer();
+
   await interaction.deferReply();
 
   const result = await player.search(query, {

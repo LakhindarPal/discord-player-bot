@@ -6,7 +6,7 @@ export const data = {
   name: GuildQueueEvent.PlayerError,
   type: "player",
 };
-export async function execute(queue, error) {
+export function execute(queue, error) {
   const embed = BaseEmbed({ color: Colors.Red })
     .setTitle("An error occured while playing")
     .setDescription(`Reason:\n${codeBlock(error.message)}`);

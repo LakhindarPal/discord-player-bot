@@ -5,7 +5,7 @@ export const data = {
   name: GuildQueueEvent.Connection,
   type: "player",
 };
-export async function execute(queue) {
+export function execute(queue) {
   const textChannel = queue.metadata.channel;
 
   const embed = BaseEmbed()

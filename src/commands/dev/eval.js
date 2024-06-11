@@ -18,13 +18,14 @@ export const data = {
 };
 
 export async function execute(interaction) {
+  await interaction.deferReply({ ephemeral: true });
+
   const code = interaction.options.getString("code", true);
 
   // Security check to prevent execution of potentially harmful code
   const classified = ["env", "token", "config", "secret", "process"];
   if (classified.some((item) => code.toLowerCase().includes(item))) {
-    return interaction.reply({
-      ephemeral: true,
+    return interaction.editReply({
       embeds: [
         ErrorEmbed(
           "This operation is cancelled because it may include secrets."
@@ -65,8 +66,7 @@ export async function execute(interaction) {
     color: error ? Colors.Red : Colors.Green,
   };
 
-  return interaction.reply({
-    ephemeral: true,
+  return interaction.editReply({
     embeds: [headerEmbed, codeEmbed, resultEmbed],
   });
 }

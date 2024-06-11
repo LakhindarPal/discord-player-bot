@@ -1,5 +1,6 @@
 import { ApplicationCommandOptionType } from "discord.js";
 import { BaseEmbed, ErrorEmbed, SuccessEmbed } from "../../modules/Embeds.js";
+import { titleCase } from "../../modules/utils.js";
 const avlFilters = [
   "Bassboost",
   "Chorus",
@@ -34,17 +35,17 @@ export const data = {
     {
       type: ApplicationCommandOptionType.Subcommand,
       name: "clear",
-      description: "Remove all applied filters.",
+      description: "Remove all applied audio filters.",
     },
     {
       type: ApplicationCommandOptionType.Subcommand,
-      name: "show",
-      description: "Show all applied filters.",
+      name: "status",
+      description: "Show the status of all audio filters.",
     },
     {
       type: ApplicationCommandOptionType.Subcommand,
       name: "toggle",
-      description: "Enable or disable a specific filter.",
+      description: "Enable or disable a specific audio filter.",
       options: [
         {
           type: ApplicationCommandOptionType.String,
@@ -80,23 +81,35 @@ export async function execute(interaction, queue) {
         embeds: [SuccessEmbed("Cleared all applied filters.")],
       });
     }
+
     case "toggle": {
       const filterName = interaction.options.getString("name", true);
-      queue.filters.ffmpeg.toggle(filterName);
-      return interaction.reply({
-        embeds: [SuccessEmbed(`Toggled the ${filterName} audio filter.`)],
+      await interaction.deferReply();
+      const mode = await queue.filters.ffmpeg.toggle(filterName);
+      return interaction.editReply({
+        embeds: [
+          SuccessEmbed(
+            `${mode ? "Enabled" : "Disabled"} the ${filterName} audio filter.`
+          ),
+        ],
       });
     }
+
     default: {
       const enabledFilters = queue.filters.ffmpeg.getFiltersEnabled();
       const disabledFilters = queue.filters.ffmpeg.getFiltersDisabled();
 
-      const enFDes = enabledFilters.map((f) => `${f} --> ✅`).join("\n");
-      const disFDes = disabledFilters.map((f) => `${f} --> ❌`).join("\n");
+      const formatFilters = (thatFilters, status) =>
+        thatFilters
+          .map((filter) => `${titleCase(filter)} --> ${status}`)
+          .join("\n");
+
+      const enabledFiltersDesc = formatFilters(enabledFilters, "✅");
+      const disabledFiltersDesc = formatFilters(disabledFilters, "❌");
 
       const embed = BaseEmbed()
         .setTitle("All Filters")
-        .setDescription(`${enFDes}\n\n${disFDes}`);
+        .setDescription(`${enabledFiltersDesc}\n\n${disabledFiltersDesc}`);
 
       return interaction.reply({ ephemeral: true, embeds: [embed] });
     }

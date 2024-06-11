@@ -24,17 +24,17 @@ export function execute(interaction, queue) {
       embeds: [ErrorEmbed("The queue is empty.")],
     });
 
-  const position = interaction.options.getNumber("position", true) - 1;
+  const position = interaction.options.getNumber("position", true);
 
-  if (position >= queue.size)
+  if (position > queue.size)
     return interaction.reply({
       ephemeral: true,
       embeds: [ErrorEmbed("The provided position is not valid.")],
     });
 
-  queue.node.jump(position);
+  queue.node.jump(position - 1);
 
   return interaction.reply({
-    embeds: [SuccessEmbed(`Jumped to song ${position + 1}.`)],
+    embeds: [SuccessEmbed(`Jumped to the ${position} song.`)],
   });
 }
