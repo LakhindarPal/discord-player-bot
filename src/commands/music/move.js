@@ -33,7 +33,7 @@ export function execute(interaction, queue) {
   if (queue.size < 2) {
     return interaction.reply({
       ephemeral: true,
-      embeds: [ErrorEmbed("There are not enough songs in the queue to move.")],
+      embeds: [ErrorEmbed("Not enough songs in the queue to move.")],
     });
   }
 

@@ -7,7 +7,6 @@ export const data = {
 };
 export async function execute(interaction) {
   if (!interaction.inCachedGuild()) return;
-  if (!interaction.isChatInputCommand()) return;
 
   const commandName = interaction.commandName;
   const command = interaction.client.commands.get(commandName);
@@ -17,6 +16,16 @@ export async function execute(interaction) {
       `No command matching \`${interaction.commandName}\` was found.`
     );
   }
+
+  if (interaction.isAutocomplete()) {
+    try {
+      await command.suggest(interaction);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  if (!interaction.isChatInputCommand()) return;
 
   const { cooldowns } = interaction.client;
 

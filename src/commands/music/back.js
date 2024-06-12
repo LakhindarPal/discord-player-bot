@@ -15,7 +15,7 @@ export async function execute(interaction) {
   if (history.isEmpty())
     return interaction.reply({
       ephemeral: true,
-      embeds: [ErrorEmbed("There is no previous song to go back to.")],
+      embeds: [ErrorEmbed("There is no previous song to go back.")],
     });
 
   await interaction.deferReply();

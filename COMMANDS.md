@@ -27,6 +27,24 @@ Stop the playback.
 
 ---
 
+### `/songs queue`
+
+Display songs from the queue.
+| Name | Description | Required | Type | Choices |
+|------|-------------|----------|------|---------|
+| page | Specify the page number to view (default: 1). | false | Number | |
+
+---
+
+### `/songs history`
+
+Display songs from the history.
+| Name | Description | Required | Type | Choices |
+|------|-------------|----------|------|---------|
+| page | Specify the page number to view (default: 1). | false | Number | |
+
+---
+
 ### `/skipto`
 
 Skip to the given song, removing others on the way
@@ -108,21 +126,13 @@ Remove a song from the queue
 
 ---
 
-### `/queue`
-
-Show the songs in the queue.
-| Name | Description | Required | Type | Choices |
-|------|-------------|----------|------|---------|
-| page | The page number of the queue | false | Number | |
-
----
-
 ### `/play`
 
 Play a song or playlist from url or name
 | Name | Description | Required | Type | Choices |
 |------|-------------|----------|------|---------|
 | query | The name or url of the song, you want to play. | true | String | |
+| source | The search engine you want to use. | false | String | YouTube, SoundCloud, Spotify, Apple Music |
 
 ---
 
@@ -157,6 +167,12 @@ Get lyrics for a song.
 
 ---
 
+### `/leave`
+
+Leave the voice channel.
+
+---
+
 ### `/jump`
 
 Jump to specific song on the queue without removing others
@@ -166,24 +182,9 @@ Jump to specific song on the queue without removing others
 
 ---
 
-### `/filters clear`
+### `/join`
 
-Remove all applied audio filters.
-
----
-
-### `/filters status`
-
-Show the status of all audio filters.
-
----
-
-### `/filters toggle`
-
-Enable or disable a specific audio filter.
-| Name | Description | Required | Type | Choices |
-|------|-------------|----------|------|---------|
-| name | The name of the filter to toggle. | true | String | Bassboost, Chorus, Compressor, Dim, Earrape, Expander, Fadein, Flanger, Gate, Haas, Karaoke, Lofi, Mcompand, Mono, Nightcore, Normalizer, Phaser, Pulsator, Reverse, Softlimiter, Subboost, Surrounding, Treble, Vaporwave, Vibrato |
+Let the bot join your voice channel.
 
 ---
 
@@ -231,6 +232,59 @@ Invite the bot to your server
 ### `/info`
 
 Show info about the bot
+
+---
+
+## Filter Commands
+
+### `/filters disable`
+
+Disable all active FFmpeg audio filters.
+
+---
+
+### `/filters status`
+
+Show the status of all FFmpeg audio filters.
+
+---
+
+### `/filters toggle`
+
+Enable or disable an FFmpeg audio filter.
+| Name | Description | Required | Type | Choices |
+|------|-------------|----------|------|---------|
+| name | The name of the filter to toggle. | true | String | 8D, Bassboost, Chorus, Dim, Earrape, Fadein, Flanger, Gate, Haas, Karaoke, Lofi, Mcompand, Mono, Nightcore, Normalizer, Phaser, Pulsator, Reverse, Softlimiter, Subboost, Surrounding, Treble, Tremolo, Vaporwave, Vibrato |
+
+---
+
+### `/equalizer disable`
+
+Disable the equalizer filter.
+
+---
+
+### `/equalizer set`
+
+Set an equalizer filter.
+| Name | Description | Required | Type | Choices |
+|------|-------------|----------|------|---------|
+| preset | The name of the preset to apply. | true | String | Flat, Classical, Club, Dance, FullBass, FullBassTreble, FullTreble, Headphones, LargeHall, Live, Party, Pop, Reggae, Rock, Ska, Soft, SoftRock, Techno |
+
+---
+
+### `/biquad disable`
+
+Disable the biquad filter.
+
+---
+
+### `/biquad set`
+
+Apply a specific biquad audio filter.
+| Name | Description | Required | Type | Choices |
+|------|-------------|----------|------|---------|
+| preset | The name of the preset to apply. | true | String | SinglePoleLowPassApprox, SinglePoleLowPass, LowPass, HighPass, BandPass, Notch, AllPass, LowShelf, HighShelf, PeakingEQ |
 
 ---
 

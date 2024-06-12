@@ -32,9 +32,7 @@ export function execute(interaction, queue) {
   if (queue.size < 2) {
     return interaction.reply({
       ephemeral: true,
-      embeds: [
-        ErrorEmbed("There has to be at least 2 songs in the queue to swap."),
-      ],
+      embeds: [ErrorEmbed("Not enough songs in the queue to swap.")],
     });
   }
 

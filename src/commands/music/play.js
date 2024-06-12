@@ -1,11 +1,11 @@
 import { ApplicationCommandOptionType } from "discord.js";
-import { useMainPlayer, QueueRepeatMode } from "discord-player";
+import { useMainPlayer, QueryType } from "discord-player";
 import { BaseEmbed, ErrorEmbed } from "../../modules/Embeds.js";
+import playerOptions from "../../config/playerOptions.js";
 
 export const data = {
   name: "play",
   description: "Play a song or playlist from url or name",
-  category: "music",
   options: [
     {
       type: ApplicationCommandOptionType.String,
@@ -16,9 +16,63 @@ export const data = {
       max_length: 256,
       autocomplete: true,
     },
+    {
+      type: ApplicationCommandOptionType.String,
+      name: "source",
+      description: "The search engine you want to use.",
+      choices: [
+        {
+          name: "YouTube",
+          value: QueryType.YOUTUBE_SEARCH,
+        },
+        {
+          name: "SoundCloud",
+          value: QueryType.SOUNDCLOUD_SEARCH,
+        },
+        {
+          name: "Spotify",
+          value: QueryType.SPOTIFY_SEARCH,
+        },
+        {
+          name: "Apple Music",
+          value: QueryType.APPLE_MUSIC_SEARCH,
+        },
+      ],
+    },
   ],
+  category: "music",
   validateVC: true,
 };
+
+export async function suggest(interaction) {
+  const query = interaction.options.getString("query", false)?.trim();
+  if (!query) return;
+
+  const player = useMainPlayer();
+  const searchResult = await player.search(query).catch(() => null);
+  if (!searchResult) {
+    return interaction.respond([{ name: "No results found", value: "" }]);
+  }
+
+  const tracks = searchResult.hasPlaylist()
+    ? searchResult.playlist.tracks.slice(0, 24)
+    : searchResult.tracks.slice(0, 10);
+
+  const formattedResult = tracks.map((track) => ({
+    name: track.title,
+    value: track.url,
+  }));
+
+  if (searchResult.hasPlaylist()) {
+    formattedResult.unshift({
+      name: `Playlist | ${searchResult.playlist.title}`,
+      value: searchResult.playlist.url,
+    });
+  }
+
+  return interaction.respond(formattedResult);
+}
+
 export async function execute(interaction) {
   const channel = interaction.member?.voice?.channel;
   const checks = [
@@ -61,11 +115,14 @@ export async function execute(interaction) {
   }
 
   const query = interaction.options.getString("query", true);
+  const searchEngine =
+    interaction.options.getString("source", false) ?? QueryType.AUTO;
   const player = useMainPlayer();
 
   await interaction.deferReply();
 
   const result = await player.search(query, {
+    searchEngine,
     requestedBy: interaction.user,
   });
 
@@ -78,17 +135,7 @@ export async function execute(interaction) {
     const { queue, track, searchResult } = await player.play(channel, result, {
       nodeOptions: {
         metadata: interaction,
-        volume: 70,
-        repeatMode: QueueRepeatMode.AUTOPLAY,
-        noEmitInsert: true,
-        leaveOnStop: false,
-        leaveOnEmpty: true,
-        leaveOnEmptyCooldown: 60_000,
-        leaveOnEnd: true,
-        leaveOnEndCooldown: 60_000,
-        pauseOnEmpty: true,
-        preferBridgedMetadata: true,
-        disableBiquad: true,
+        ...playerOptions,
       },
       requestedBy: interaction.user,
       connectionOptions: { deaf: true },

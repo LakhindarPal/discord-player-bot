@@ -27,7 +27,7 @@ const formatOptions = (options) => {
     const choices = option.choices
       ? option.choices.map((choice) => choice.name).join(", ")
       : "";
-    optionsTable += `| ${option.name} | ${option.description || ""} | ${option.required || false} | ${OPTION_TYPE_MAP[option.type] || option.type} | ${choices} |\n`;
+    optionsTable += `| ${option.name} | ${option.description} | ${option.required ?? false} | ${OPTION_TYPE_MAP[option.type]} | ${choices} |\n`;
 
     if (option.options) {
       optionsTable += formatOptions(option.options);

@@ -1,5 +1,6 @@
 import { ApplicationCommandOptionType } from "discord.js";
 import { SuccessEmbed, ErrorEmbed } from "../../modules/Embeds.js";
+import { Util } from "discord-player";
 
 export const data = {
   name: "seek",
@@ -44,6 +45,6 @@ export async function execute(interaction, queue) {
   await queue.node.seek(timestamp);
 
   return interaction.editReply({
-    embeds: [SuccessEmbed(`Seeked to ${timestamp / 1000} seconds.`)],
+    embeds: [SuccessEmbed(`Seeked to ${Util.formatDuration(timestamp)}.`)],
   });
 }

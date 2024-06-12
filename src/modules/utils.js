@@ -21,12 +21,12 @@ export function formatDuration(duration) {
 }
 
 /**
- * Formats a number into a human-readable format.
+ * Formats a number into a locale-specific string representation.
  * @param {number} number The number to format.
  * @returns {string} The formatted number string.
  */
 export function formatNumber(number) {
-  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return number.toLocaleString("en-IN", { style: "decimal" });
 }
 
 /**

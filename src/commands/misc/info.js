@@ -73,9 +73,15 @@ Platform: ${process.platform}`,
     .setStyle(ButtonStyle.Link)
     .setURL(inviteLink);
 
+  const gitrepoButton = new ButtonBuilder()
+    .setLabel("Source Code")
+    .setStyle(ButtonStyle.Link)
+    .setURL("https://github.com/LakhindarPal/discord-player-bot");
+
   const buttonsRow = new ActionRowBuilder().addComponents([
     supportButton,
     inviteButton,
+    gitrepoButton,
   ]);
 
   return interaction.reply({
