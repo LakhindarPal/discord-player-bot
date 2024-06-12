@@ -7,15 +7,19 @@ export const data = {
   description: "Clear songs from the queue, history, or all.",
   options: [
     {
-      name: "type",
-      description: "Select the type of songs to clear.",
-      type: ApplicationCommandOptionType.String,
-      required: true,
-      choices: [
-        { name: "Queue", value: "queue" },
-        { name: "History", value: "history" },
-        { name: "All", value: "all" },
-      ],
+      name: "queue",
+      description: "Clear songs from the queue.",
+      type: ApplicationCommandOptionType.Subcommand,
+    },
+    {
+      name: "history",
+      description: "Clear songs from the history.",
+      type: ApplicationCommandOptionType.Subcommand,
+    },
+    {
+      name: "all",
+      description: "Clear all songs from the queue and history.",
+      type: ApplicationCommandOptionType.Subcommand,
     },
   ],
   category: "music",
@@ -24,23 +28,23 @@ export const data = {
 };
 
 export function execute(interaction, queue) {
-  const type = interaction.options.getString("type");
+  const subcmd = interaction.options.getSubcommand();
   const history = useHistory(interaction.guildId);
 
-  if ((type === "queue" || type === "both") && queue.isEmpty()) {
+  if ((subcmd === "queue" || subcmd === "all") && queue.isEmpty()) {
     return interaction.reply({
       ephemeral: true,
-      embeds: [ErrorEmbed("The queue is empty.")],
+      embeds: [ErrorEmbed("The queue is already empty.")],
     });
   }
-  if ((type === "history" || type === "both") && history.isEmpty()) {
+  if ((subcmd === "history" || subcmd === "all") && history.isEmpty()) {
     return interaction.reply({
       ephemeral: true,
-      embeds: [ErrorEmbed("The history is empty.")],
+      embeds: [ErrorEmbed("The history is already empty.")],
     });
   }
 
-  switch (type) {
+  switch (subcmd) {
     case "queue":
       queue.tracks.clear();
       break;
@@ -55,7 +59,7 @@ export function execute(interaction, queue) {
   return interaction.reply({
     embeds: [
       SuccessEmbed(
-        `Cleared ${type === "all" ? "all the" : `the ${type}`} tracks.`
+        `Cleared ${subcmd === "all" ? "all the" : `the ${subcmd}`} tracks.`
       ),
     ],
   });

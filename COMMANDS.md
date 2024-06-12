@@ -188,12 +188,21 @@ Let the bot join your voice channel.
 
 ---
 
-### `/clear`
+### `/clear queue`
 
-Clear songs from the queue, history, or all.
-| Name | Description | Required | Type | Choices |
-|------|-------------|----------|------|---------|
-| type | Select the type of songs to clear. | true | String | Queue, History, All |
+Clear songs from the queue.
+
+---
+
+### `/clear history`
+
+Clear songs from the history.
+
+---
+
+### `/clear all`
+
+Clear all songs from the queue and history.
 
 ---
 
