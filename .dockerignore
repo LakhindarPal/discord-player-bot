@@ -1,0 +1,47 @@
+# Node modules directory
+node_modules
+
+# bun lockfile
+bun.lockb
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Directory for environments
+.env
+.env.sample
+
+# Docker-related files
+Dockerfile
+.dockerignore
+
+# Documentation and metadata files
+README.md
+COMMANDS.md
+CONTRIBUTING.md
+LICENSE
+SECURITY.md
+
+# Configuration files
+.editorconfig
+.prettierignore
+.prettierrc
+eslint.config.js
+
+# Git-related files
+.git
+.gitignore
+.gitattributes
+
+# IDE/editor directories and files
+.vscode
+.idea
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# GitHub-related directory
+.github
