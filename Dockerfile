@@ -1,23 +1,30 @@
-# Use the official Node.js image as the base image
-FROM node:20-alpine
+# Use the Bookworm Node.js image as the base image
+FROM node:20-bookworm-slim
 
 # Set the working directory inside the container
-WORKDIR /usr/src/app
+WORKDIR /usr/app
 
-# Copy package.json and package-lock.json to the working directory
+# Copy the package.json and package-lock.json files
 COPY package*.json ./
 
-# Install dependencies with verbose output
-RUN npm ci --verbose
+# Install necessary dependencies only
+RUN npm ci --omit=dev --no-optional \
+  && npm cache clean --force
 
-# Copy the rest of the application code to the working directory
-COPY . .
+# Install mediaplex
+RUN npm install mediaplex
 
-# Install FFmpeg using apk (for Alpine Linux)
-RUN apk update && apk add --no-cache ffmpeg
+# Install FFmpeg using apt-get
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends ffmpeg \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
-# Cleanup unnecessary cache to minimize image size
-RUN rm -rf /var/cache/apk/* /tmp/*
+# Cleanup unnecessary packages to minimize image size
+RUN apt-get autoremove -y
+
+# Copy the rest of the application code
+COPY src/ ./src/
 
 # Command to run the application
 CMD ["npm", "start"]

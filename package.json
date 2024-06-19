@@ -1,6 +1,6 @@
 {
   "name": "discord-player-bot",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "A discord music bot built using discord.js and discord-player",
   "main": "src/index.js",
   "type": "module",
@@ -50,10 +50,10 @@
     "mediaplex": "^0.0.9"
   },
   "devDependencies": {
-    "@eslint/js": "^9.4.0",
-    "eslint": "^9.4.0",
+    "@eslint/js": "^9.5.0",
+    "eslint": "^9.5.0",
     "eslint-config-prettier": "^9.1.0",
-    "globals": "^15.4.0",
+    "globals": "^15.6.0",
     "prettier": "3.3.1"
   }
 }

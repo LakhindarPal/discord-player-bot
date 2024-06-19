@@ -20,7 +20,7 @@ export const data = {
 };
 
 export function execute(interaction, queue) {
-  const level = interaction.options.getInteger("level", false);
+  const level = interaction.options.getNumber("level", false);
 
   if (!level) {
     return interaction.reply({
