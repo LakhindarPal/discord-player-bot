@@ -1,6 +1,6 @@
 import { time } from "discord.js";
 import { BaseEmbed } from "../../modules/Embeds.js";
-import { formatDuration } from "../../modules/utils.js";
+import { Util } from "discord-player";
 
 export const data = {
   name: "uptime",
@@ -10,8 +10,7 @@ export const data = {
 
 export function execute(interaction) {
   const client = interaction.client;
-  const uptime = client.uptime;
-  const upTime = formatDuration(uptime);
+  const upTime = Util.formatDuration(client.uptime);
   const upSince = new Date(Date.now() - client.uptime);
 
   const embed = BaseEmbed()

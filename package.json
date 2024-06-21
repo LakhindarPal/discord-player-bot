@@ -46,7 +46,7 @@
     "discord-player-tidal": "^0.1.0",
     "discord.js": "^14.15.3",
     "dotenv": "^16.4.5",
-    "glob": "^10.4.1",
+    "glob": "^10.4.2",
     "mediaplex": "^0.0.9"
   },
   "devDependencies": {

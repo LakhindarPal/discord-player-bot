@@ -1,5 +1,7 @@
-# Use the Bookworm Node.js image as the base image
-FROM node:20-bookworm-slim
+ARG NODE_VERSION=20-bookworm-slim
+
+# Stage 1: Build Stage
+FROM node:${NODE_VERSION} AS build
 
 # Set the working directory inside the container
 WORKDIR /usr/app
@@ -8,11 +10,22 @@ WORKDIR /usr/app
 COPY package*.json ./
 
 # Install necessary dependencies only
-RUN npm ci --omit=dev --no-optional \
-  && npm cache clean --force
+RUN npm ci --omit=dev --no-optional
 
 # Install mediaplex
 RUN npm install mediaplex
+
+# Copy the rest of the application code
+COPY src/ ./src/
+
+# Stage 2: Runtime Stage
+FROM node:${NODE_VERSION} AS runtime
+
+# Set the working directory inside the container
+WORKDIR /usr/app
+
+# Copy from the build stage
+COPY --from=build /usr/app ./
 
 # Install FFmpeg using apt-get
 RUN apt-get update \
@@ -22,9 +35,6 @@ RUN apt-get update \
 
 # Cleanup unnecessary packages to minimize image size
 RUN apt-get autoremove -y
-
-# Copy the rest of the application code
-COPY src/ ./src/
 
 # Command to run the application
 CMD ["npm", "start"]

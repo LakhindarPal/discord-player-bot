@@ -1,7 +1,7 @@
 import { BaseEmbed } from "../../modules/Embeds.js";
 
 export const data = {
-  name: "now",
+  name: "np",
   description: "Show the current playing song",
   category: "music",
   queueOnly: true,
@@ -12,7 +12,7 @@ export function execute(interaction, queue) {
   const embed = BaseEmbed()
     .setAuthor({ name: "Nowplaying 🎵" })
     .setTitle(track.title)
-    .setURL(`${track.url}`)
+    .setURL(track.url)
     .setThumbnail(track.thumbnail)
     .setDescription(
       `Played by: ${track.requestedBy.toString()}\n\n${queue.node.createProgressBar()}`

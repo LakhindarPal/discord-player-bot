@@ -141,28 +141,19 @@ export async function execute(interaction) {
       connectionOptions: { deaf: true },
     });
 
-    const embed = BaseEmbed().setFooter({
-      text: `Requested by: ${interaction.user.tag}`,
-      iconURL: interaction.member.displayAvatarURL(),
-    });
+    const embed = BaseEmbed();
 
     if (searchResult.hasPlaylist()) {
       const playlist = searchResult.playlist;
       embed
-        .setAuthor({
-          name: `Playlist queued - ${playlist.tracks.length} tracks.`,
-        })
-        .setTitle(playlist.title)
-        .setURL(playlist.url)
-        .setThumbnail(playlist.thumbnail);
+        .setTitle(`Playlist enqueued - ${playlist.tracks.length} tracks.`)
+        .setDescription(`[${playlist.title}](${playlist.url})`);
     } else {
       embed
-        .setAuthor({
-          name: `Track queued - Position ${queue.node.getTrackPosition(track) + 1}`,
-        })
-        .setTitle(track.title)
-        .setURL(track.url)
-        .setThumbnail(track.thumbnail);
+        .setTitle(
+          `Track enqueued - Position ${queue.node.getTrackPosition(track) + 1}`
+        )
+        .setDescription(track.toHyperlink());
     }
 
     return interaction.editReply({ embeds: [embed] }).catch(console.error);

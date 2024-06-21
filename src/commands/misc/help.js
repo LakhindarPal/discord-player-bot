@@ -1,7 +1,7 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 
 export const data = {
-  name: "support",
+  name: "help",
   description: "Join the support server and get some help",
   category: "misc",
 };

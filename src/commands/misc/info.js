@@ -5,7 +5,8 @@ import {
   ButtonBuilder,
   ButtonStyle,
 } from "discord.js";
-import { formatDuration, formatNumber } from "../../modules/utils.js";
+import { Util } from "discord-player";
+import { formatNumber } from "../../modules/utils.js";
 import { BaseEmbed } from "../../modules/Embeds.js";
 
 export const data = {
@@ -25,7 +26,7 @@ export function execute(interaction) {
     guilds.cache.reduce((acc, guild) => acc + guild.channels.cache.size, 0)
   );
   const commandCount = commands.size;
-  const uptime = formatDuration(client.uptime);
+  const uptime = Util.formatDuration(client.uptime);
   const createdAt = new Date(client.user.createdAt);
   const inviteLink = `https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot%20applications.commands`;
 

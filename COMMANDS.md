@@ -142,7 +142,7 @@ Pause the playback
 
 ---
 
-### `/now`
+### `/np`
 
 Show the current playing song
 
@@ -220,12 +220,6 @@ Show how long the bot has been up
 
 ---
 
-### `/support`
-
-Join the support server and get some help
-
----
-
 ### `/ping`
 
 Ping? Pong!
@@ -241,6 +235,12 @@ Invite the bot to your server
 ### `/info`
 
 Show info about the bot
+
+---
+
+### `/help`
+
+Join the support server and get some help
 
 ---
 
