@@ -1,6 +1,6 @@
 {
   "name": "discord-player-bot",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "A discord music bot built using discord.js and discord-player",
   "main": "src/index.js",
   "type": "module",
@@ -28,7 +28,7 @@
     "music"
   ],
   "author": "Lakhindar Pal",
-  "license": "Apache-2.0",
+  "license": "GPL-3.0-or-later",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LakhindarPal/discord-player-bot.git"
