@@ -1,6 +1,7 @@
 import { ApplicationCommandOptionType } from "discord.js";
-import { BaseEmbed, ErrorEmbed } from "../../modules/Embeds.js";
 import { useHistory } from "discord-player";
+import { BaseEmbed, ErrorEmbed } from "../../modules/Embeds.js";
+import { titleCase } from "../../modules/utils.js";
 
 export const data = {
   name: "songs",
@@ -49,11 +50,15 @@ export function execute(interaction, queue) {
   const tracks = songsdata.slice(start, end);
 
   const embed = BaseEmbed()
+    .setAuthor({
+      iconURL: interaction.guild.iconURL(),
+      name: `${titleCase(type)} songs`,
+    })
     .setDescription(
       tracks
         .map(
           (track, i) =>
-            `${start + i + 1} - [${track.title}](${track.url}) ~ [${track.requestedBy.toString()}]`
+            `**${start + i + 1}**. [${track.title}](${track.url}) ~ [${track.requestedBy.toString()}]`
         )
         .join("\n")
     )
@@ -61,7 +66,6 @@ export function execute(interaction, queue) {
       text: `Page ${page} of ${maxPage} | Showing songs ${start + 1} to ${
         end > songsLength ? songsLength : end
       } of ${songsLength}`,
-      iconURL: interaction.user.displayAvatarURL(),
     });
 
   return interaction.reply({ ephemeral: true, embeds: [embed] });

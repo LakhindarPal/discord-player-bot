@@ -5,8 +5,8 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "lint": "eslint src/**/*.js",
-    "lint:fix": "eslint src/**/*.js --fix",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "format": "prettier . --write",
     "register": "node src/scripts/register.js",
     "doc": "node src/scripts/cmd-doc.js",
@@ -54,6 +54,6 @@
     "eslint": "^9.5.0",
     "eslint-config-prettier": "^9.1.0",
     "globals": "^15.6.0",
-    "prettier": "3.3.1"
+    "prettier": "3.3.2"
   }
 }

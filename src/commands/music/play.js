@@ -146,14 +146,20 @@ export async function execute(interaction) {
     if (searchResult.hasPlaylist()) {
       const playlist = searchResult.playlist;
       embed
-        .setTitle(`Playlist enqueued - ${playlist.tracks.length} tracks.`)
-        .setDescription(`[${playlist.title}](${playlist.url})`);
+        .setAuthor({
+          name: `Playlist added - ${playlist.tracks.length} tracks.`,
+          iconURL: playlist.thumbnail,
+        })
+        .setTitle(playlist.title)
+        .setURL(playlist.url);
     } else {
       embed
-        .setTitle(
-          `Track enqueued - Position ${queue.node.getTrackPosition(track) + 1}`
-        )
-        .setDescription(track.toHyperlink());
+        .setAuthor({
+          name: `Track added - Position ${queue.node.getTrackPosition(track) + 1}`,
+          iconURL: track.thumbnail,
+        })
+        .setTitle(track.title)
+        .setURL(track.url);
     }
 
     return interaction.editReply({ embeds: [embed] }).catch(console.error);

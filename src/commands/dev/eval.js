@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 import { codeBlock, ApplicationCommandOptionType, Colors } from "discord.js";
+import * as DP from "discord-player";
 import { inspect } from "node:util";
 import { ErrorEmbed } from "../../modules/Embeds.js";
 
@@ -17,7 +19,7 @@ export const data = {
   devOnly: true,
 };
 
-export async function execute(interaction) {
+export async function execute(interaction, queue) {
   await interaction.deferReply({ ephemeral: true });
 
   const code = interaction.options.getString("code", true);
@@ -33,6 +35,8 @@ export async function execute(interaction) {
       ],
     });
   }
+
+  const client = interaction.client;
 
   let result;
   let error;
