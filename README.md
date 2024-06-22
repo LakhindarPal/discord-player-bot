@@ -4,18 +4,21 @@ It is a Discord music bot built using [discord-player](https://npm.im/discord-pl
 
 ![Discord.js Version](https://img.shields.io/github/package-json/dependency-version/LakhindarPal/discord-player-bot/discord.js)
 ![Discord Player Version](https://img.shields.io/github/package-json/dependency-version/LakhindarPal/discord-player-bot/discord-player)
+![Project Version](https://img.shields.io/github/package-json/v/LakhindarPal/discord-player-bot)
 
-![License](https://img.shields.io/github/license/LakhindarPal/discord-player-bot)
-![Contributors](https://img.shields.io/github/contributors/lakhindarpal/discord-player-bot)
-![Stars](https://img.shields.io/github/stars/LakhindarPal/discord-player-bot)
+![License](https://img.shields.io/github/license/LakhindarPal/discord-player-bot?link=LICENSE)
 
-[![Support](https://img.shields.io/badge/Discord-Support-blue)](https://discord.gg/8yaJBZBQTA)
+![Contributors](https://img.shields.io/github/contributors/lakhindarpal/discord-player-bot?logo=github&link=https%3A%2F%2Fgithub.com%2FLakhindarPal%2Fdiscord-player-bot%2Fgraphs%2Fcontributors)
+![Stars](https://img.shields.io/github/stars/LakhindarPal/discord-player-bot?link=https%3A%2F%2Fgithub.com%2FLakhindarPal%2Fdiscord-player-bot%2Fstargazers)
+![Forks](https://img.shields.io/github/forks/LakhindarPal/discord-player-bot?link=https%3A%2F%2Fgithub.com%2FLakhindarPal%2Fdiscord-player-bot%2Fforks)
+![Docker Pulls](https://img.shields.io/docker/pulls/lakhindarpal/discord-player-bot?logo=docker&label=Pulls&link=https%3A%2F%2Fhub.docker.com%2Fr%2Flakhindarpal%2Fdiscord-player-bot)
+
+[![Support](https://img.shields.io/badge/Support-Discord-blue?style=for-the-badge&logo=discord)](https://discord.gg/8yaJBZBQTA)
 
 ## Table of Contents
 
 - [Features](#features)
-- [Disclaimer (Terms of Use)](#disclaimer-terms-of-use)
-- [Disclaimer (if self-hosted)](#disclaimer-if-self-hosted)
+- [Disclaimer](#disclaimer)
 - [Installation](#installation)
   - [Before you start](#before-you-start)
   - [Config](#config)
@@ -24,7 +27,7 @@ It is a Discord music bot built using [discord-player](https://npm.im/discord-pl
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
-- [Support](#support)
+- [Help](#help)
 - [Feedback](#feedback)
 - [Star History](#star-history)
 - [Supporters](#supporters)
@@ -34,22 +37,14 @@ It is a Discord music bot built using [discord-player](https://npm.im/discord-pl
 - **Beginner-Friendly**: Designed with simplicity in mind, making it easy for users of all skill levels to understand and use.
 - **Quick Setup**: Get the bot up and running swiftly with straightforward installation instructions and minimal configuration requirements.
 - **Versatile Commands**: A comprehensive range of commands to cater to various music playback needs, ensuring an enjoyable listening experience for all users.
-- **Audio Filters**: Access to 25 different ffmpeg audio filters, allowing users to customize their listening experience to their preferences.
+- **Audio Filters**: Customize your listening experience with 25 FFmpeg filters, 18 Equalizer presets, and 10 Biquad filters.
 - **Multi-Guild Support**: Effortlessly manage the bot across multiple Discord guilds, providing flexibility for diverse communities.
-- **Platform Integration**: Supports various platform links, enabling users to play music from a wide range of sources, including YouTube, Spotify, SoundCloud, Apple Music, Reverbnation, Deezer, Tidal, and more.
+- **Various Sources**: Play music from a wide range of sources, including YouTube, Spotify, SoundCloud, Apple Music, Reverbnation, Deezer, Tidal, and more.
 - **Slash Commands**: Take advantage of slash commands for seamless interaction with the bot, enhancing user experience and accessibility.
 
-## Disclaimer (Terms of Use)
+## Disclaimer
 
 This project is intended for educational and entertainment purposes only. It is not designed to encourage or facilitate any form of unfair usage. If you represent a supported streaming platform and have concerns about the bot's functionality, please reach out to us via GitHub Discussions or our support channels for a constructive dialogue.
-
-## Disclaimer (if self-hosted)
-
-- **Prohibited Use**: Uploading this bot to any bot listing service such as Discord Bot List or top.gg is strictly prohibited.
-- **Community Hosting Only**: You are authorized to host this bot exclusively for your community's use.
-- **Security Responsibility**: Hosting the bot on public platforms like Glitch.com or repl.it poses a risk of bot token exposure. In the event of such an incident, you are solely responsible for any consequences.
-
-We appreciate your cooperation and understanding in adhering to these guidelines.
 
 ## Installation
 
@@ -111,18 +106,18 @@ If you prefer to use Docker for deploying the Discord Player Bot, follow these s
 
 1. **Fill the `.env` File**: Ensure that you have filled out the necessary environment variables in the `.env` file as described above.
 
-2. **Build Docker Image**: Run the following command to build the Docker image:
+2. **Pull Docker Image**: Run the following command in terminal:
 
    ```bash
-   docker build -t discord-player-bot .
+   docker pull lakhindarpal/discord-player-bot:latest
    ```
 
-This command will use the Dockerfile provided in the repository to build the Docker image.
+This command will pull the latest image of discord-player-bot from docker hub.
 
-3. **Run Docker Container**: Once the Docker image is built successfully, you can run the Docker container using the following command:
+3. **Run Docker Container**: Once the Docker image is pulled successfully, you can run the Docker container using the following command:
 
    ```bash
-   docker run --env-file .env discord-player-bot
+   docker run --env-file .env lakhindarpal/discord-player-bot:latest
    ```
 
 4. **Enjoy Dockerized Discord Player Bot**: Your Discord Player Bot should now be running in a Docker container, ready to provide music playback functionality in your Discord server.
@@ -145,9 +140,9 @@ For detailed command usage and examples, please refer to the [Commands](./COMMAN
 
 ## License
 
-This project is licensed under the Apache License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the terms of the GNU General Public License v3.0. See the [LICENSE](LICENSE) file for details.
 
-## Support
+## Help
 
 If you need further help with this project, to get support faster you can join the Discord server by just clicking [here](https://discord.gg/8yaJBZBQTA).
 
@@ -162,11 +157,9 @@ We value your feedback! If you have any suggestions, feature requests, or bug re
 ## Supporters
 
 [![Stargazers repo roster](https://reporoster.com/stars/lakhindarpal/discord-player-bot)](https://github.com/lakhindarpal/discord-player-bot/stargazers)
+
 [![Forkers repo roster](https://reporoster.com/forks/lakhindarpal/discord-player-bot)](https://github.com/lakhindarpal/discord-player-bot/network/members)
 
 ---
 
 ![Animated footer gif](http://randojs.com/images/barsSmallTransparentBackground.gif)
-[![Back to top](http://randojs.com/images/backToTopButtonTransparentBackground.png)](#discord-player-bot)
-
----
