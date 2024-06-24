@@ -49,6 +49,7 @@ export async function suggest(interaction) {
   if (!query) return;
 
   const player = useMainPlayer();
+
   const searchResult = await player.search(query).catch(() => null);
   if (!searchResult) {
     return interaction.respond([{ name: "No results found", value: "" }]);
@@ -59,7 +60,7 @@ export async function suggest(interaction) {
     : searchResult.tracks.slice(0, 10);
 
   const formattedResult = tracks.map((track) => ({
-    name: track.title,
+    name: track.title.slice(0, 100),
     value: track.url,
   }));
 
@@ -115,8 +116,10 @@ export async function execute(interaction) {
   }
 
   const query = interaction.options.getString("query", true);
-  const searchEngine =
-    interaction.options.getString("source", false) ?? QueryType.AUTO;
+  let searchEngine = interaction.options.getString("source", false);
+  const urlRegex = /^(https?):\/\/(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?:\/\S*)?$/;
+  if (!searchEngine || urlRegex.test(query)) searchEngine = QueryType.AUTO;
+
   const player = useMainPlayer();
 
   await interaction.deferReply();
