@@ -8,7 +8,7 @@ export const data = {
   validateVC: true,
 };
 export function execute(interaction, queue) {
-  if (queue.isPlaying())
+  if (queue.node.isPlaying())
     return interaction.reply({
       ephemeral: true,
       embeds: [ErrorEmbed("The playback is not paused.")],

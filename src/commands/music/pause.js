@@ -9,7 +9,7 @@ export const data = {
 };
 
 export function execute(interaction, queue) {
-  if (queue.isPaused())
+  if (queue.node.isPaused())
     return interaction.reply({
       ephemeral: true,
       embeds: [ErrorEmbed("The playback is already paused.")],
