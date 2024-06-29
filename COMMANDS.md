@@ -30,18 +30,12 @@ Stop the playback.
 ### `/songs queue`
 
 Display songs from the queue.
-| Name | Description | Required | Type | Choices |
-|------|-------------|----------|------|---------|
-| page | Specify the page number to view (default: 1). | false | Number | |
 
 ---
 
 ### `/songs history`
 
 Display songs from the history.
-| Name | Description | Required | Type | Choices |
-|------|-------------|----------|------|---------|
-| page | Specify the page number to view (default: 1). | false | Number | |
 
 ---
 
