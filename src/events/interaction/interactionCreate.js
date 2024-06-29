@@ -1,20 +1,25 @@
 import { Collection, Events } from "discord.js";
 import { useQueue } from "discord-player";
-import { ErrorEmbed, WarningEmbed } from "../../modules/Embeds.js";
+import { ErrorEmbed, WarningEmbed } from "../../modules/embeds.js";
 
 export const data = {
   name: Events.InteractionCreate,
 };
+
 export async function execute(interaction) {
   if (!interaction.inCachedGuild()) return;
 
-  const commandName = interaction.commandName;
-  const command = interaction.client.commands.get(commandName);
+  const commandName = interaction.isMessageComponent()
+    ? interaction.customId
+    : interaction.commandName;
+
+  const command = interaction.isMessageComponent()
+    ? interaction.client.components.get(commandName)
+    : interaction.client.commands.get(commandName);
 
   if (!command) {
-    return console.error(
-      `No command matching \`${interaction.commandName}\` was found.`
-    );
+    console.error(`\`${commandName}\` command was not found.`);
+    return;
   }
 
   if (interaction.isAutocomplete()) {
@@ -25,7 +30,7 @@ export async function execute(interaction) {
     }
   }
 
-  if (!interaction.isChatInputCommand()) return;
+  if (!interaction.isChatInputCommand() && !interaction.isButton()) return;
 
   const { cooldowns } = interaction.client;
 

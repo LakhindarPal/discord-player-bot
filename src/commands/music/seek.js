@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType } from "discord.js";
 import { Util } from "discord-player";
-import { SuccessEmbed, ErrorEmbed } from "../../modules/Embeds.js";
+import { SuccessEmbed, ErrorEmbed } from "../../modules/embeds.js";
 import { timeToMs } from "../../modules/utils.js";
 
 export const data = {
@@ -19,7 +19,7 @@ export const data = {
   validateVC: true,
 };
 
-export async function execute(interaction, queue) {
+export function execute(interaction, queue) {
   const timestring = interaction.options.getString("timestamp", true);
   const timestamp = timeToMs(timestring);
 
@@ -41,9 +41,7 @@ export async function execute(interaction, queue) {
     });
   }
 
-  await interaction.deferReply();
-
-  await queue.node.seek(timestamp);
+  queue.node.seek(timestamp);
 
   return interaction.editReply({
     embeds: [SuccessEmbed(`Seeked to ${Util.formatDuration(timestamp)}.`)],

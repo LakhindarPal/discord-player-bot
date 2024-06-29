@@ -1,9 +1,7 @@
-import { ErrorEmbed, SuccessEmbed } from "../../modules/embeds.js";
+import { ErrorEmbed, SuccessEmbed } from "../modules/embeds.js";
 
 export const data = {
-  name: "shuffle",
-  description: "Toggle shuffle mode for this queue.",
-  category: "music",
+  id: "shuffle",
   queueOnly: true,
   validateVC: true,
 };
@@ -18,7 +16,7 @@ export function execute(interaction, queue) {
   const mode = queue.toggleShuffle();
 
   //emit custom event
-  queue.emit("shuffleToggle", queue, mode);
+  queue.emit("shuffleToggle", queue);
 
   return interaction.reply({
     embeds: [SuccessEmbed(`${mode ? "Enabled" : "Disabled"} shuffle mode.`)],

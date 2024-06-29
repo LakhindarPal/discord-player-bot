@@ -1,5 +1,6 @@
 import { ActivityType, Events, PresenceUpdateStatus } from "discord.js";
 import { loadCommands } from "../../handlers/command.js";
+import { loadComponents } from "../../handlers/components.js";
 
 export const data = {
   name: Events.ClientReady,
@@ -7,6 +8,7 @@ export const data = {
 };
 export async function execute(client) {
   await loadCommands(client);
+  await loadComponents(client);
 
   client.user.setPresence({
     activities: [{ name: "/play", type: ActivityType.Listening }],

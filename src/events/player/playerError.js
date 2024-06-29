@@ -1,6 +1,6 @@
 import { codeBlock } from "discord.js";
 import { GuildQueueEvent } from "discord-player";
-import { BaseEmbed, Colors } from "../../modules/Embeds.js";
+import { BaseEmbed, Colors } from "../../modules/embeds.js";
 
 export const data = {
   name: GuildQueueEvent.PlayerError,

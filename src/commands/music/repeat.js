@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType } from "discord.js";
 import { QueueRepeatMode } from "discord-player";
-import { BaseEmbed } from "../../modules/Embeds.js";
+import { BaseEmbed } from "../../modules/embeds.js";
 
 export const data = {
   name: "repeat",
@@ -69,6 +69,9 @@ export function execute(interaction, queue) {
       description = `Playback repeat status: \`${status}\`.`;
     }
   }
+
+  //emit custom event
+  queue.emit("repeatChange", queue, queue.repeatMode);
 
   return interaction.reply({
     ephemeral: subCmd !== "status",

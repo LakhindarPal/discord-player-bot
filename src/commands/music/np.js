@@ -1,4 +1,4 @@
-import { BaseEmbed } from "../../modules/Embeds.js";
+import { BaseEmbed } from "../../modules/embeds.js";
 
 export const data = {
   name: "np",

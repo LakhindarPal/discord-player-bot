@@ -3,7 +3,7 @@ import {
   ErrorEmbed,
   SuccessEmbed,
   WarningEmbed,
-} from "../../modules/Embeds.js";
+} from "../../modules/embeds.js";
 
 export const data = {
   name: "move",

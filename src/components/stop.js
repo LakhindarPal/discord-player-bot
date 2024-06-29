@@ -1,9 +1,7 @@
-import { SuccessEmbed } from "../../modules/embeds.js";
+import { SuccessEmbed } from "../modules/embeds.js";
 
 export const data = {
-  name: "stop",
-  description: "Stop the playback.",
-  category: "music",
+  id: "stop",
   queueOnly: true,
   validateVC: true,
 };

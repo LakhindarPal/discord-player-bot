@@ -1,5 +1,5 @@
 import { time } from "discord.js";
-import { BaseEmbed } from "../../modules/Embeds.js";
+import { BaseEmbed } from "../../modules/embeds.js";
 import { Util } from "discord-player";
 
 export const data = {

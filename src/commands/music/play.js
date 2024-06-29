@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType } from "discord.js";
 import { useMainPlayer, QueryType } from "discord-player";
-import { BaseEmbed, ErrorEmbed } from "../../modules/Embeds.js";
+import { BaseEmbed, ErrorEmbed } from "../../modules/embeds.js";
 import playerOptions from "../../config/playerOptions.js";
 
 export const data = {
@@ -137,7 +137,7 @@ export async function execute(interaction) {
   try {
     const { queue, track, searchResult } = await player.play(channel, result, {
       nodeOptions: {
-        metadata: interaction,
+        metadata: { channel: interaction.channel },
         ...playerOptions,
       },
       requestedBy: interaction.user,

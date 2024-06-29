@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType } from "discord.js";
 import { useHistory } from "discord-player";
-import { BaseEmbed, ErrorEmbed } from "../../modules/Embeds.js";
+import { BaseEmbed, ErrorEmbed } from "../../modules/embeds.js";
 import { titleCase } from "../../modules/utils.js";
 
 export const data = {

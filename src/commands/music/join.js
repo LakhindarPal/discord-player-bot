@@ -3,7 +3,7 @@ import {
   ErrorEmbed,
   SuccessEmbed,
   WarningEmbed,
-} from "../../modules/Embeds.js";
+} from "../../modules/embeds.js";
 import playerOptions from "../../config/playerOptions.js";
 
 export const data = {

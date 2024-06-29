@@ -1,5 +1,5 @@
 import { ApplicationCommandOptionType } from "discord.js";
-import { BaseEmbed, ErrorEmbed, SuccessEmbed } from "../../modules/Embeds.js";
+import { BaseEmbed, ErrorEmbed, SuccessEmbed } from "../../modules/embeds.js";
 import ffmpegFilters from "../../config/ffmpegFilters.js";
 import { titleCase } from "../../modules/utils.js";
 

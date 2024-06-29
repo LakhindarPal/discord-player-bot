@@ -10,6 +10,7 @@ import { loadEvents } from "./handlers/event.js";
 
 class ExtendedClient extends Client {
   commands = new Collection();
+  components = new Collection();
   cooldowns = new Collection();
 
   constructor(options) {
@@ -34,5 +35,5 @@ await client.login(process.env.DISCORD_TOKEN);
 process.on("unhandledRejection", (reason) => console.error(reason));
 // prevent crash on uncaught exception
 process.on("uncaughtException", (error) => console.error(error));
-// prevent crash on uncaught warning
+// log warning
 process.on("warning", (warning) => console.error(warning));

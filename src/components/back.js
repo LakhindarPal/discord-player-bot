@@ -1,10 +1,8 @@
 import { useHistory } from "discord-player";
-import { ErrorEmbed, SuccessEmbed } from "../../modules/embeds.js";
+import { ErrorEmbed, SuccessEmbed } from "../modules/embeds.js";
 
 export const data = {
-  name: "back",
-  description: "Go back to the previous song",
-  category: "music",
+  id: "back",
   queueOnly: true,
   validateVC: true,
 };

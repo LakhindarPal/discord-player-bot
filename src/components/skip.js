@@ -1,13 +1,12 @@
 import { QueueRepeatMode } from "discord-player";
-import { ErrorEmbed, SuccessEmbed } from "../../modules/embeds.js";
+import { ErrorEmbed, SuccessEmbed } from "../modules/embeds.js";
 
 export const data = {
-  name: "skip",
-  description: "Skip to the next song",
-  category: "music",
+  id: "skip",
   queueOnly: true,
   validateVC: true,
 };
+
 export function execute(interaction, queue) {
   if (queue.isEmpty() && queue.repeatMode !== QueueRepeatMode.AUTOPLAY)
     return interaction.reply({

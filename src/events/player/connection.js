@@ -1,5 +1,5 @@
 import { GuildQueueEvent } from "discord-player";
-import { BaseEmbed } from "../../modules/Embeds.js";
+import { BaseEmbed } from "../../modules/embeds.js";
 
 export const data = {
   name: GuildQueueEvent.Connection,

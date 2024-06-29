@@ -1,5 +1,5 @@
 import { GuildQueueEvent } from "discord-player";
-import { InfoEmbed } from "../../modules/Embeds.js";
+import { InfoEmbed } from "../../modules/embeds.js";
 
 export const data = {
   name: GuildQueueEvent.EmptyQueue,

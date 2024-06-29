@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType } from "discord.js";
 import { lyricsExtractor } from "@discord-player/extractor";
-import { ErrorEmbed, BaseEmbed } from "../../modules/Embeds.js";
+import { ErrorEmbed, BaseEmbed } from "../../modules/embeds.js";
 
 const lyricsFinder = lyricsExtractor();
 

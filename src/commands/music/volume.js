@@ -1,5 +1,5 @@
 import { ApplicationCommandOptionType } from "discord.js";
-import { SuccessEmbed, InfoEmbed } from "../../modules/Embeds.js";
+import { SuccessEmbed, InfoEmbed } from "../../modules/embeds.js";
 
 export const data = {
   name: "volume",

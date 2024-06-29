@@ -7,7 +7,7 @@ import {
 } from "discord.js";
 import { Util } from "discord-player";
 import { formatNumber } from "../../modules/utils.js";
-import { BaseEmbed } from "../../modules/Embeds.js";
+import { BaseEmbed } from "../../modules/embeds.js";
 
 export const data = {
   name: "info",

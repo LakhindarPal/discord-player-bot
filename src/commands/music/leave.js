@@ -1,4 +1,4 @@
-import { ErrorEmbed, SuccessEmbed } from "../../modules/Embeds.js";
+import { ErrorEmbed, SuccessEmbed } from "../../modules/embeds.js";
 
 export const data = {
   name: "leave",

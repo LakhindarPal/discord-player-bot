@@ -2,7 +2,7 @@
 import { codeBlock, ApplicationCommandOptionType, Colors } from "discord.js";
 import * as DP from "discord-player";
 import { inspect } from "node:util";
-import { ErrorEmbed } from "../../modules/Embeds.js";
+import { ErrorEmbed } from "../../modules/embeds.js";
 
 export const data = {
   name: "eval",

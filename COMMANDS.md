@@ -68,10 +68,10 @@ Toggle shuffle mode for this queue.
 
 ### `/seek`
 
-Seek to a specific timestamp in the current track.
+Seek the player to a specific timestamp.
 | Name | Description | Required | Type | Choices |
 |------|-------------|----------|------|---------|
-| timestamp | The timestamp to seek to (in seconds). | true | Number | |
+| timestamp | The timestamp to seek to (mm:ss). | true | String | |
 
 ---
 
