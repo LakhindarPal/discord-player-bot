@@ -25,15 +25,15 @@ export function execute(interaction, queue) {
       embeds: [ErrorEmbed("The queue is empty.")],
     });
 
-  const position = interaction.options.getNumber("position", true) - 1;
+  const index = interaction.options.getNumber("position", true) - 1;
 
-  if (position >= queue.size)
+  if (index >= queue.size)
     return interaction.reply({
       ephemeral: true,
       embeds: [ErrorEmbed("The provided position is not valid.")],
     });
 
-  const removed = queue.node.remove(position);
+  const removed = queue.node.remove(index);
 
   return interaction.reply({
     embeds: [

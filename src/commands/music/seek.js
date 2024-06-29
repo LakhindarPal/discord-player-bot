@@ -1,17 +1,17 @@
 import { ApplicationCommandOptionType } from "discord.js";
-import { SuccessEmbed, ErrorEmbed } from "../../modules/Embeds.js";
 import { Util } from "discord-player";
+import { SuccessEmbed, ErrorEmbed } from "../../modules/Embeds.js";
+import { timeToMs } from "../../modules/utils.js";
 
 export const data = {
   name: "seek",
-  description: "Seek to a specific timestamp in the current track.",
+  description: "Seek the player to a specific timestamp.",
   options: [
     {
       name: "timestamp",
-      description: "The timestamp to seek to (in seconds).",
-      type: ApplicationCommandOptionType.Number,
+      description: "The timestamp to seek to (mm:ss).",
+      type: ApplicationCommandOptionType.String,
       required: true,
-      min_value: 0,
     },
   ],
   category: "music",
@@ -20,12 +20,13 @@ export const data = {
 };
 
 export async function execute(interaction, queue) {
-  const timestamp = interaction.options.getNumber("timestamp", true) * 1000;
+  const timestring = interaction.options.getString("timestamp", true);
+  const timestamp = timeToMs(timestring);
 
   if (!queue.currentTrack) {
     return interaction.reply({
       ephemeral: true,
-      embeds: [ErrorEmbed("There is no song currently playing.")],
+      embeds: [ErrorEmbed("No song is currently playing.")],
     });
   }
 
@@ -34,7 +35,7 @@ export async function execute(interaction, queue) {
       ephemeral: true,
       embeds: [
         ErrorEmbed(
-          `Please provide a valid timestamp within 0 and ${queue.currentTrack.durationMS / 1000}.`
+          `Provide a valid timestamp within 0 and ${queue.currentTrack.duration}.`
         ),
       ],
     });

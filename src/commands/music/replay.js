@@ -12,7 +12,7 @@ export function execute(interaction, queue) {
   if (!queue.currentTrack) {
     return interaction.reply({
       ephemeral: true,
-      embeds: [ErrorEmbed("There is no song currently playing.")],
+      embeds: [ErrorEmbed("No song is currently playing.")],
     });
   }
 
