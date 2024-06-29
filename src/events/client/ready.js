@@ -6,6 +6,7 @@ export const data = {
   name: Events.ClientReady,
   once: true,
 };
+
 export async function execute(client) {
   await loadCommands(client);
   await loadComponents(client);

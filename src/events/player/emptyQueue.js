@@ -5,6 +5,7 @@ export const data = {
   name: GuildQueueEvent.EmptyQueue,
   type: "player",
 };
+
 export function execute(queue) {
   const embed = InfoEmbed("No more songs to play, leaving now.");
 

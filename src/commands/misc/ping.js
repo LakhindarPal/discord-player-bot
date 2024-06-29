@@ -5,6 +5,7 @@ export const data = {
   description: "Ping? Pong!",
   category: "misc",
 };
+
 export async function execute(interaction) {
   const embed1 = BaseEmbed().setDescription("Pinging...");
 

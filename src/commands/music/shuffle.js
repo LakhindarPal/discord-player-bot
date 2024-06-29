@@ -17,8 +17,8 @@ export function execute(interaction, queue) {
 
   const mode = queue.toggleShuffle();
 
-  //emit custom event
-  queue.emit("shuffleToggle", queue, mode);
+  // emit custom event
+  queue.emit("shuffleToggle", queue);
 
   return interaction.reply({
     embeds: [SuccessEmbed(`${mode ? "Enabled" : "Disabled"} shuffle mode.`)],

@@ -5,6 +5,7 @@ export const data = {
   name: GuildQueueEvent.Connection,
   type: "player",
 };
+
 export function execute(queue) {
   const textChannel = queue.metadata.channel;
 

@@ -9,7 +9,7 @@ export const data = {
 export async function execute(queue) {
   try {
     await queue.metadata.message?.edit({
-      embeds: [playingEmbed(queue, track)],
+      embeds: [playingEmbed(queue)],
       components: playingButtons(queue),
     });
   } catch {

@@ -6,6 +6,7 @@ export const data = {
   category: "music",
   validateVC: true,
 };
+
 export function execute(interaction, queue) {
   if (!queue) {
     return interaction.reply({

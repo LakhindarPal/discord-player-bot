@@ -18,8 +18,8 @@ export function execute(interaction, queue) {
     3: "Autoplay mode activated.",
   }[mode];
 
-  //emit custom event
-  queue.emit("repeatChange", queue, mode);
+  // emit custom event
+  queue.emit("repeatChange", queue);
 
   return interaction.reply({
     embeds: [SuccessEmbed(status)],

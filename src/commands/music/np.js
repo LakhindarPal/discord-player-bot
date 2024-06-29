@@ -6,6 +6,7 @@ export const data = {
   category: "music",
   queueOnly: true,
 };
+
 export function execute(interaction, queue) {
   const track = queue.currentTrack;
 

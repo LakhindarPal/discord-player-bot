@@ -5,6 +5,7 @@ export const data = {
   name: GuildQueueEvent.EmptyChannel,
   type: "player",
 };
+
 export function execute(queue) {
   const embed = InfoEmbed("Feeling lonely, leaving now.");
 

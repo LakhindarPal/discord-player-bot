@@ -6,11 +6,10 @@ export const data = {
   name: GuildQueueEvent.PlayerStart,
   type: "player",
 };
+
 export async function execute(queue, track) {
   try {
-    const lastMessageId = queue.metadata.message?.id;
-    const lastMessage =
-      await queue.metadata.channel.messages?.fetch(lastMessageId);
+    const lastMessage = queue.metadata.message;
     await lastMessage?.delete();
   } catch {
     // ignore
@@ -20,5 +19,6 @@ export async function execute(queue, track) {
     embeds: [playingEmbed(queue, track)],
     components: playingButtons(queue),
   });
+
   queue.metadata.message = newMessage;
 }

@@ -70,8 +70,8 @@ export function execute(interaction, queue) {
     }
   }
 
-  //emit custom event
-  queue.emit("repeatChange", queue, queue.repeatMode);
+  // emit custom event
+  queue.emit("repeatChange", queue);
 
   return interaction.reply({
     ephemeral: subCmd !== "status",

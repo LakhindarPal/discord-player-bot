@@ -28,6 +28,7 @@ export const data = {
   queueOnly: true,
   validateVC: true,
 };
+
 export function execute(interaction, queue) {
   if (queue.size < 2) {
     return interaction.reply({

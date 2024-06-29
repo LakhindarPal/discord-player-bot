@@ -6,6 +6,7 @@ export const data = {
   name: GuildQueueEvent.Error,
   type: "player",
 };
+
 export function execute(queue, error) {
   console.error(error);
 

@@ -7,6 +7,7 @@ export const data = {
   queueOnly: true,
   validateVC: true,
 };
+
 export function execute(interaction, queue) {
   if (queue.node.isPlaying())
     return interaction.reply({

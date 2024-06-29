@@ -17,6 +17,7 @@ export const data = {
   queueOnly: true,
   validateVC: true,
 };
+
 export function execute(interaction, queue) {
   if (queue.isEmpty())
     return interaction.reply({

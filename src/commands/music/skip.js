@@ -8,6 +8,7 @@ export const data = {
   queueOnly: true,
   validateVC: true,
 };
+
 export function execute(interaction, queue) {
   if (queue.isEmpty() && queue.repeatMode !== QueueRepeatMode.AUTOPLAY)
     return interaction.reply({

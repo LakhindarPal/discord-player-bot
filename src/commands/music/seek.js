@@ -35,7 +35,7 @@ export function execute(interaction, queue) {
       ephemeral: true,
       embeds: [
         ErrorEmbed(
-          `Provide a valid timestamp within 0 and ${queue.currentTrack.duration}.`
+          `Provide a valid timestamp within 00:00 and ${queue.currentTrack.duration}.`
         ),
       ],
     });
@@ -43,7 +43,7 @@ export function execute(interaction, queue) {
 
   queue.node.seek(timestamp);
 
-  return interaction.editReply({
+  return interaction.reply({
     embeds: [SuccessEmbed(`Seeked to ${Util.formatDuration(timestamp)}.`)],
   });
 }

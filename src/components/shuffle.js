@@ -15,7 +15,7 @@ export function execute(interaction, queue) {
 
   const mode = queue.toggleShuffle();
 
-  //emit custom event
+  // emit custom event
   queue.emit("shuffleToggle", queue);
 
   return interaction.reply({
