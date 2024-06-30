@@ -3,7 +3,7 @@ import embed from "../../modules/playing/embed.js";
 import buttons from "../../modules/playing/buttons.js";
 
 export const data = {
-  name: GuildQueueEvent.VolumeChange,
+  name: GuildQueueEvent.AudioTracksAdd,
   type: "player",
 };
 

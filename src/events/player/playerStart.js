@@ -1,6 +1,7 @@
 import { GuildQueueEvent } from "discord-player";
-import playingEmbed from "../../modules/playingEmbed.js";
-import playingButtons from "../../modules/playingButtons.js";
+import embed from "../../modules/playing/embed.js";
+import buttons from "../../modules/playing/buttons.js";
+import menu from "../../modules/playing/menu.js";
 
 export const data = {
   name: GuildQueueEvent.PlayerStart,
@@ -16,8 +17,8 @@ export async function execute(queue, track) {
   }
 
   const newMessage = await queue.metadata.channel.send({
-    embeds: [playingEmbed(queue, track)],
-    components: playingButtons(queue),
+    embeds: [embed(queue, track)],
+    components: [menu(queue), ...buttons(queue)],
   });
 
   queue.metadata.message = newMessage;

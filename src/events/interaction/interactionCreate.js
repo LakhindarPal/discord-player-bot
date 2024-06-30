@@ -18,6 +18,8 @@ export async function execute(interaction) {
     : interaction.client.commands.get(commandName);
 
   if (!command) {
+    // ignore for collector button interaction
+    if (commandName.includes("Btn")) return;
     console.error(`\`${commandName}\` command was not found.`);
     return;
   }
@@ -30,7 +32,12 @@ export async function execute(interaction) {
     }
   }
 
-  if (!interaction.isChatInputCommand() && !interaction.isButton()) return;
+  if (
+    !interaction.isChatInputCommand() &&
+    !interaction.isButton() &&
+    !interaction.isStringSelectMenu()
+  )
+    return;
 
   const { cooldowns } = interaction.client;
 

@@ -1,4 +1,4 @@
-import { BaseEmbed } from "./embeds.js";
+import { BaseEmbed } from "../embeds.js";
 
 export default (queue, track) => {
   if (!track) track = queue.currentTrack;
@@ -14,7 +14,8 @@ Repeat: ${repeatMode}  |  Shuffle: ${queue.isShuffling}`;
 
   return BaseEmbed()
     .setAuthor({
-      name: `Now ${queue.node.isPaused() ? "Paused" : "Playing"} | ${queue.size} in queue`,
+      name: `Now ${queue.node.isPaused() ? "Paused" : "Playing"}`,
+      iconURL: queue.player.client.user.displayAvatarURL(),
     })
     .setDescription(
       `${track.toHyperlink()} ~ [${track.requestedBy.toString()}]`

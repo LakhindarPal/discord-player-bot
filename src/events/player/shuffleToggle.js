@@ -1,6 +1,5 @@
-import playingEmbed from "../../modules/playingEmbed.js";
-import playingButtons from "../../modules/playingButtons.js";
-
+import embed from "../../modules/playing/embed.js";
+import buttons from "../../modules/playing/buttons.js";
 export const data = {
   name: "shuffleToggle",
   type: "player",
@@ -9,8 +8,8 @@ export const data = {
 export async function execute(queue) {
   try {
     await queue.metadata.message?.edit({
-      embeds: [playingEmbed(queue)],
-      components: playingButtons(queue),
+      embeds: [embed(queue)],
+      components: buttons(queue),
     });
   } catch {
     // ignore
