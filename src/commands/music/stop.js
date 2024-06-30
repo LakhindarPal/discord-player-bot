@@ -9,7 +9,7 @@ export const data = {
 };
 
 export function execute(interaction, queue) {
-  queue.node.stop();
+  queue.node.stop(true);
 
   return interaction.reply({
     embeds: [SuccessEmbed("Stopped the playback.")],

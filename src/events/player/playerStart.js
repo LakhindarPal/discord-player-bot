@@ -15,10 +15,10 @@ export async function execute(queue, track) {
   } catch {
     // ignore
   }
-
+  const components = [menu(queue), ...buttons(queue)].filter(Boolean);
   const newMessage = await queue.metadata.channel.send({
     embeds: [embed(queue, track)],
-    components: [menu(queue), ...buttons(queue)],
+    components,
   });
 
   queue.metadata.message = newMessage;

@@ -5,6 +5,8 @@ import {
 } from "discord.js";
 
 export default (queue) => {
+  if (!queue.size) return null;
+
   const menu = new StringSelectMenuBuilder()
     .setCustomId("songs_menu")
     .setPlaceholder(`${queue.size} songs in queue`)
