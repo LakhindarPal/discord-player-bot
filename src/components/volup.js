@@ -7,7 +7,7 @@ export const data = {
 };
 
 export function execute(interaction, queue) {
-  const level = queue.node.volume + 10;
+  const level = Math.min(queue.node.volume + 10, 100);
 
   queue.node.setVolume(level);
 

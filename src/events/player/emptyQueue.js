@@ -7,7 +7,7 @@ export const data = {
 };
 
 export function execute(queue) {
-  const embed = InfoEmbed("No more songs to play, leaving now.");
+  const embed = InfoEmbed("No songs left to play.");
 
   return queue.metadata.channel.send({ embeds: [embed] });
 }

@@ -15,6 +15,6 @@ export async function execute(queue) {
       components,
     });
   } catch {
-    // ignore
+    // Ignore errors
   }
 }

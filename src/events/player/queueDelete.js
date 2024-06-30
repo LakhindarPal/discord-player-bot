@@ -10,6 +10,6 @@ export async function execute(queue) {
     const message = queue.metadata.message;
     await message?.delete();
   } catch {
-    // ignore
+    // Ignore errors
   }
 }

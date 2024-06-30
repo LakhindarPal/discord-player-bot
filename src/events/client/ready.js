@@ -1,6 +1,6 @@
 import { ActivityType, Events, PresenceUpdateStatus } from "discord.js";
 import { loadCommands } from "../../handlers/command.js";
-import { loadComponents } from "../../handlers/components.js";
+import { loadComponents } from "../../handlers/component.js";
 
 export const data = {
   name: Events.ClientReady,

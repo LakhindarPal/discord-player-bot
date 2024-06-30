@@ -13,13 +13,14 @@ export async function execute(interaction) {
     ? interaction.customId
     : interaction.commandName;
 
+  // button collectors are handled internally
+  if (commandName.includes("Btn")) return;
+
   const command = interaction.isMessageComponent()
     ? interaction.client.components.get(commandName)
     : interaction.client.commands.get(commandName);
 
   if (!command) {
-    // ignore for collector button interaction
-    if (commandName.includes("Btn")) return;
     console.error(`\`${commandName}\` command was not found.`);
     return;
   }

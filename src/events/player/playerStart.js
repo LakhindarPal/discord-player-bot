@@ -13,8 +13,9 @@ export async function execute(queue, track) {
     const lastMessage = queue.metadata.message;
     await lastMessage?.delete();
   } catch {
-    // ignore
+    // Ignore errors
   }
+
   const components = [menu(queue), ...buttons(queue)].filter(Boolean);
   const newMessage = await queue.metadata.channel.send({
     embeds: [embed(queue, track)],
