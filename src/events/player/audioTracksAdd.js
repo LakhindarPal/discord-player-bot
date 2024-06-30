@@ -9,7 +9,7 @@ export const data = {
 };
 
 export async function execute(queue) {
-  if (!queue.size);
+  if (!queue.size) return;
   try {
     const components = [menu(queue), ...buttons(queue)].filter(Boolean);
     await queue.metadata.message?.edit({
