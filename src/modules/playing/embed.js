@@ -11,7 +11,7 @@ export default (queue, track) => {
   }[queue.repeatMode];
 
   const status = `Duration: ${track.duration}  |  Volume:  ${queue.node.volume}%
-Repeat: ${repeatMode}  |  Shuffle: ${queue.isShuffling ? "✅" : "❎"}`;
+Repeat: ${repeatMode}  |  Shuffle: ${queue.isShuffling ? "✅" : "❌"}`;
 
   return BaseEmbed()
     .setAuthor({
