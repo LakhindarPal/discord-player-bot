@@ -1,3 +1,4 @@
+import sourceIcons from "../../config/sourceIcons.js";
 import { BaseEmbed } from "../embeds.js";
 
 export default (queue, track) => {
@@ -15,7 +16,9 @@ Repeat: ${repeatMode}  |  Shuffle: ${queue.isShuffling}`;
   return BaseEmbed()
     .setAuthor({
       name: `Now ${queue.node.isPaused() ? "Paused" : "Playing"}`,
-      iconURL: queue.player.client.user.displayAvatarURL(),
+      iconURL:
+        sourceIcons[track.source] ??
+        queue.player.client.user.displayAvatarURL(),
     })
     .setDescription(
       `${track.toHyperlink()} ~ [${track.requestedBy.toString()}]`

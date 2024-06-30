@@ -84,11 +84,7 @@ export async function execute(interaction, queue) {
       .setCustomId("lastBtn")
       .setEmoji("⏩")
       .setStyle(ButtonStyle.Secondary)
-      .setDisabled(maxPage <= 1),
-    new ButtonBuilder()
-      .setCustomId("endBtn")
-      .setEmoji("🛑")
-      .setStyle(ButtonStyle.Danger)
+      .setDisabled(maxPage <= 1)
   );
 
   const message = await interaction.reply({
@@ -115,9 +111,6 @@ export async function execute(interaction, queue) {
         break;
       case "lastBtn":
         currentPage = embeds.length - 1;
-        break;
-      case "endBtn":
-        collector.stop();
         break;
       default:
         break;
