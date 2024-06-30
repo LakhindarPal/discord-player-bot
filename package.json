@@ -1,6 +1,6 @@
 {
   "name": "discord-player-bot",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "description": "A discord music bot built using discord.js and discord-player",
   "main": "src/index.js",
   "type": "module",
@@ -8,8 +8,10 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier . --write",
-    "register": "node src/scripts/register.js",
-    "doc": "node src/scripts/cmd-doc.js",
+    "doc": "node scripts/cmd-doc.js",
+    "build": "docker build -t lakhindarpal/discord-player-bot:latest .",
+    "run": "docker run --env-file .env lakhindarpal/discord-player-bot:latest",
+    "register": "node scripts/register.js",
     "start": "node .",
     "dev": "node --watch-path=./src ."
   },

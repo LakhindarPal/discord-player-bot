@@ -1,7 +1,7 @@
 import fs from "fs";
 import { Collection } from "discord.js";
-import { loadCommands } from "../handlers/command.js";
-import { titleCase } from "../modules/utils.js";
+import { loadCommands } from "../src//handlers/command.js";
+import { titleCase } from "../src/modules/utils.js";
 
 const OPTION_TYPE_MAP = {
   1: "Subcommand",
@@ -90,7 +90,7 @@ async function generateMarkdown() {
 
     const content = generateContent(fakeClient.commands);
 
-    fs.writeFileSync("COMMANDS.md", content);
+    fs.writeFileSync("docs/COMMANDS.md", content);
     console.log("COMMANDS.md has been generated.");
   } catch (error) {
     console.error("An error occurred:", error);

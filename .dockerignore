@@ -18,11 +18,14 @@ Dockerfile
 .dockerignore
 
 # Documentation and metadata files
+docs
+previews
 README.md
-COMMANDS.md
-CONTRIBUTING.md
 LICENSE
 SECURITY.md
+
+# Scripts
+scripts
 
 # Configuration files
 .editorconfig

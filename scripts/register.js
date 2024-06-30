@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { Collection, REST, Routes } from "discord.js";
-import { loadCommands } from "../handlers/command.js";
+import { loadCommands } from "../src/handlers/command.js";
 
 // check env variables
 const envVariables = ["DISCORD_TOKEN", "CLIENT_ID", "DEV_GUILD"];
