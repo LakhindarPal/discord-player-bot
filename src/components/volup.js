@@ -9,6 +9,7 @@ export const data = {
 export function execute(interaction, queue) {
   if (queue.node.volume === 100)
     return interaction.reply({
+      ephemeral: true,
       embeds: [WarningEmbed("Volume is already at maximum.")],
     });
 

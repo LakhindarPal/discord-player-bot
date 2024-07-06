@@ -27,7 +27,7 @@ export async function loadCommands(client) {
     const cmdName = command.data.name;
     client.commands.set(cmdName, command);
 
-    if (process.env.DEVELOPMENT_MODE === "true") {
+    if (process.env.NODE_ENV === "development") {
       console.log(`Loaded Command: ${cmdName}`);
     }
   }

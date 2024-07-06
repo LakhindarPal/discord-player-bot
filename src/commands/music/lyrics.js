@@ -21,15 +21,16 @@ export const data = {
 export async function execute(interaction, queue) {
   await interaction.deferReply({ ephemeral: true });
 
-  const query =
-    interaction.options.getString("query", false) ??
-    `${queue?.currentTrack?.author} - ${queue?.currentTrack?.title}`;
+  let query = interaction.options.getString("query", false);
 
-  if (!query) {
+  if (!query && !queue?.currentTrack) {
     return interaction.editReply({
-      embeds: [ErrorEmbed("You forgot to provide the song title.")],
+      embeds: [ErrorEmbed("Provide a song title to search lyrics.")],
     });
   }
+
+  if (!query)
+    query = `${queue?.currentTrack?.author} - ${queue?.currentTrack?.title}`;
 
   const result = await lyricsFinder.search(query).catch(() => null);
 

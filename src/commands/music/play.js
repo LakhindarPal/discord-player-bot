@@ -129,10 +129,11 @@ export async function execute(interaction) {
     requestedBy: interaction.user,
   });
 
-  if (!result.hasTracks())
+  if (!result.hasTracks()) {
     return interaction.editReply({
       embeds: [ErrorEmbed(`No results found for \`${query}\`.`)],
     });
+  }
 
   try {
     const { queue, track, searchResult } = await player.play(channel, result, {

@@ -58,13 +58,13 @@ export async function execute(interaction) {
     if (now < expirationTime) {
       const expiredTimestamp = Math.round(expirationTime / 1000);
       return interaction.reply({
+        ephemeral: true,
         embeds: [
           WarningEmbed(
             `Please wait, you are on a cooldown for \`${commandName}\` command.
 You can use it again <t:${expiredTimestamp}:R>.`
           ),
         ],
-        ephemeral: true,
       });
     }
   }

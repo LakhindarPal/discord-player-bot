@@ -7,8 +7,8 @@ export default [
   eslintConfigPrettier,
   {
     languageOptions: { globals: globals.node },
-    files: ["src/**/*.js"],
-    ignores: [".github/*", "node_modules", "src/website"],
+    files: ["src/**/*.js", "scripts/**/*.js"],
+    ignores: [".github/*", "node_modules", "docs/", "previews/"],
     rules: {
       "handle-callback-err": "off",
       "max-nested-callbacks": ["error", { "max": 4 }],

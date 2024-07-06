@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType } from "discord.js";
 import { QueueRepeatMode } from "discord-player";
-import { BaseEmbed } from "../../modules/embeds.js";
+import { BaseEmbed, Colors } from "../../modules/embeds.js";
 
 export const data = {
   name: "repeat",
@@ -74,7 +74,11 @@ export function execute(interaction, queue) {
   queue.emit("repeatChange", queue);
 
   return interaction.reply({
-    ephemeral: subCmd !== "status",
-    embeds: [BaseEmbed().setDescription(description)],
+    ephemeral: subCmd === "status",
+    embeds: [
+      BaseEmbed()
+        .setDescription(description)
+        .setColor(subCmd === "status" ? Colors.Blurple : Colors.Green),
+    ],
   });
 }

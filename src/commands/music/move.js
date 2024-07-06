@@ -61,14 +61,10 @@ export function execute(interaction, queue) {
     });
   }
 
+  const track = queue.tracks.at(from);
   queue.node.move(from, to);
 
   return interaction.reply({
-    ephemeral: true,
-    embeds: [
-      SuccessEmbed(
-        `Moved \`${queue.tracks.at(from).title}\` to position ${to + 1}.`
-      ),
-    ],
+    embeds: [SuccessEmbed(`Moved \`${track.title}\` to position ${to + 1}.`)],
   });
 }

@@ -19,19 +19,21 @@ export const data = {
 };
 
 export function execute(interaction, queue) {
-  if (queue.isEmpty())
+  if (queue.isEmpty()) {
     return interaction.reply({
       ephemeral: true,
       embeds: [ErrorEmbed("The queue is empty.")],
     });
+  }
 
   const position = interaction.options.getNumber("position", true);
 
-  if (position > queue.size)
+  if (position > queue.size) {
     return interaction.reply({
       ephemeral: true,
       embeds: [ErrorEmbed("The provided position is not valid.")],
     });
+  }
 
   queue.node.jump(position - 1);
 

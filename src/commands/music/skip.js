@@ -10,11 +10,12 @@ export const data = {
 };
 
 export function execute(interaction, queue) {
-  if (queue.isEmpty() && queue.repeatMode !== QueueRepeatMode.AUTOPLAY)
+  if (queue.isEmpty() && queue.repeatMode !== QueueRepeatMode.AUTOPLAY) {
     return interaction.reply({
       ephemeral: true,
       embeds: [ErrorEmbed("There is no next song to skip.")],
     });
+  }
 
   queue.node.skip();
 

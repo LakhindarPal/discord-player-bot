@@ -25,7 +25,7 @@ export function execute(interaction, queue) {
   if (!level) {
     return interaction.reply({
       ephemeral: true,
-      embeds: [InfoEmbed(`Current volume level is ${queue.node.volume}%.`)],
+      embeds: [InfoEmbed(`Current volume level is: ${queue.node.volume}%.`)],
     });
   }
 

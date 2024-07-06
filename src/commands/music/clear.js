@@ -31,27 +31,34 @@ export function execute(interaction, queue) {
   const subcmd = interaction.options.getSubcommand();
   const history = useHistory(interaction.guildId);
 
-  if ((subcmd === "queue" || subcmd === "all") && queue.isEmpty()) {
-    return interaction.reply({
-      ephemeral: true,
-      embeds: [ErrorEmbed("The queue is already empty.")],
-    });
-  }
-  if ((subcmd === "history" || subcmd === "all") && history.isEmpty()) {
-    return interaction.reply({
-      ephemeral: true,
-      embeds: [ErrorEmbed("The history is already empty.")],
-    });
-  }
-
   switch (subcmd) {
     case "queue":
+      if (queue.isEmpty()) {
+        return interaction.reply({
+          ephemeral: true,
+          embeds: [ErrorEmbed("The queue is already empty.")],
+        });
+      }
       queue.tracks.clear();
       break;
+
     case "history":
+      if (history.isEmpty()) {
+        return interaction.reply({
+          ephemeral: true,
+          embeds: [ErrorEmbed("The history is already empty.")],
+        });
+      }
       history.clear();
       break;
+
     default:
+      if (history.isEmpty() && history.isEmpty()) {
+        return interaction.reply({
+          ephemeral: true,
+          embeds: [ErrorEmbed("Both queue and history is already empty.")],
+        });
+      }
       queue.clear();
       break;
   }

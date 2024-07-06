@@ -9,11 +9,12 @@ export const data = {
 };
 
 export function execute(interaction, queue) {
-  if (queue.node.isPlaying())
+  if (queue.node.isPlaying()) {
     return interaction.reply({
       ephemeral: true,
       embeds: [ErrorEmbed("The playback is not paused.")],
     });
+  }
 
   queue.node.resume();
 

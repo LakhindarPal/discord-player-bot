@@ -21,7 +21,7 @@ export async function loadComponents(client) {
     const id = component.data.id;
     client.components.set(id, component);
 
-    if (process.env.DEVELOPMENT_MODE === "true") {
+    if (process.env.NODE_ENV === "development") {
       console.log(`Loaded Component: ${id}`);
     }
   }

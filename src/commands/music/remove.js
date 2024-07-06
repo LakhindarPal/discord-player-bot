@@ -19,27 +19,25 @@ export const data = {
 };
 
 export function execute(interaction, queue) {
-  if (queue.isEmpty())
+  if (queue.isEmpty()) {
     return interaction.reply({
       ephemeral: true,
       embeds: [ErrorEmbed("The queue is empty.")],
     });
+  }
 
   const index = interaction.options.getNumber("position", true) - 1;
 
-  if (index >= queue.size)
+  if (index >= queue.size) {
     return interaction.reply({
       ephemeral: true,
       embeds: [ErrorEmbed("The provided position is not valid.")],
     });
+  }
 
-  const removed = queue.node.remove(index);
+  const track = queue.node.remove(index);
 
   return interaction.reply({
-    embeds: [
-      SuccessEmbed(
-        `Removed [${removed.title}](${removed.url}) from the queue.`
-      ),
-    ],
+    embeds: [SuccessEmbed(`Removed ${track.toHyperlink()} from the queue.`)],
   });
 }

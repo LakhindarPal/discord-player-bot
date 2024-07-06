@@ -10,7 +10,7 @@ WORKDIR /usr/app
 COPY package*.json ./
 
 # Install necessary dependencies only
-RUN npm ci --omit=dev --no-optional
+RUN npm ci --omit=dev --omit=optional
 
 # Install mediaplex
 RUN npm install mediaplex
