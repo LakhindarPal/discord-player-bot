@@ -10,11 +10,12 @@ export const data = {
 export async function execute(interaction) {
   const history = useHistory(interaction.guildId);
 
-  if (history.isEmpty())
+  if (history.isEmpty()) {
     return interaction.reply({
       ephemeral: true,
       embeds: [ErrorEmbed("There is no previous song to go back.")],
     });
+  }
 
   await interaction.deferReply();
 

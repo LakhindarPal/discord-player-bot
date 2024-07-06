@@ -13,7 +13,7 @@ export const data = {
       description: "The name or url of the song, you want to play.",
       required: true,
       min_length: 1,
-      max_length: 100,
+      max_length: 256,
       autocomplete: true,
     },
     {

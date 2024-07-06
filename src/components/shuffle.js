@@ -7,11 +7,12 @@ export const data = {
 };
 
 export function execute(interaction, queue) {
-  if (queue.isEmpty())
+  if (queue.isEmpty()) {
     return interaction.reply({
       ephemeral: true,
       embeds: [ErrorEmbed("The queue is empty.")],
     });
+  }
 
   const mode = queue.toggleShuffle();
 

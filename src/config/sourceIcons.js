@@ -10,7 +10,7 @@ const sourceIcons = {
   deezer:
     "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Deezer_Icon.svg/512px-Deezer_Icon.svg.png",
   tidal:
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Tidal_%28service%29_logo_only.svg/600px-Tidal_%28service%29_logo_only.svg.pnghttps://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Tidal_%28service%29_logo_only.svg/600px-Tidal_%28service%29_logo_only.svg.png",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Tidal_%28service%29_logo_only.svg/600px-Tidal_%28service%29_logo_only.svg.png",
 };
 
 export default sourceIcons;

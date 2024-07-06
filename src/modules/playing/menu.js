@@ -15,7 +15,9 @@ export default (queue) => {
         .slice(0, 25)
         .map((song, index) =>
           new StringSelectMenuOptionBuilder()
-            .setLabel(`${index + 1}. ${song.title}`)
+            .setLabel(
+              `${index + 1}. ${song.title.length >= 95 ? `${song.title.slice(0, 91)}...` : `${song.title}`}`
+            )
             .setValue(index.toString())
         )
     );
