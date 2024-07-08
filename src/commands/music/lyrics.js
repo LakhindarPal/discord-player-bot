@@ -30,7 +30,7 @@ export async function execute(interaction, queue) {
   }
 
   if (!query)
-    query = `${queue?.currentTrack?.author} - ${queue?.currentTrack?.title}`;
+    query = `${queue?.currentTrack?.author} - ${queue?.currentTrack?.cleanTitle}`;
 
   const result = await lyricsFinder.search(query).catch(() => null);
 

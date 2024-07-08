@@ -11,7 +11,7 @@ export default (queue, track) => {
   }[queue.repeatMode];
 
   const status = `Duration: ${track.duration}  |  Volume:  ${queue.node.volume}%
-Repeat: ${repeatMode}  |  Shuffle: ${queue.isShuffling ? "✅" : "❌"}`;
+Repeat: ${repeatMode}  |  Shuffling: ${queue.isShuffling ? "✅" : "❌"}`;
 
   return BaseEmbed()
     .setAuthor({
@@ -23,6 +23,10 @@ Repeat: ${repeatMode}  |  Shuffle: ${queue.isShuffling ? "✅" : "❌"}`;
     .setDescription(
       `${track.toHyperlink()} ~ [${track.requestedBy.toString()}]`
     )
-    .setImage(track.thumbnail)
+    .setImage(
+      track.source === "soundcloud"
+        ? track.thumbnail.replace("-large.jpg", "-t500x500.jpg")
+        : track.thumbnail
+    )
     .setFooter({ text: status });
 };

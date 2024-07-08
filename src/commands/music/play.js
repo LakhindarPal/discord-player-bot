@@ -71,7 +71,7 @@ export async function suggest(interaction) {
     });
   }
 
-  return interaction.respond(formattedResult);
+  await interaction.respond(formattedResult).catch(() => null);
 }
 
 export async function execute(interaction) {
