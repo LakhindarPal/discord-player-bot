@@ -24,8 +24,8 @@ README.md
 LICENSE
 SECURITY.md
 
-# Scripts
-scripts
+# Cmd gen Script
+scripts/cmd-doc.js
 
 # Configuration files
 .editorconfig

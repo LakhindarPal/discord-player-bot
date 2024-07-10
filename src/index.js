@@ -3,6 +3,7 @@ import "./modules/checkEnv.js";
 
 import { Client, Collection, GatewayIntentBits } from "discord.js";
 import { Player } from "discord-player";
+import { YoutubeiExtractor } from "discord-player-youtubei";
 import { default as DeezerExtractor } from "discord-player-deezer";
 import { default as TidalExtractor } from "discord-player-tidal";
 
@@ -23,6 +24,8 @@ const client = new ExtendedClient({
 });
 
 const player = new Player(client);
+
+await player.extractors.register(YoutubeiExtractor, {});
 await player.extractors.register(DeezerExtractor);
 await player.extractors.register(TidalExtractor);
 await player.extractors.loadDefault();
