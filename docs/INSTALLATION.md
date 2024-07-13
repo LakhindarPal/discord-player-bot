@@ -16,6 +16,17 @@ Ensure you have the following before setup:
 3. **DEV_GUILD**: ID of the development server.
 4. **DEV_IDS**: Comma-separated list of developer IDs.
 5. **SUPPORT_SERVER**: Link to the discord support server.
+   (Required, for youtube support)
+6. **YT_ACCESS_TOKEN**: Youtube access token
+7. **YT_REFRESH_TOKEN**: Youtube refresh token
+
+### Generating Youtube Tokens
+
+1. Signing into YouTube `npx --no discord-player-youtubei`
+2. Follow the guide in terminal and login using google account.
+   Make sure you are using a throwaway account to login. Using your main account may result in ban or suspension.
+3. The token will be printed out shortly.
+4. Note down the `access_token`,`refresh_token`, `expiry_date` etc.
 
 ### Setup Steps
 

@@ -118,7 +118,7 @@ You can use it again <t:${expiredTimestamp}:R>.`
   try {
     await command.execute(interaction, queue);
   } catch (err) {
-    console.error(err);
+    if (!err.message.includes("Unknown interaction")) console.error(err);
 
     let replyMethod = "reply";
     if (interaction.replied || interaction.deferred) replyMethod = "followUp";

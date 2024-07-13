@@ -35,7 +35,7 @@ It is a Discord music bot built using [discord-player](https://npm.im/discord-pl
 
 ## Disclaimer
 
-This project is not affiliated with Discord or any streaming platforms. It is intended for educational and entertainment purposes only. It is not designed to encourage or facilitate any form of unfair usage. If you represent a supported streaming platform and have concerns about the bot's functionality, please reach out to us via GitHub Discussions or our support channels for a constructive dialogue.
+This project is not affiliated with Discord or any streaming platforms. It is intended for educational and entertainment purposes only. It is not designed to encourage or facilitate any form of unfair usage. It merely provide users with tools and it is entirely up to the user to use this project in the way they see fit. Thus, in case of any legal/physical/digital damages caused, the author of this project (LakhindarPal) will not be responsible for it. If you represent a supported streaming platform and have concerns about the project's functionality, please reach out to via GitHub Discussions or discord support server for a constructive dialogue.
 
 ## Features
 
