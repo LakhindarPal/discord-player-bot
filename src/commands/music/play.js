@@ -20,6 +20,7 @@ export const data = {
       type: ApplicationCommandOptionType.String,
       name: "source",
       description: "The search engine you want to use.",
+      required: false,
       choices: [
         {
           name: "YouTube",

@@ -34,12 +34,12 @@ const player = new Player(client);
 
 await player.extractors.register(YoutubeiExtractor, {
   authentication: {
-    access_token: process.env.YT_ACCESS_TOKEN || "",
-    refresh_token: process.env.YT_REFRESH_TOKEN || "",
+    access_token: process.env.YT_ACCESS_TOKEN,
+    refresh_token: process.env.YT_REFRESH_TOKEN,
     scope:
-      "https://www.googleapis.com/auth/youtube https://www.googleapis.com/auth/youtube-paid-content",
+      "https://www.googleapis.com/auth/youtube-paid-content https://www.googleapis.com/auth/youtube",
     token_type: "Bearer",
-    expiry_date: "2024-07-10T11:37:01.093Z",
+    expiry_date: "2024-07-21T14:31:15.929Z",
   },
 });
 await player.extractors.register(SpotifyExtractor, {
