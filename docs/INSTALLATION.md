@@ -17,8 +17,7 @@ Ensure you have the following before setup:
 4. **DEV_IDS**: Comma-separated list of developer IDs.
 5. **SUPPORT_SERVER**: Link to the discord support server.
    (Required, for youtube support)
-6. **YT_ACCESS_TOKEN**: Youtube access token
-7. **YT_REFRESH_TOKEN**: Youtube refresh token
+6. **YT_CREDENTIAL**: Youtube authentican credentials
 
 ### Generating Youtube Tokens
 
@@ -26,7 +25,7 @@ Ensure you have the following before setup:
 2. Follow the guide in terminal and login using google account.
    Make sure you are using a throwaway account to login. Using your main account may result in ban or suspension.
 3. The token will be printed out shortly.
-4. Note down the `access_token`,`refresh_token`, `expiry_date` etc.
+4. Note down the credential string.
 
 ### Setup Steps
 

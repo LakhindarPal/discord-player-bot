@@ -3,16 +3,7 @@ import "./modules/checkEnv.js";
 
 import { Client, Collection, GatewayIntentBits } from "discord.js";
 import { Player } from "discord-player";
-import {
-  YoutubeiExtractor,
-  createYoutubeiStream,
-} from "discord-player-youtubei";
-import {
-  SpotifyExtractor,
-  AppleMusicExtractor,
-} from "@discord-player/extractor";
-import { default as DeezerExtractor } from "discord-player-deezer";
-import { default as TidalExtractor } from "discord-player-tidal";
+import { YoutubeiExtractor } from "discord-player-youtubei";
 
 import { loadEvents } from "./handlers/event.js";
 
@@ -33,30 +24,10 @@ const client = new ExtendedClient({
 const player = new Player(client);
 
 await player.extractors.register(YoutubeiExtractor, {
-  authentication: {
-    access_token: process.env.YT_ACCESS_TOKEN,
-    refresh_token: process.env.YT_REFRESH_TOKEN,
-    scope:
-      "https://www.googleapis.com/auth/youtube-paid-content https://www.googleapis.com/auth/youtube",
-    token_type: "Bearer",
-    expiry_date: "2024-07-21T14:31:15.929Z",
-  },
+  authentication: process.env.YT_CREDENTIAL,
 });
-await player.extractors.register(SpotifyExtractor, {
-  createStream: createYoutubeiStream,
-});
-await player.extractors.register(AppleMusicExtractor, {
-  createStream: createYoutubeiStream,
-});
-await player.extractors.register(DeezerExtractor);
-await player.extractors.register(TidalExtractor);
-// Load default extractors except YouTube, Spotify and Apple Music
-await player.extractors.loadDefault(
-  (ext) =>
-    !["YouTubeExtractor", "SpotifyExtractor", "AppleMusicExtractor"].includes(
-      ext
-    )
-);
+
+await player.extractors.loadDefault();
 
 // Load events
 await loadEvents(client);
