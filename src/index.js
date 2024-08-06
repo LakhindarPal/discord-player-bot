@@ -25,9 +25,14 @@ const player = new Player(client);
 
 await player.extractors.register(YoutubeiExtractor, {
   authentication: process.env.YT_CREDENTIAL,
+  streamOptions: {
+    useClient: "ANDROID",
+  },
 });
 
-await player.extractors.loadDefault();
+await player.extractors.loadDefault(
+  (ext) => !["YouTubeExtractor"].includes(ext)
+);
 
 // Load events
 await loadEvents(client);

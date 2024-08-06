@@ -1,6 +1,6 @@
 {
   "name": "discord-player-bot",
-  "version": "3.4.2",
+  "version": "3.4.3",
   "description": "A discord music bot built using discord.js and discord-player",
   "main": "src/index.js",
   "type": "module",
