@@ -42,7 +42,7 @@
   "dependencies": {
     "@discord-player/extractor": "^4.5.0",
     "discord-player": "^6.7.1",
-    "discord-player-youtubei": "^1.2.4",
+    "discord-player-youtubei": "^1.2.5",
     "discord.js": "^14.15.3",
     "dotenv": "^16.4.5",
     "glob": "^10.4.5",
