@@ -1,58 +1,55 @@
 {
   "name": "discord-player-bot",
-  "version": "3.4.5",
+  "version": "4.0.0",
   "description": "A discord music bot built using discord.js and discord-player",
-  "main": "src/index.js",
-  "type": "module",
-  "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "format": "prettier . --write",
-    "doc": "node scripts/cmd-doc.js",
-    "build": "podman build -t lakhindarpal/discord-player-bot:latest .",
-    "run": "podman run --env-file .env lakhindarpal/discord-player-bot:latest",
-    "register": "node scripts/register.js",
-    "start": "node .",
-    "dev": "node --watch-path=./src ."
-  },
-  "engines": {
-    "node": ">=20.x"
-  },
   "keywords": [
+    "bun",
     "discord-bot",
-    "discord.js",
-    "discord-js",
-    "discord-music-bot",
+    "deejay",
     "music-bot",
-    "discord-player",
-    "discord",
-    "bot",
-    "music"
+    "discord-music",
+    "discord-player"
   ],
-  "author": "Lakhindar Pal",
-  "license": "GPL-3.0-or-later",
+  "homepage": "https://github.com/LakhindarPal/discord-player-bot#readme",
+  "bugs": {
+    "url": "https://github.com/LakhindarPal/discord-player-bot/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LakhindarPal/discord-player-bot.git"
   },
-  "bugs": {
-    "url": "https://github.com/LakhindarPal/discord-player-bot/issues"
+  "license": "GPL-3.0-or-later",
+  "author": "Lakhindar Pal",
+  "type": "module",
+  "module": "src/index.ts",
+  "scripts": {
+    "tsc": "tsc --noEmit",
+    "check": "biome check --write",
+    "start": "bun run src/index.ts",
+    "dev": "bun run --watch src/index.ts",
+    "register": "bun run scripts/register.ts",
+    "docs": "bun run scripts/docgen.ts",
+    "podman:build": "podman build -t docker.io/lakhindarpal/discord-player-bot:latest -t lakhindarpal/discord-player-bot:latest .",
+    "podman:start": "podman run --name discord-player-bot --rm --env-file .env lakhindarpal/discord-player-bot:latest",
+    "podman:register": "podman run --rm --env-file .env lakhindarpal/discord-player-bot:latest bun run register",
+    "podman:push": "podman push docker.io/lakhindarpal/discord-player-bot:latest"
   },
-  "homepage": "https://github.com/LakhindarPal/discord-player-bot#readme",
   "dependencies": {
-    "@discord-player/extractor": "^4.5.1",
-    "discord-player": "^6.7.1",
-    "discord-player-youtubei": "^1.3.7",
-    "discord.js": "^14.16.3",
-    "dotenv": "^16.4.7",
-    "glob": "^11.0.0",
-    "mediaplex": "^0.0.9"
+    "@leeoniya/ufuzzy": "^1.0.19",
+    "@snazzah/davey": "^0.1.12",
+    "discord-player": "^7.2.0",
+    "discord-player-applemusic": "^1.0.3",
+    "discord-player-deezer": "^2.6.0",
+    "discord-player-soundcloud": "^1.0.7",
+    "discord-player-spotify": "^1.1.9",
+    "discord.js": "^14.27.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.17.0",
-    "eslint": "^9.17.0",
-    "eslint-config-prettier": "^9.1.0",
-    "globals": "^15.14.0",
-    "prettier": "3.4.1"
+    "@biomejs/biome": "2.5.9",
+    "@types/bun": "^1.4.0",
+    "typescript": "^7.0.2"
+  },
+  "engines": {
+    "bun": ">=1.3.0"
   }
 }

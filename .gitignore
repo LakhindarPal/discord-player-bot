@@ -1,4 +1,28 @@
-node_modules
+# Dependencies
+node_modules/
+
+# Environment Variables
 .env
-.env.local
-.dpy
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# Build & Coverage
+dist/
+out/
+coverage/
+*.lcov
+*.tsbuildinfo
+
+# IDE & Editor Files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS Metadata
+.DS_Store
+Thumbs.db

@@ -1,41 +1,25 @@
-ARG NODE_VERSION=20-bookworm-slim
+# 1. Dependency installation stage
+FROM oven/bun:alpine AS install
+WORKDIR /temp
 
-# Stage 1: Build Stage
-FROM node:${NODE_VERSION} AS build
+COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile --production
 
-# Set the working directory inside the container
-WORKDIR /usr/app
+# 2. Final runtime image
+FROM oven/bun:alpine AS release
+WORKDIR /usr/src/app
 
-# Copy the package.json and package-lock.json files
-COPY package*.json ./
+# Install runtime ffmpeg
+RUN apk add --no-cache ffmpeg
 
-# Install necessary dependencies only
-RUN npm ci --omit=dev --omit=optional
+ENV NODE_ENV=production
 
-# Install mediaplex
-RUN npm install mediaplex
+# Copy dependencies and source code
+COPY --from=install /temp/node_modules ./node_modules
+COPY package.json tsconfig.json ./
+COPY src ./src
+COPY scripts ./scripts
 
-# Copy the rest of the application code
-COPY src/ ./src/
-COPY scripts/register.js ./scripts/register.js
+USER bun
 
-# Stage 2: Runtime Stage
-FROM node:${NODE_VERSION} AS runtime
-
-# Set the working directory inside the container
-WORKDIR /usr/app
-
-# Copy from the build stage
-COPY --from=build /usr/app ./
-
-# Install FFmpeg using apt-get
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends ffmpeg \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
-
-# Cleanup unnecessary packages to minimize image size
-RUN apt-get autoremove -y
-
-# Command to run the application
-CMD ["npm", "start"]
+CMD ["bun", "run", "src/index.ts"]

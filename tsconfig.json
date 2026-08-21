@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    // Base Options
+    "target": "ESNext",
+    "lib": ["ESNext"],
+    "module": "Preserve",
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
+    "allowImportingTsExtensions": true,
+    "allowJs": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+
+    // Path Aliases
+    "paths": {
+      "#constants/*": ["./src/constants/*"],
+      "#modules/*": ["./src/modules/*"],
+      "#types/*": ["./src/types/*"]
+    },
+
+    // Strictness & Quality Checks
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*", "scripts/**/*", "env.d.ts"]
+}
