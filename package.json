@@ -37,6 +37,7 @@
   "dependencies": {
     "@leeoniya/ufuzzy": "^1.0.19",
     "@snazzah/davey": "^0.1.12",
+    "axios": "1.18.0",
     "discord-player": "^7.2.0",
     "discord-player-applemusic": "^1.0.3",
     "discord-player-deezer": "^2.6.0",
